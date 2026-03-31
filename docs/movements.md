@@ -1,23 +1,23 @@
-# CrossFit-rorelser - standardlista
+# CrossFit-rörelser - standardlista
 
-Den har filen samlar rorelser med namnstandard enligt CrossFits officiella movements-sida:
+Den här filen samlar rörelser med namnstandard enligt CrossFits officiella movements-sida:
 `https://www.crossfit.com/crossfit-movements`.
 
 ## 1) Nio foundational movements
 
 | Namn | Grupp | Notering |
 | --- | --- | --- |
-| Air Squat | Squat | Grundrorelse |
+| Air Squat | Squat | Grundrörelse |
 | Front Squat | Squat | Front-rack position |
-| Overhead Squat | Squat | Stabilitet over huvud |
+| Overhead Squat | Squat | Stabilitet över huvud |
 | Shoulder Press | Press | Strikt press |
 | Push Press | Press | Dip + drive |
 | Push Jerk | Press | Dip, drive, catch |
 | Deadlift | Deadlift | Hinge-bas |
-| Sumo Deadlift High Pull | Deadlift | Kombinerad dragrorelse |
+| Sumo Deadlift High Pull | Deadlift | Kombinerad dragrörelse |
 | Medicine-ball Clean | Deadlift/Clean | Introduktion till cleanmonster |
 
-## 2) Prioriterade rorelser i denna fas (olympiska lyft + styrka)
+## 2) Prioriterade rörelser i denna fas (olympiska lyft + styrka)
 
 - Air Squat
 - Front Squat
@@ -33,7 +33,7 @@ Den har filen samlar rorelser med namnstandard enligt CrossFits officiella movem
 - Dumbbell Snatch (15 kg)
 - Double-under / Single-under
 
-## 3) Ovriga vanliga rorelser att bygga in successivt
+## 3) Övriga vanliga rörelser att bygga in successivt
 
 - Clean
 - Snatch
@@ -43,5 +43,5 @@ Den har filen samlar rorelser med namnstandard enligt CrossFits officiella movem
 
 ## 4) Praktiska regler
 
-- Anvand alltid exakt rorelsenamn i WOD och logg.
-- Vid osakerhet: kontrollera stavning mot officiell lista.
+- Använd alltid exakt rörelsenamn i WOD och logg.
+- Vid osäkerhet: kontrollera stavning mot officiell lista.
