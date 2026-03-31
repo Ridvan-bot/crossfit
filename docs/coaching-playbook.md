@@ -34,6 +34,8 @@ Varje pass innehåller:
 
 - Efter varje pass:
   - logga score, upplevd ansträngning (RPE), teknikanteckningar och eventuella smärtsignaler.
+  - logga exakt stångvikt i kg för varje stångövning (totalvikt = stång + vikter).
+  - logga gärna set för set när vikten varierar mellan set.
 - Var 4:e vecka:
   - gå igenom `docs/training-log.md` och `docs/goals-and-metrics.md`.
   - justera vikt, volym eller rörelseval.

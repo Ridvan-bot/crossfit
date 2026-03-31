@@ -13,6 +13,9 @@ Alla pass ska fungera med utrustningen i `docs/equipment-and-constraints.md`.
 - Rörelser:
   - <rörelse> - volym/vikt
   - <rörelse> - volym/vikt
+- Exakta stångvikter (totalvikt i kg, stång + vikter):
+  - <rörelse 1>: __ kg
+  - <rörelse 2>: __ kg
 - Skalning:
   - RX:
   - Scaled:
@@ -29,17 +32,23 @@ Alla pass ska fungera med utrustningen i `docs/equipment-and-constraints.md`.
 - Syfte: Teknik i clean-variationer och styrka i front squat.
 
 - Del A (teknik, 15 min):
-  - Hang Power Clean: 6 x 2 @ lätt-moderat vikt
+  - Hang Power Clean: 6 x 2
   - Fokus: explosivitet, rak dragbana, snabb rackposition.
 
 - Del B (styrka, 15 min):
-  - Front Squat: 5 x 3 @ moderat vikt
+  - Front Squat: 5 x 3
   - Fokus: stabil front-rack, djup, kontroll i botten.
 
 - Del C (metcon, 10 min AMRAP):
-  - 6 Power Clean (lätt-moderat)
+  - 6 Power Clean
   - 20 Single-unders (eller 10 double-unders)
+  - 10 Dumbbell Snatch (15 kg, alternerande)
   - 8 AbMat Sit-up
+
+- Exakta stångvikter (totalvikt i kg, stång + vikter):
+  - Hang Power Clean: __ kg
+  - Front Squat: __ kg
+  - Power Clean (metcon): __ kg
 
 - Skalning:
   - Power Clean-vikt justeras till tekniskt ren reps.
@@ -58,18 +67,23 @@ Alla pass ska fungera med utrustningen i `docs/equipment-and-constraints.md`.
 - Syfte: Teknik i snatch-variationer och bakre kedja.
 
 - Del A (teknik, 15 min):
-  - Hang Power Snatch: 6 x 2 @ lätt vikt
+  - Hang Power Snatch: 6 x 2
   - Fokus: kraftfull höftöppning, stabil overhead och balans.
 
 - Del B (styrka, 18 min):
-  - Deadlift: 5 x 3 @ moderat-tung vikt (teknik prioriteras)
-  - Push Press: 4 x 5 @ moderat vikt
+  - Deadlift: 5 x 3 (teknik prioriteras)
+  - Push Press: 4 x 5
 
 - Del C (kort For Time, cap 8 min):
   - 3 rounds:
     - 6 Dumbbell Snatch (15 kg, alternerande)
-    - 10 Kettlebell Swing (20 kg)
+    - 10 Dumbbell Clean & Push Press (15 kg, 5/5)
     - 20 Single-unders
+
+- Exakta stångvikter (totalvikt i kg, stång + vikter):
+  - Hang Power Snatch: __ kg
+  - Deadlift: __ kg
+  - Push Press: __ kg
 
 - Skalning:
   - Deadlift-vikt justeras så att formen hålls i alla reps.
