@@ -55,7 +55,7 @@ Logga varje pass med samma struktur för att se progression över tid.
   - 6 Power Clean
   - 10 Dumbbell Snatch (15 kg, alternerande)
   - 12 AbMat Sit-up
-  - 20 Single-unders
+  - 20 Double-unders
 - Exakta stångvikter (totalvikt i kg, stång + vikter):
   - Hang Power Clean: 30 kg
   - Front Squat: 30 kg
@@ -79,7 +79,6 @@ Logga varje pass med samma struktur för att se progression över tid.
 - Plats: Hemma/Box
 - Utrustning använd:
   - Skivstång + vikter
-  - 1 x Dumbbell 15 kg
   - Hopprep
 - Sömn/stress: Fyll i innan pass.
 - Del 1 - Warmup (ca 10 min):
@@ -94,22 +93,24 @@ Logga varje pass med samma struktur för att se progression över tid.
   - Push Press 4 x 5
 - Del 4 - Metcon (For Time, cap 8 min):
   - 3 rounds:
-    - 6 Dumbbell Snatch (15 kg alternerande)
-    - 10 Dumbbell Clean & Push Press (15 kg, 5/5)
-    - 20 Single-unders
+    - 6 Power Snatch (stång)
+    - 10 Clean & Push Press (stång)
+    - 20 Double-unders
 - Exakta stångvikter (totalvikt i kg, stång + vikter):
-  - Hang Power Snatch: ____ kg
-  - Deadlift: ____ kg
-  - Push Press: ____ kg
+  - Hang Power Snatch: 30 kg
+  - Deadlift: 50 kg
+  - Push Press: 30 kg
 - Viktlogg per set:
-  - Hang Power Snatch set 1-6: __ / __ / __ / __ / __ / __ kg
-  - Deadlift set 1-5: __ / __ / __ / __ / __ kg
-  - Push Press set 1-4: __ / __ / __ / __ kg
-- Score: Fyll i efter pass.
-- Känsla (1-5): Fyll i efter pass.
-- RPE (1-10): Fyll i efter pass.
+  - Hang Power Snatch set 1-6: 30 / 30 / 30 / 30 / 30 / 30 kg
+  - Deadlift set 1-5: 50 / 50 / 50 / 50 / 50 kg
+  - Push Press set 1-4: 30 / 30 / 30 / 30 kg
+- Score:
+  - Workout 2: 2 hela varv + alla Power Snatch + 8 Clean & Push Press (30 kg på stång)
+- Känsla (1-5): 4 (bra genom passet)
+- RPE (1-10): 10
 - Kommentar:
-  - Notera overhead-stabilitet och hur deadlift påverkar metcon.
+  - Känslan var bra genom hela passet.
+  - Sista minuten började jag må lite illa, men efteråt kändes det värt det.
 
 ---
 
@@ -134,7 +135,7 @@ Logga varje pass med samma struktur för att se progression över tid.
   - 6 Power Clean
   - 10 Dumbbell Snatch (15 kg, alternerande)
   - 12 AbMat Sit-up
-  - 20 Single-unders
+  - 20 Double-unders
 - Exakta stångvikter (totalvikt i kg, stång + vikter):
   - Hang Power Clean: ____ kg
   - Front Squat: ____ kg
@@ -171,7 +172,7 @@ Logga varje pass med samma struktur för att se progression över tid.
   - 3 rounds:
     - 6 Dumbbell Snatch (15 kg alternerande)
     - 10 Dumbbell Clean & Push Press (15 kg, 5/5)
-    - 20 Single-unders
+    - 20 Double-unders
 - Exakta stångvikter (totalvikt i kg, stång + vikter):
   - Hang Power Snatch: ____ kg
   - Deadlift: ____ kg
