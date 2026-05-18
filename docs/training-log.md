@@ -137,17 +137,22 @@ Logga varje pass med samma struktur för att se progression över tid.
   - 12 AbMat Sit-up
   - 20 Double-unders
 - Exakta stångvikter (totalvikt i kg, stång + vikter):
-  - Hang Power Clean: ____ kg
-  - Front Squat: ____ kg
-  - Power Clean (metcon): ____ kg
+  - Hang Power Clean: 30 kg
+  - Front Squat: 40 kg
+  - Power Clean (metcon): 30 kg
+  - Dumbbell Snatch (metcon): 15 kg
 - Viktlogg per set:
-  - Hang Power Clean set 1-8: __ / __ / __ / __ / __ / __ / __ / __ kg
-  - Front Squat set 1-5: __ / __ / __ / __ / __ kg
-- Score: Fyll i efter pass.
-- Känsla (1-5): Fyll i efter pass.
-- RPE (1-10): Fyll i efter pass.
+  - Hang Power Clean set 1-8: 30 / 30 / 30 / 30 / 30 / 30 / 30 / 30 kg
+  - Front Squat set 1-5: 40 / 40 / 40 / 40 / 40 kg
+- Score:
+  - 4 hela varv (klar ca 5 sek före 10-min cap)
+- Känsla (1-5): 4 (bra genom passet; jämnt tempo i metcon)
+- RPE (1-10): 7–8 (hårt men kontrollerat, inte utmattat som pass #001)
 - Kommentar:
-  - Jämför pacing och teknikkänsla med vecka 1.
+  - Del 2 Hang Power Clean 30 kg – kändes bra.
+  - Del 3 Front Squat 40 kg (+10 kg mot pass #001) – kändes bra.
+  - Del 4: 30 kg stång, 15 kg DB (Snatch enligt plan). Jämnt och bra tempo hela AMRAP:en.
+  - Jämfört med pass #001 (samma WOD): liknande volym (4 varv), men mycket bättre pacing – då tappade du fart redan efter varv 2, nu höll du tempot till slut.
 
 ---
 
