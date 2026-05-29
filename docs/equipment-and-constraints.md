@@ -7,7 +7,7 @@ Detta dokument styr vilka pass som är möjliga hemma. Alla WODs och teknikpass 
 - Skivstång
 - Vikter till stången
 - 1 x Kettlebell 20 kg
-- 1 x Dumbbell 15 kg
+- 1 x Dumbbell 15 kg (DB-snatch/C&PP: alternerande eller 5+5 per arm – inget pass kräver två hantlar)
 - 1 x AbMat
 - 1 x Hopprep
 

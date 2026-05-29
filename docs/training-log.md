@@ -161,7 +161,7 @@ Logga varje pass med samma struktur för att se progression över tid.
 - Plats: Hemma/Box
 - Utrustning använd:
   - Skivstång + vikter
-  - 1 x Dumbbell 15 kg
+  - 1 x Dumbbell 15 kg (alla DB-moment – ingen par-hantel behövs)
   - Hopprep
 - Sömn/stress: Fyll i innan pass.
 - Del 1 - Warmup (ca 10 min):
@@ -175,20 +175,30 @@ Logga varje pass med samma struktur för att se progression över tid.
   - Push Press 3 x 5
 - Del 4 - Metcon (For Time, cap 8 min):
   - 3 rounds:
-    - 6 Dumbbell Snatch (15 kg alternerande)
-    - 10 Dumbbell Clean & Push Press (15 kg, 5/5)
+    - 6 Dumbbell Snatch (15 kg, alternerande: 3+3 med samma DB)
+    - 10 Dumbbell Clean & Push Press (15 kg, 5+5: 5 reps/arm, samma DB)
     - 20 Double-unders
+  - Utförande med 1 DB: byt arm mellan reps (Snatch) respektive kör 5 reps på ett ben innan du byter (C&PP). Ingen ändring av volym jämfört med planen.
 - Exakta stångvikter (totalvikt i kg, stång + vikter):
-  - Hang Power Snatch: ____ kg
-  - Deadlift: ____ kg
-  - Push Press: ____ kg
+  - Hang Power Snatch: 15 kg
+  - Deadlift: 50 kg
+  - Push Press: 40 kg
 - Viktlogg per set:
-  - Hang Power Snatch set 1-8: __ / __ / __ / __ / __ / __ / __ / __ kg
-  - Deadlift set 1-4: __ / __ / __ / __ kg
-  - Push Press set 1-3: __ / __ / __ kg
-- Score: Fyll i efter pass.
-- Känsla (1-5): Fyll i efter pass.
-- RPE (1-10): Fyll i efter pass.
+  - Hang Power Snatch set 1-8: 15 / 15 / 15 / 15 / 15 / 15 / 15 / 15 kg
+  - Deadlift set 1-4: 50 / 50 / 50 / 50 kg
+  - Push Press set 1-3: 40 / 40 / 40 kg
+- Score:
+  - 3 hela varv For Time: **4:46** (3:14 kvar av 8-min cap)
+  - DB: 15 kg (Snatch + Clean & Push Press enligt plan)
+- Känsla (1-5): 5 (faktiskt bra efter passet; flås men inte illamående)
+- RPE (1-10): 7–8 (jobbigt men kontrollerat; kunde stå upp och skriva direkt efter)
 - Kommentar:
-  - Summera blocket: vad blev bättre i clean/snatch och vad blir fokus nästa block?
+  - Del 3: Deadlift 50 kg (samma som pass #002), Push Press 40 kg (+10 kg mot pass #002).
+  - Del 4: Tydligt starkare än pass #002 (samma For Time-struktur, då ~2,5 varv + illamående i slutet, RPE 10).
+  - **Blocksummering (vecka 1–4):**
+    - Clean: bättre pacing i AMRAP (#003 vs #001), Front Squat 30 → 40 kg.
+    - Snatch/overhead: mer volym teknik (#002, #004); Push Press 30 → 40 kg.
+    - Kondition: från “ur form” (#001) till jämnt tempo (#003) till snabb For Time med bra återhämtning (#004).
+  - **Fokus nästa block:** fortsätt gradvis viktökning i Hang Power Clean/Snatch vid bra teknik; behåll Deadlift teknikfokus; bygg vidare på metcon-pacing du hittat nu.
+  - Del 2 Hang Power Snatch 15 kg (teknikfokus, lätt vikt).
 

@@ -76,9 +76,9 @@ Alla pass ska fungera med utrustningen i `docs/equipment-and-constraints.md`.
 
 - Del C (kort For Time, cap 8 min):
   - 3 rounds:
-    - 6 Dumbbell Snatch (15 kg, alternerande)
-    - 10 Dumbbell Clean & Push Press (15 kg, 5/5)
-    - 20 Single-unders
+    - 6 Dumbbell Snatch (15 kg, alternerande 3+3, 1 DB)
+    - 10 Dumbbell Clean & Push Press (15 kg, 5+5 per arm, 1 DB)
+    - 20 Single-unders (eller Double-unders om tekniken sitter)
 
 - Exakta stångvikter (totalvikt i kg, stång + vikter):
   - Hang Power Snatch: __ kg
