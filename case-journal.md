@@ -2,13 +2,12 @@
 
 ## 1) Snabbstatus
 
-- Senast uppdaterad: 2026-03-31
+- Senast uppdaterad: 2026-05-29
 - Övergripande mål: Bygga ett textbaserat system i Markdown för att planera, logga och coacha CrossFit-träning.
-- Nuvarande läge: Grundstruktur skapad med alla centrala dokument.
+- Nuvarande läge: Block 1 (#001–#004) genomfört och loggat. Block 2 (#005–#008) planerat.
 - Nästa steg:
-  - Fyll på WOD-biblioteket med olympiska lyft-pass anpassade till hemmautrustning.
-  - Logga varje veckopass konsekvent i `docs/training-log.md`.
-  - Följ upp målsidan varje månad.
+  - Kör pass #005 (2026-05-29) och logga vikter/score.
+  - Fortsätt block 2 enligt `docs/wod-library.md` och `docs/training-log.md`.
 
 ## 2) Miljö och kontext
 
@@ -39,6 +38,12 @@
 - Prioritering justerad till olympiska lyft (teknik + styrka).
 - Utrustningsinventering dokumenterad i `docs/equipment-and-constraints.md`.
 - WOD-bibliotek och träningslogg uppdaterade utan maskinkrav.
+
+### 2026-05-29 - Block 2 planerat
+
+- Block 1 avslutat (pass #001–#004) med tydlig progression i pacing och styrka.
+- Nytt 4-pass-block (#005–#008) tillagt i `docs/wod-library.md` och `docs/training-log.md`.
+- Pass #005 (Clean Day) redo att köras idag; små viktökningar från block 1 (HPC/FS/PC förslag 35/45 kg).
 
 ## 4) Planerade ändringar / roadmap
 

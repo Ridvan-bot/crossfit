@@ -2,33 +2,54 @@
 
 Logga varje pass med samma struktur för att se progression över tid.
 
+> [!NOTE]
+> **Läsvänlighet:** Planerade pass (#005+) använder GitHub Alerts (`[!TIP]`, `[!IMPORTANT]` m.fl.) för tydligare struktur. Färgade rutor syns på GitHub och i många Markdown-förhandsvisningar. Genomförda pass (#001–#004) är oförändrade.
+
 ## Tolkning: "2 uppvärmningsset"
 
-- 2 uppvärmningsset betyder 2 förberedande set innan arbetsseten börjar.
-- Set 1: ca 40-50% av planerad arbetsvikt (teknikfokus).
-- Set 2: ca 60-70% av planerad arbetsvikt (fortfarande kontrollerat).
-- Exempel om arbetsvikt i Front Squat är 60 kg:
-  - Uppvärmningsset 1: 30 kg x 5
-  - Uppvärmningsset 2: 40 kg x 3
-  - Arbetsset: enligt passplanen
+> [!TIP]
+> 2 uppvärmningsset = 2 förberedande set innan arbetsseten.
+> - **Set 1:** ca 40–50 % av planerad arbetsvikt (teknikfokus)
+> - **Set 2:** ca 60–70 % av planerad arbetsvikt (kontrollerat)
+> - **Exempel** (Front Squat arbetsvikt 60 kg): 30 kg × 5 → 40 kg × 3 → arbetsset enligt plan
 
-## Mall för pass
+## Mall för pass (ny struktur)
 
 ### YYYY-MM-DD - Pass #xxx
 
-- Plats: Box / Hemma
-- Utrustning använd:
-- Sömn/stress:
-- Del 1 - Warmup:
-- Del 2 - Teknik:
-- Del 3 - Styrka:
-- Del 4 - Metcon:
-- Exakta stångvikter (totalvikt i kg, stång + vikter):
-- Viktlogg per set:
-- Score:
-- Känsla (1-5):
-- RPE (1-10):
-- Kommentar:
+**STATUS:** Planerat | Genomfört  
+**Plats:** Box / Hemma  
+**Utrustning:** …  
+**Sömn/stress:** Fyll i innan pass.
+
+#### Del 1 – Warmup
+- …
+
+#### Del 2 – Teknik
+- …
+
+> [!TIP]
+> **FÖRSLAG:** arbetsvikt … kg
+
+#### Del 3 – Styrka
+- …
+
+#### Del 4 – Metcon
+- …
+
+> [!IMPORTANT]
+> **PACING / FOKUS:** …
+
+#### LOGGA (efter pass)
+
+| Fält | Värde |
+| --- | --- |
+| Stångvikter (totalt kg) | … |
+| Viktlogg per set | … |
+| **Score** | … |
+| **Känsla (1–5)** | … |
+| **RPE (1–10)** | … |
+| Kommentar | … |
 
 ---
 
@@ -201,4 +222,220 @@ Logga varje pass med samma struktur för att se progression över tid.
     - Kondition: från “ur form” (#001) till jämnt tempo (#003) till snabb For Time med bra återhämtning (#004).
   - **Fokus nästa block:** fortsätt gradvis viktökning i Hang Power Clean/Snatch vid bra teknik; behåll Deadlift teknikfokus; bygg vidare på metcon-pacing du hittat nu.
   - Del 2 Hang Power Snatch 15 kg (teknikfokus, lätt vikt).
+
+---
+
+## Block 2 – planerade pass (#005–#008)
+
+| Pass | Fokus | Teknik | Styrka | Metcon |
+| --- | --- | --- | --- | --- |
+| #005 | Clean | HPC 6×2 | FS 5×3 | 10 min AMRAP (som #003) |
+| #006 | Snatch | HPS 6×2 | DL + PP | For Time 8 min (stång, som #002) |
+| #007 | Clean + KB | HPC 8×2 | FS 5×3 | 10 min AMRAP (med KB Swing) |
+| #008 | Snatch | HPS 8×2 | DL + PP | For Time 8 min (DB, som #004) |
+
+> [!TIP]
+> Detaljer per pass nedan. **FÖRSLAG** = startvikt – justera efter känsla och teknik.
+
+---
+
+## 2026-05-29 - Pass #005 (idag, block 2 vecka 1)
+
+**STATUS:** Genomfört  
+**Plats:** Hemma/Box  
+**Utrustning:** Skivstång + vikter (inga 2,5 kg-skivor) · 1 × DB 15 kg · AbMat · Hopprep  
+**Sömn/stress:** Fyll i innan pass.
+
+#### Del 1 – Warmup (ca 10 min)
+- 3–5 min hopprep, lugnt tempo
+- Dynamisk höfter / anklar / skuldror + front-rack prep
+- 2 uppvärmningsset Hang Power Clean + Front Squat
+
+#### Del 2 – Teknik (ca 15 min)
+- **Hang Power Clean** 6 × 2
+- **Fokus:** snabb rack, armbågar genom, balans i mottagning
+
+> [!TIP]
+> **FÖRSLAG:** **35 kg** (var 30 kg i #003). Utan 2,5-skivor: nästa steg är **35 kg** (inte 32,5).
+
+> [!NOTE]
+> **Loggat del 2:** **30 kg** – kändes lätt. Överväg **35 kg** i del 3 (PC metcon) om tekniken sitter.
+
+#### Del 3 – Styrka (ca 18 min)
+- **Front Squat** 5 × 3
+- **Fokus:** djup, stabil front-rack, kontrollerad uppstigning
+
+> [!TIP]
+> **FÖRSLAG:** **45 kg** (var 40 kg i #003).
+
+#### Del 4 – Metcon (10 min AMRAP)
+- 6 Power Clean
+- 10 Dumbbell Snatch (15 kg, alternerande 3+3)
+- 12 AbMat Sit-up
+- 20 Double-unders
+
+> [!TIP]
+> **FÖRSLAG PC-vikt:** **35 kg** (samma som teknikdelen om OK; annars 30 kg).
+
+> [!IMPORTANT]
+> **PACING:** Första varvet **lugnt**. Mål: fler än 4 varv, eller samma som #003 med högre PC-vikt. **BENCHMARK:** pass #003.
+
+#### LOGGA (efter pass)
+
+| Fält | Värde |
+| --- | --- |
+| Hang Power Clean | **30 kg** (del 2 – kändes lätt) |
+| Front Squat | **40 kg** |
+| Power Clean (metcon) | **40 kg** |
+| HPC set 1–6 | 30 / 30 / 30 / 30 / 30 / 30 kg |
+| FS set 1–5 | 40 / 40 / 40 / 40 / 40 kg |
+| **Score** | **4 hela varv** (10 min AMRAP) – **59 sek** kvar på klockan · PC **40 kg** · DB 15 kg |
+| **Känsla (1–5)** | 4 (bra hela vägen; jäkligt trött efteråt) |
+| **RPE (1–10)** | 8–9 (metcon tog hårt, men kontrollerat under passet) |
+| Kommentar | Del 2 HPC 30 kg (lätt). Del 3 FS **40 kg** (plan var 45 kg – OK utan 2,5-skivor). Del 4: trodde nästan det var For Time 😄 – **AMRAP** = hade kunnat köra vidare efter varv 4. Jämfört med #003: samma **4 varv**, men **+10 kg** PC och **54 sek mer** tid kvar (59 vs 5 sek). |
+
+---
+
+## 2026-06-__ - Pass #006 (planerat, block 2 vecka 2)
+
+**STATUS:** Planerat  
+**Plats:** Hemma/Box  
+**Utrustning:** Skivstång + vikter · Hopprep  
+**Sömn/stress:** Fyll i innan pass.
+
+#### Del 1 – Warmup (ca 10 min)
+- 3–5 min hopprep
+- Dynamisk mobilitet höfter / axlar / anklar
+- 2 uppvärmningsset Hang Power Snatch + Push Press
+
+#### Del 2 – Teknik (ca 15 min)
+- **Hang Power Snatch** 6 × 2
+- **Fokus:** dragbana, stabil overhead, balans
+
+> [!TIP]
+> **FÖRSLAG:** **30 kg**
+
+#### Del 3 – Styrka (ca 18 min)
+- **Deadlift** 5 × 3 · **Push Press** 4 × 5
+
+> [!TIP]
+> **FÖRSLAG:** Deadlift **55 kg** · Push Press **40 kg**
+
+#### Del 4 – Metcon (For Time, cap 8 min)
+- 3 rounds: 6 Power Snatch · 10 Clean & Push Press · 20 Double-unders (stång)
+
+> [!TIP]
+> **FÖRSLAG metcon:** **30 kg** på stång (teknik först).
+
+> [!IMPORTANT]
+> **BENCHMARK:** pass #002 (samma metcon, stång).
+
+#### LOGGA (efter pass)
+
+| Fält | Värde |
+| --- | --- |
+| Hang Power Snatch | ____ kg |
+| Deadlift | ____ kg |
+| Push Press | ____ kg |
+| Metcon (PS / C&PP) | ____ kg |
+| HPS set 1–6 | __ / __ / __ / __ / __ / __ kg |
+| DL set 1–5 | __ / __ / __ / __ / __ kg |
+| PP set 1–4 | __ / __ / __ / __ kg |
+| **Score** | Fyll i efter pass |
+| **Känsla (1–5)** | Fyll i efter pass |
+| **RPE (1–10)** | Fyll i efter pass |
+| Kommentar | Benchmark mot #002 |
+
+---
+
+## 2026-06-__ - Pass #007 (planerat, block 2 vecka 3)
+
+**STATUS:** Planerat  
+**Plats:** Hemma/Box  
+**Utrustning:** Skivstång + vikter · KB 20 kg · DB 15 kg · Hopprep  
+**Sömn/stress:** Fyll i innan pass.
+
+#### Del 1 – Warmup (ca 10 min)
+- 3–5 min hopprep
+- Dynamisk mobilitet + front-rack prep
+- 2 uppvärmningsset Hang Power Clean + lätta Kettlebell Swing
+
+#### Del 2 – Teknik (ca 15–20 min)
+- **Hang Power Clean** 8 × 2
+- **Fokus:** timing och rackposition
+
+> [!TIP]
+> **FÖRSLAG:** **35 kg**
+
+#### Del 3 – Styrka (ca 18 min)
+- **Front Squat** 5 × 3
+
+> [!TIP]
+> **FÖRSLAG:** **45–50 kg**
+
+#### Del 4 – Metcon (10 min AMRAP)
+- 5 Power Clean · 10 KB Swing (20 kg, rysk) · 10 DB Snatch (15 kg, 3+3) · 15 Double-unders
+
+> [!IMPORTANT]
+> **FOKUS:** Neutral rygg i swings. PC-vikt = samma som teknikdelen om möjligt.
+
+#### LOGGA (efter pass)
+
+| Fält | Värde |
+| --- | --- |
+| Hang Power Clean | ____ kg |
+| Front Squat | ____ kg |
+| Power Clean (metcon) | ____ kg |
+| HPC set 1–8 | __ / __ / __ / __ / __ / __ / __ / __ kg |
+| FS set 1–5 | __ / __ / __ / __ / __ kg |
+| **Score** | Fyll i efter pass |
+| **Känsla (1–5)** | Fyll i efter pass |
+| **RPE (1–10)** | Fyll i efter pass |
+| Kommentar | |
+
+---
+
+## 2026-06-__ - Pass #008 (planerat, block 2 vecka 4)
+
+**STATUS:** Planerat  
+**Plats:** Hemma/Box  
+**Utrustning:** Skivstång + vikter · DB 15 kg · Hopprep  
+**Sömn/stress:** Fyll i innan pass.
+
+#### Del 1 – Warmup (ca 10 min)
+- 3–5 min hopprep
+- Dynamisk mobilitet overhead + höfter
+
+#### Del 2 – Teknik (ca 15–20 min)
+- **Hang Power Snatch** 8 × 2
+
+> [!TIP]
+> **FÖRSLAG:** **30–32 kg**
+
+#### Del 3 – Styrka (ca 18 min, lättare DL-vecka)
+- **Deadlift** 4 × 3 · **Push Press** 3 × 5
+
+> [!TIP]
+> **FÖRSLAG:** Deadlift **50 kg** · Push Press **42–45 kg**
+
+#### Del 4 – Metcon (For Time, cap 8 min)
+- 3 rounds: 6 DB Snatch (15 kg, 3+3) · 10 DB C&PP (15 kg, 5+5) · 20 Double-unders
+
+> [!IMPORTANT]
+> **BENCHMARK:** pass #004. Mål: matcha eller slå **4:46**.
+
+#### LOGGA (efter pass)
+
+| Fält | Värde |
+| --- | --- |
+| Hang Power Snatch | ____ kg |
+| Deadlift | ____ kg |
+| Push Press | ____ kg |
+| HPS set 1–8 | __ / __ / __ / __ / __ / __ / __ / __ kg |
+| DL set 1–4 | __ / __ / __ / __ kg |
+| PP set 1–3 | __ / __ / __ kg |
+| **Score** | Mål: ≤ 4:46 |
+| **Känsla (1–5)** | Fyll i efter pass |
+| **RPE (1–10)** | Fyll i efter pass |
+| Kommentar | Summera block 2 |
 

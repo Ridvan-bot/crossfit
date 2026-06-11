@@ -155,3 +155,47 @@ Syfte: Bygga teknik i clean/snatch och samtidigt öka styrkan gradvis utan att t
   - Teknikkänsla i clean/snatch (1-5)
   - Stabilitet i front-rack och overhead
   - Om vikter kan ökas nästa block
+
+---
+
+## Block 2 – Olympic Foundation (pass #005–#008)
+
+Syfte: Fortsätta teknik och styrka efter block 1. Små viktökningar där formen satt i #003–#004. Variera metcon lite (KB, ordning) men behåll jämn pacing som i #003–#004.
+
+Utgångsvärden från block 1: HPC 30 kg, FS 40 kg, HPS 15–30 kg, DL 50 kg, PP 40 kg, PC i metcon 30 kg.
+
+### Vecka 5 – Clean, nytt block (pass #005)
+
+- Passmall: `Olympic Foundation - Clean Day`
+- Teknik: Hang Power Clean 6 x 2 @ RPE 5–6 (förslag **35 kg**)
+- Styrka: Front Squat 5 x 3 @ RPE 6–7 (förslag **45 kg**)
+- Metcon: 10 min AMRAP (samma struktur som #003 för jämförelse)
+  - 6 Power Clean / 10 DB Snatch (15 kg, 3+3) / 12 AbMat Sit-up / 20 Double-unders
+- Fokus: lugnt första varvet i metcon; jämför score med #003
+
+### Vecka 6 – Snatch (pass #006)
+
+- Passmall: `Olympic Foundation - Snatch Day`
+- Teknik: Hang Power Snatch 6 x 2 @ RPE 5–6 (förslag **30 kg**)
+- Styrka: Deadlift 5 x 3 @ RPE 6–7 (förslag **55 kg**), Push Press 4 x 5 @ RPE 6 (förslag **40 kg**)
+- Metcon: For Time, cap 8 min (stång)
+  - 3 rounds: 6 Power Snatch / 10 Clean & Push Press / 20 Double-unders
+- Fokus: overhead-kontroll; jämför med #002 (samma metcon, barbell)
+
+### Vecka 7 – Clean + KB (pass #007)
+
+- Passmall: `Olympic Foundation - Clean Day` (variant med KB)
+- Teknik: Hang Power Clean 8 x 2 @ RPE 6 (förslag **35 kg**)
+- Styrka: Front Squat 5 x 3 @ RPE 6–7 (förslag **45–50 kg**)
+- Metcon: 10 min AMRAP
+  - 5 Power Clean / 10 Kettlebell Swing (20 kg, rysk) / 10 DB Snatch (15 kg, 3+3) / 15 Double-unders
+- Fokus: håll rygg neutral i swings; samma PC-vikt som teknikdelen om möjligt
+
+### Vecka 8 – Snatch, kontroll + benchmark (pass #008)
+
+- Passmall: `Olympic Foundation - Snatch Day`
+- Teknik: Hang Power Snatch 8 x 2 @ RPE 6 (förslag **30–32 kg**)
+- Styrka: Deadlift 4 x 3 @ RPE 6 (förslag **50 kg**, lättare vecka), Push Press 3 x 5 @ RPE 6 (förslag **42–45 kg**)
+- Metcon: For Time, cap 8 min (samma som #004 – benchmark)
+  - 3 rounds: 6 DB Snatch (15 kg) / 10 DB C&PP (15 kg) / 20 Double-unders
+- Fokus: slå eller matcha #004 (4:46); summera block 2
