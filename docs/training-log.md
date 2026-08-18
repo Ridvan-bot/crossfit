@@ -350,7 +350,7 @@ Logga varje pass med samma struktur för att se progression över tid.
 | PP set 1–4 | 40 / 40 / 40 / 40 kg |
 | **Score** | 1 helt varv + 6 Power Snatch + 10 C&PP + **13 KB Swing** (7 kvar när 8-min cap tog slut) |
 | **Känsla (1–5)** | 4 (bra genom hela WOD:en) |
-| **RPE (1–10)** | Ej rapporterad |
+| **RPE (1–10)** | 8 |
 | Kommentar | Känslan var bra genom hela WOD:en. Vikter enligt WOD. Jämfört med #002 (samma stångmoment, då hopprep): då 2 varv + 6 PS + 8 C&PP. Här nästan 2 hela varv med KB Swing istället – volymen ligger nära, men rörelserna är inte identiska. |
 
 ---
