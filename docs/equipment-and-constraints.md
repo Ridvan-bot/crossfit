@@ -25,4 +25,16 @@ Detta dokument styr vilka pass som är möjliga hemma. Alla WODs och teknikpass 
   - barbell cycling med lätt vikt
   - repetitiva kroppsviktsrörelser
 - Undvik pass som kräver rig/ringar tills alternativ finns.
+
+## Utan hopprep
+
+När hopprep ska undvikas (skada, underlag, önskemål): **använd aldrig hopprep i warmup eller metcon**.
+
+| Hopprep (RX) | Ersättning (samma ungefärliga tid/ansträngning) |
+| --- | --- |
+| 3–5 min hopprep (warmup) | 2 min rask marsch på plats eller utomhus + 2 × 10 Air Squat + dynamisk mobilitet |
+| 20 Double-unders | 20 Kettlebell Swing (20 kg, rysk) |
+| 20 Single-unders | 15 Kettlebell Swing (20 kg) eller 12 AbMat Sit-up |
+
+Warmup utan rep: dynamisk mobilitet (höfter, axlar, anklar) + tom stång / lätta uppvärmningsset i passets huvudrörelser.
 - Olympic lifting prioriteras i teknikblock och styrkedel varje vecka.

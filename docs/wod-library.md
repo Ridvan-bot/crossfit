@@ -53,6 +53,7 @@ Alla pass ska fungera med utrustningen i `docs/equipment-and-constraints.md`.
 - Skalning:
   - Power Clean-vikt justeras till tekniskt ren reps.
   - Single-unders används vid osäkerhet i double-unders.
+  - **Utan hopprep:** se `docs/equipment-and-constraints.md` – t.ex. 20 KB Swing istället för hopprep.
 
 - Coaching:
   - Prioritera teknisk kvalitet i clean före tempo.
@@ -88,6 +89,7 @@ Alla pass ska fungera med utrustningen i `docs/equipment-and-constraints.md`.
 - Skalning:
   - Deadlift-vikt justeras så att formen hålls i alla reps.
   - Minska reps på hopprep vid hög puls.
+  - **Utan hopprep:** se `docs/equipment-and-constraints.md` – t.ex. 20 KB Swing istället för 20 DU/SU.
 
 - Coaching:
   - Ingen grind. Avbryt eller skala vid ryggtrötthet.

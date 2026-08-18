@@ -296,17 +296,21 @@ Logga varje pass med samma struktur för att se progression över tid.
 
 ---
 
-## 2026-06-__ - Pass #006 (planerat, block 2 vecka 2)
+## 2026-08-18 - Pass #006 (Snatch Day – utan hopprep)
 
-**STATUS:** Planerat  
+**STATUS:** Genomfört  
 **Plats:** Hemma/Box  
-**Utrustning:** Skivstång + vikter · Hopprep  
+**Utrustning:** Skivstång + vikter · KB 20 kg · Hopprep **används inte**  
 **Sömn/stress:** Fyll i innan pass.
 
+> [!NOTE]
+> **Variant utan hopprep** – varken warmup eller metcon innehåller rep. KB Swing ersätter cardio-delen i metcon.
+
 #### Del 1 – Warmup (ca 10 min)
-- 3–5 min hopprep
+- 2 min rask marsch (ute eller på plats)
+- 2 × 10 Air Squat
 - Dynamisk mobilitet höfter / axlar / anklar
-- 2 uppvärmningsset Hang Power Snatch + Push Press
+- 2 uppvärmningsset Hang Power Snatch + Push Press (tom/lätt stång)
 
 #### Del 2 – Teknik (ca 15 min)
 - **Hang Power Snatch** 6 × 2
@@ -322,29 +326,32 @@ Logga varje pass med samma struktur för att se progression över tid.
 > **FÖRSLAG:** Deadlift **55 kg** · Push Press **40 kg**
 
 #### Del 4 – Metcon (For Time, cap 8 min)
-- 3 rounds: 6 Power Snatch · 10 Clean & Push Press · 20 Double-unders (stång)
+- 3 rounds:
+  - 6 Power Snatch (stång)
+  - 10 Clean & Push Press (stång)
+  - 20 Kettlebell Swing (20 kg, rysk)
 
 > [!TIP]
 > **FÖRSLAG metcon:** **30 kg** på stång (teknik först).
 
 > [!IMPORTANT]
-> **BENCHMARK:** pass #002 (samma metcon, stång).
+> **BENCHMARK:** pass #002 (samma stångmoment; #002 hade hopprep, detta har KB Swing istället – jämför tid försiktigt).
 
 #### LOGGA (efter pass)
 
 | Fält | Värde |
 | --- | --- |
-| Hang Power Snatch | ____ kg |
-| Deadlift | ____ kg |
-| Push Press | ____ kg |
-| Metcon (PS / C&PP) | ____ kg |
-| HPS set 1–6 | __ / __ / __ / __ / __ / __ kg |
-| DL set 1–5 | __ / __ / __ / __ / __ kg |
-| PP set 1–4 | __ / __ / __ / __ kg |
-| **Score** | Fyll i efter pass |
-| **Känsla (1–5)** | Fyll i efter pass |
-| **RPE (1–10)** | Fyll i efter pass |
-| Kommentar | Benchmark mot #002 |
+| Hang Power Snatch | **30 kg** |
+| Deadlift | **55 kg** |
+| Push Press | **40 kg** |
+| Metcon (PS / C&PP) | **30 kg** · KB Swing **20 kg** |
+| HPS set 1–6 | 30 / 30 / 30 / 30 / 30 / 30 kg |
+| DL set 1–5 | 55 / 55 / 55 / 55 / 55 kg |
+| PP set 1–4 | 40 / 40 / 40 / 40 kg |
+| **Score** | 1 helt varv + 6 Power Snatch + 10 C&PP + **13 KB Swing** (7 kvar när 8-min cap tog slut) |
+| **Känsla (1–5)** | 4 (bra genom hela WOD:en) |
+| **RPE (1–10)** | Ej rapporterad |
+| Kommentar | Känslan var bra genom hela WOD:en. Vikter enligt WOD. Jämfört med #002 (samma stångmoment, då hopprep): då 2 varv + 6 PS + 8 C&PP. Här nästan 2 hela varv med KB Swing istället – volymen ligger nära, men rörelserna är inte identiska. |
 
 ---
 
