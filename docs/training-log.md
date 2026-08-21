@@ -355,15 +355,19 @@ Logga varje pass med samma struktur för att se progression över tid.
 
 ---
 
-## 2026-06-__ - Pass #007 (planerat, block 2 vecka 3)
+## 2026-08-21 - Pass #007 (Clean Day + KB – utan hopprep)
 
 **STATUS:** Planerat  
 **Plats:** Hemma/Box  
-**Utrustning:** Skivstång + vikter · KB 20 kg · DB 15 kg · Hopprep  
+**Utrustning:** Skivstång + vikter · KB 20 kg · DB 15 kg · AbMat · Hopprep **används inte**  
 **Sömn/stress:** Fyll i innan pass.
 
+> [!NOTE]
+> **Variant utan hopprep** – ingen rep i warmup eller metcon. AbMat Sit-up ersätter Double-unders.
+
 #### Del 1 – Warmup (ca 10 min)
-- 3–5 min hopprep
+- 2 min rask marsch (ute eller på plats)
+- 2 × 10 Air Squat
 - Dynamisk mobilitet + front-rack prep
 - 2 uppvärmningsset Hang Power Clean + lätta Kettlebell Swing
 
@@ -372,19 +376,22 @@ Logga varje pass med samma struktur för att se progression över tid.
 - **Fokus:** timing och rackposition
 
 > [!TIP]
-> **FÖRSLAG:** **35 kg**
+> **FÖRSLAG:** **35 kg** (inga 2,5-skivor: nästa steg från 30 kg). Backa till **30 kg** om tekniken brister.
 
 #### Del 3 – Styrka (ca 18 min)
 - **Front Squat** 5 × 3
 
 > [!TIP]
-> **FÖRSLAG:** **45–50 kg**
+> **FÖRSLAG:** **45 kg** (var 40 kg i #005). Alternativ: **50 kg** om 45 känns lätt.
 
 #### Del 4 – Metcon (10 min AMRAP)
-- 5 Power Clean · 10 KB Swing (20 kg, rysk) · 10 DB Snatch (15 kg, 3+3) · 15 Double-unders
+- 5 Power Clean
+- 10 Kettlebell Swing (20 kg, rysk)
+- 10 Dumbbell Snatch (15 kg, 3+3)
+- 15 AbMat Sit-up
 
 > [!IMPORTANT]
-> **FOKUS:** Neutral rygg i swings. PC-vikt = samma som teknikdelen om möjligt.
+> **FOKUS:** Neutral rygg i swings. PC-vikt = samma som teknikdelen om möjligt. **PACING:** första varvet lugnt – det är en **AMRAP** (kör tills klockan tar slut).
 
 #### LOGGA (efter pass)
 

@@ -37,4 +37,5 @@ När hopprep ska undvikas (skada, underlag, önskemål): **använd aldrig hoppre
 | 20 Single-unders | 15 Kettlebell Swing (20 kg) eller 12 AbMat Sit-up |
 
 Warmup utan rep: dynamisk mobilitet (höfter, axlar, anklar) + tom stång / lätta uppvärmningsset i passets huvudrörelser.
+
 - Olympic lifting prioriteras i teknikblock och styrkedel varje vecka.

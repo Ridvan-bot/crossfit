@@ -186,12 +186,13 @@ Utgångsvärden från block 1: HPC 30 kg, FS 40 kg, HPS 15–30 kg, DL 50 kg, PP
 
 ### Vecka 7 – Clean + KB (pass #007)
 
-- Passmall: `Olympic Foundation - Clean Day` (variant med KB)
+- Passmall: `Olympic Foundation - Clean Day` (variant med KB, **utan hopprep**)
 - Teknik: Hang Power Clean 8 x 2 @ RPE 6 (förslag **35 kg**)
 - Styrka: Front Squat 5 x 3 @ RPE 6–7 (förslag **45–50 kg**)
+- Warmup: marsch + Air Squat + mobilitet (ingen hopprep)
 - Metcon: 10 min AMRAP
-  - 5 Power Clean / 10 Kettlebell Swing (20 kg, rysk) / 10 DB Snatch (15 kg, 3+3) / 15 Double-unders
-- Fokus: håll rygg neutral i swings; samma PC-vikt som teknikdelen om möjligt
+  - 5 Power Clean / 10 Kettlebell Swing (20 kg, rysk) / 10 DB Snatch (15 kg, 3+3) / 15 AbMat Sit-up
+- Fokus: håll rygg neutral i swings; samma PC-vikt som teknikdelen om möjligt; AMRAP = kör tills klockan tar slut
 
 ### Vecka 8 – Snatch, kontroll + benchmark (pass #008)
 
