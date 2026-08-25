@@ -6,8 +6,8 @@
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
 - Nuvarande läge: Next.js-app + schema i Supabase-projektet **crossfit** (`mjtuxpdqeopikjaqlsna`). Pass #007 loggat i md.
 - Nästa steg:
-  - Skapa konto i appen, seeda pass #001–#008.
-  - Deploy till Vercel (`npx vercel login` + `npx vercel --prod`).
+  - I Vercel: koppla GitHub-repot `Ridvan-bot/crossfit`, lägg env-variabler, deploy.
+  - Skapa konto i appen och seeda pass #001–#008.
   - Kör pass #008.
 
 ## 2) Miljö och kontext
@@ -59,7 +59,7 @@
 - Seed-knapp importerar pass #001–#008 + sessioner/mål från träningsloggen.
 - `docs/` och `workout-gui/` = arkiv; app + DB = källa till sanning.
 - MCP `~/.cursor/mcp.json` pekar på `project_ref=mjtuxpdqeopikjaqlsna`.
-- Vercel-deploy väntar på `vercel login` lokalt.
+- Vercel: projekt skapat via MCP (`crossfit-app` / `prj_Kv1yfqFSM5nnEEvyZ9M4zGze4dhk`) men Git-länk verifierades inte (404). Användaren behöver i Vercel Dashboard: Import GitHub-repo `Ridvan-bot/crossfit`, sätt env `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY`, deploy.
 
 ## 4) Planerade ändringar / roadmap
 
