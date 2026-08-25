@@ -41,11 +41,10 @@ export type Goal = {
   notes: string | null;
 };
 
-export type WorkoutTemplate = {
+export type Profile = {
   id: string;
-  name: string;
-  workout_type: string;
-  notes: string | null;
+  display_name: string | null;
+  equipment: string | null;
 };
 
 export type TrainingSession = {

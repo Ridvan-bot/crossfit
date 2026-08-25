@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AppNav } from "@/components/AppNav";
+import { HelpTip, FEELING_HELP_TEXT, RPE_HELP_TEXT } from "@/components/HelpTip";
+import { MovementPicker } from "@/components/MovementPicker";
 import {
   addMovement,
   logSessionFromForm,
@@ -8,6 +10,7 @@ import {
   updateWorkout,
 } from "@/app/actions/crud";
 import { createClient } from "@/lib/supabase/server";
+import { todayDateInputValue } from "@/lib/dates";
 import type { WorkoutSection } from "@/lib/types";
 
 type Props = { params: Promise<{ id: string }> };
@@ -27,6 +30,12 @@ export default async function WorkoutDetailPage({ params }: Props) {
     .maybeSingle();
 
   if (!workout) notFound();
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("equipment")
+    .eq("id", user!.id)
+    .maybeSingle();
 
   const { data: sections } = await supabase
     .from("workout_sections")
@@ -50,7 +59,21 @@ export default async function WorkoutDetailPage({ params }: Props) {
             <h1 className="font-[family-name:var(--font-barlow)] text-4xl font-extrabold uppercase">
               {workout.title}
             </h1>
-            <p className="text-stone-400">{workout.equipment_notes}</p>
+            {profile?.equipment ? (
+              <p className="text-stone-400">
+                Din utrustning: {profile.equipment}{" "}
+                <Link href="/profile" className="text-amber-400 hover:underline">
+                  ändra
+                </Link>
+              </p>
+            ) : (
+              <p className="text-stone-500">
+                Ingen utrustning i profilen.{" "}
+                <Link href="/profile" className="text-amber-400 hover:underline">
+                  Lägg till under Profil
+                </Link>
+              </p>
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
             <Link
@@ -75,12 +98,10 @@ export default async function WorkoutDetailPage({ params }: Props) {
           </h2>
           <input name="title" defaultValue={workout.title} required className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
           <input name="pass_number" type="number" defaultValue={workout.pass_number ?? ""} className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
-          <input name="scheduled_date" type="date" defaultValue={workout.scheduled_date ?? ""} className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
-          <select name="status" defaultValue={workout.status} className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2">
+          <select name="status" defaultValue={workout.status} className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 md:col-span-2">
             <option value="planned">planned</option>
             <option value="done">done</option>
           </select>
-          <input name="equipment_notes" defaultValue={workout.equipment_notes ?? ""} className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
           <textarea name="notes" defaultValue={workout.notes ?? ""} rows={2} className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
           <button type="submit" className="md:col-span-2 rounded-lg bg-stone-100 py-2 font-semibold text-stone-950">
             Spara pass
@@ -125,13 +146,13 @@ export default async function WorkoutDetailPage({ params }: Props) {
               ))}
             </ul>
 
-            <form action={addMovement} className="mt-3 flex flex-wrap gap-2">
+            <form action={addMovement} className="mt-3 flex flex-wrap items-start gap-2">
               <input type="hidden" name="section_id" value={s.id} />
               <input type="hidden" name="workout_id" value={id} />
-              <input name="name" required placeholder="Rörelse" className="rounded border border-stone-700 bg-stone-950 px-2 py-1 text-sm" />
-              <input name="detail" placeholder="Reps/set" className="rounded border border-stone-700 bg-stone-950 px-2 py-1 text-sm" />
-              <input name="suggested_weight_kg" type="number" step="0.5" placeholder="kg" className="w-20 rounded border border-stone-700 bg-stone-950 px-2 py-1 text-sm" />
-              <button type="submit" className="rounded bg-stone-800 px-3 py-1 text-sm">
+              <MovementPicker />
+              <input name="detail" placeholder="Reps/set (t.ex. 5×3)" className="rounded border border-stone-700 bg-stone-950 px-2 py-1.5 text-sm" />
+              <input name="suggested_weight_kg" type="number" step="0.5" placeholder="kg" className="w-20 rounded border border-stone-700 bg-stone-950 px-2 py-1.5 text-sm" />
+              <button type="submit" className="rounded bg-stone-800 px-3 py-1.5 text-sm">
                 Lägg till
               </button>
             </form>
@@ -142,9 +163,53 @@ export default async function WorkoutDetailPage({ params }: Props) {
           <h2 className="font-semibold text-amber-200">Logga genomfört pass</h2>
           <form action={logSessionFromForm} className="mt-3 grid gap-3 md:grid-cols-2">
             <input type="hidden" name="workout_id" value={id} />
+            <label className="grid gap-1.5 md:col-span-2">
+              <span className="text-sm text-stone-400">Datum genomfört</span>
+              <input
+                name="completed_date"
+                type="date"
+                required
+                defaultValue={todayDateInputValue()}
+                className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
+              />
+            </label>
             <input name="score_text" placeholder="Score (t.ex. 4 hela varv)" className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
-            <input name="feeling_1_5" type="number" min={1} max={5} placeholder="Känsla 1–5" className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
-            <input name="rpe_1_10" type="number" min={1} max={10} placeholder="RPE 1–10" className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
+            <label className="grid gap-1.5">
+              <span className="inline-flex items-center gap-1.5 text-sm text-stone-400">
+                Känsla 1–5
+                <HelpTip
+                  text={FEELING_HELP_TEXT}
+                  label="Vad betyder känsla?"
+                  variant="app"
+                />
+              </span>
+              <input
+                name="feeling_1_5"
+                type="number"
+                min={1}
+                max={5}
+                placeholder="1–5"
+                className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
+              />
+            </label>
+            <label className="grid gap-1.5">
+              <span className="inline-flex items-center gap-1.5 text-sm text-stone-400">
+                RPE 1–10
+                <HelpTip
+                  text={RPE_HELP_TEXT}
+                  label="Vad betyder RPE?"
+                  variant="app"
+                />
+              </span>
+              <input
+                name="rpe_1_10"
+                type="number"
+                min={1}
+                max={10}
+                placeholder="1–10"
+                className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
+              />
+            </label>
             <textarea name="notes" placeholder="Kommentar" rows={2} className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
             <div className="md:col-span-2 space-y-2">
               <p className="text-sm text-stone-400">Vikter (valfritt, upp till 5)</p>

@@ -8,6 +8,7 @@ const links = [
   { href: "/sessions", label: "Historik" },
   { href: "/library", label: "Bibliotek" },
   { href: "/goals", label: "Mål" },
+  { href: "/profile", label: "Profil" },
 ];
 
 export async function AppNav() {

@@ -9,6 +9,8 @@ import {
   type FormEvent,
 } from "react";
 import { logSession } from "@/app/actions/crud";
+import { HelpTip, FEELING_HELP_TEXT, RPE_HELP_TEXT } from "@/components/HelpTip";
+import { todayDateInputValue } from "@/lib/dates";
 import type { WorkoutSection } from "@/lib/types";
 
 export type SuggestedLift = {
@@ -116,14 +118,14 @@ export function LogSessionSheet({
       />
 
       <div
-        className={`relative z-10 flex max-h-[min(92dvh,880px)] w-full flex-col overflow-hidden shadow-2xl sm:max-w-lg ${
+        className={`relative z-10 flex h-[min(96dvh,100%)] max-h-[96dvh] w-full flex-col overflow-hidden shadow-2xl sm:mx-4 sm:h-auto sm:max-h-[min(94dvh,920px)] sm:w-[min(100%-2rem,48rem)] sm:max-w-3xl sm:rounded-2xl ${
           isBoard
-            ? "border border-white/25 bg-[#121212] text-[#f4f1ea] sm:rounded-2xl"
+            ? "border border-white/25 bg-[#121212] text-[#f4f1ea]"
             : "rounded-t-2xl border border-stone-700 bg-stone-900 text-stone-100 sm:rounded-2xl"
         }`}
       >
         <div
-          className={`flex shrink-0 items-start justify-between gap-3 border-b px-4 py-3 ${
+          className={`flex shrink-0 items-start justify-between gap-3 border-b px-5 py-4 sm:px-6 ${
             isBoard ? "border-white/15" : "border-stone-800"
           }`}
         >
@@ -166,7 +168,7 @@ export function LogSessionSheet({
           </button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
           {saved ? (
             <div className="flex flex-col items-center gap-4 py-8 text-center">
               <div
@@ -212,6 +214,19 @@ export function LogSessionSheet({
 
               <label className="grid gap-1 text-sm">
                 <span className={isBoard ? "text-white/55" : "text-stone-400"}>
+                  Datum genomfört
+                </span>
+                <input
+                  name="completed_date"
+                  type="date"
+                  required
+                  defaultValue={todayDateInputValue()}
+                  className={fieldClass(isBoard)}
+                />
+              </label>
+
+              <label className="grid gap-1 text-sm">
+                <span className={isBoard ? "text-white/55" : "text-stone-400"}>
                   Score
                 </span>
                 <input
@@ -223,8 +238,17 @@ export function LogSessionSheet({
 
               <div className="grid grid-cols-2 gap-3">
                 <label className="grid gap-1 text-sm">
-                  <span className={isBoard ? "text-white/55" : "text-stone-400"}>
+                  <span
+                    className={`inline-flex items-center gap-1.5 ${
+                      isBoard ? "text-white/55" : "text-stone-400"
+                    }`}
+                  >
                     Känsla 1–5
+                    <HelpTip
+                      text={FEELING_HELP_TEXT}
+                      label="Vad betyder känsla?"
+                      variant={isBoard ? "board" : "phone"}
+                    />
                   </span>
                   <input
                     name="feeling_1_5"
@@ -236,8 +260,17 @@ export function LogSessionSheet({
                   />
                 </label>
                 <label className="grid gap-1 text-sm">
-                  <span className={isBoard ? "text-white/55" : "text-stone-400"}>
+                  <span
+                    className={`inline-flex items-center gap-1.5 ${
+                      isBoard ? "text-white/55" : "text-stone-400"
+                    }`}
+                  >
                     RPE 1–10
+                    <HelpTip
+                      text={RPE_HELP_TEXT}
+                      label="Vad betyder RPE?"
+                      variant={isBoard ? "board" : "phone"}
+                    />
                   </span>
                   <input
                     name="rpe_1_10"

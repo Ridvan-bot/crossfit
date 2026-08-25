@@ -4,10 +4,10 @@
 
 - Senast uppdaterad: 2026-08-25
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
-- Nuvarande läge: Next.js-app + schema i Supabase-projektet **crossfit** (`mjtuxpdqeopikjaqlsna`). Pass #007 loggat i md.
+- Nuvarande läge: Utrustning i profil; WOD byggs med sökbara CrossFit-rörelser. Schema uppdaterat (`profiles.equipment`).
 - Nästa steg:
   - I Vercel: koppla GitHub-repot `Ridvan-bot/crossfit`, lägg env-variabler, deploy.
-  - Skapa konto i appen och seeda pass #001–#008.
+  - Fyll i utrustning under Profil.
   - Kör pass #008.
 
 ## 2) Miljö och kontext
@@ -17,9 +17,16 @@
 - Supabase: projekt **crossfit** (`mjtuxpdqeopikjaqlsna`)
 - Träningsfokus: Teknik och styrka framför flås
 - Fokusområde: Olympiska lyft (clean/snatch)
-- Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep
+- Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep (sätts i appen under Profil)
 
 ## 3) Genomfört
+
+### 2026-08-25 - Profil-utrustning + rörelseväljare
+
+- `profiles.equipment` tillagd (migration).
+- Ny sida `/profile` för utrustning.
+- Vid WOD-bygg: sökbar lista med CrossFit-rörelser (Clean and Jerk, Wall-ball Shot, m.fl.).
+- Utrustning borttagen från skapa/redigera pass.
 
 ### 2026-03-31 - Projektstart
 

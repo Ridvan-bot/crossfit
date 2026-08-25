@@ -1,0 +1,101 @@
+/**
+ * CrossFit-rörelser med officiella namn.
+ * Källa: https://www.crossfit.com/crossfit-movements (+ vanliga WOD-varianter).
+ */
+export const CROSSFIT_MOVEMENTS = [
+  // Nine foundational
+  "Air Squat",
+  "Front Squat",
+  "Overhead Squat",
+  "Shoulder Press",
+  "Push Press",
+  "Push Jerk",
+  "Deadlift",
+  "Sumo Deadlift High Pull",
+  "Medicine-ball Clean",
+  // Olympic / barbell
+  "Back Squat",
+  "Clean",
+  "Clean and Jerk",
+  "Clean and Push Jerk",
+  "Cluster",
+  "Hang Power Clean",
+  "Hang Power Snatch",
+  "Hang Squat Clean",
+  "Hang Squat Snatch",
+  "Muscle Snatch",
+  "Power Clean",
+  "Power Snatch",
+  "Snatch",
+  "Squat Clean",
+  "Squat Snatch",
+  "Thruster",
+  // Dumbbell / kettlebell
+  "Dumbbell Clean",
+  "Dumbbell Hang Clean",
+  "Dumbbell Push Press",
+  "Dumbbell Snatch",
+  "Dumbbell Thruster",
+  "Kettlebell Swing",
+  "Turkish Get-up",
+  // Gymnastics / bodyweight
+  "AbMat Sit-up",
+  "Bar Muscle-up",
+  "Burpee",
+  "Burpee Box Jump",
+  "Burpee Box Jump Over",
+  "Butterfly Pull-up",
+  "Chest-to-bar Pull-up",
+  "Chest-to-wall Handstand Push-up",
+  "Dip",
+  "Freestanding Handstand Push-up",
+  "GHD Back Extension",
+  "GHD Hip Extension",
+  "GHD Sit-up",
+  "Good Morning",
+  "Handstand Push-up",
+  "Handstand Walk",
+  "Hollow Rock",
+  "Jumping Pull-up",
+  "Knees-to-elbows",
+  "L-sit",
+  "Muscle-up",
+  "Pistol",
+  "Pull-up",
+  "Push-up",
+  "Ring Dip",
+  "Ring Muscle-up",
+  "Rope Climb",
+  "Sit-up",
+  "Strict Handstand Push-up",
+  "Strict Pull-up",
+  "Toes-to-bar",
+  "V-up",
+  "Wall Walk",
+  "Windshield Wiper",
+  // Monostructural / other
+  "Assault Bike",
+  "Bear Crawl",
+  "BikeErg",
+  "Box Jump",
+  "Box Jump Over",
+  "Box Step-up",
+  "Devil Press",
+  "Double-under",
+  "Farmer Carry",
+  "Overhead Walking Lunge",
+  "Row",
+  "Run",
+  "Single-under",
+  "SkiErg",
+  "Walking Lunge",
+  "Wall-ball Shot",
+] as const;
+
+export type CrossfitMovement = (typeof CROSSFIT_MOVEMENTS)[number] | string;
+
+export function filterMovements(query: string): string[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [...CROSSFIT_MOVEMENTS];
+  return CROSSFIT_MOVEMENTS.filter((name) => name.toLowerCase().includes(q));
+}

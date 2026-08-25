@@ -5,10 +5,12 @@
 
 2. Supabase-projekt: **crossfit** (`mjtuxpdqeopikjaqlsna`).
    All användardata ska ha RLS (`user_id = auth.uid()`).
+   Utrustning ligger på **profilen** (`profiles.equipment`), inte på enskilda pass.
 
 3. Kalla rörelser med officiella namn.
    Namn och grundstruktur följer CrossFits officiella lista:
    `https://www.crossfit.com/crossfit-movements`.
+   Appen har en sökbar katalog i `src/lib/movements.ts`.
 
 4. Huvuddokument / ytor:
    - App: dashboard, pass, telefon/tavla, historik, bibliotek, mål

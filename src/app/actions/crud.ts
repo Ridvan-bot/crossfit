@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { dateInputToCompletedAt, todayDateInputValue } from "@/lib/dates";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -14,17 +15,27 @@ export async function createWorkout(formData: FormData) {
   const title = String(formData.get("title") || "").trim();
   if (!title) return;
 
+  const rawPass = String(formData.get("pass_number") || "").trim();
+  let passNumber = rawPass ? Number(rawPass) : null;
+  if (passNumber == null || Number.isNaN(passNumber)) {
+    const { data: maxRow } = await supabase
+      .from("workouts")
+      .select("pass_number")
+      .eq("user_id", user.id)
+      .not("pass_number", "is", null)
+      .order("pass_number", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    passNumber = (maxRow?.pass_number ?? 0) + 1;
+  }
+
   const { data, error } = await supabase
     .from("workouts")
     .insert({
       user_id: user.id,
       title,
-      pass_number: formData.get("pass_number")
-        ? Number(formData.get("pass_number"))
-        : null,
-      scheduled_date: (formData.get("scheduled_date") as string) || null,
+      pass_number: passNumber,
       status: "planned",
-      equipment_notes: (formData.get("equipment_notes") as string) || null,
       notes: (formData.get("notes") as string) || null,
     })
     .select("id")
@@ -72,9 +83,7 @@ export async function updateWorkout(formData: FormData) {
       pass_number: formData.get("pass_number")
         ? Number(formData.get("pass_number"))
         : null,
-      scheduled_date: (formData.get("scheduled_date") as string) || null,
       status: String(formData.get("status") || "planned"),
-      equipment_notes: (formData.get("equipment_notes") as string) || null,
       notes: (formData.get("notes") as string) || null,
       updated_at: new Date().toISOString(),
     })
@@ -82,6 +91,27 @@ export async function updateWorkout(formData: FormData) {
     .eq("user_id", user.id);
 
   revalidatePath(`/workouts/${id}`);
+  revalidatePath("/workouts");
+}
+
+export async function updateProfile(formData: FormData) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  await supabase
+    .from("profiles")
+    .upsert({
+      id: user.id,
+      display_name: String(formData.get("display_name") || "").trim() || null,
+      equipment: (formData.get("equipment") as string) || null,
+      updated_at: new Date().toISOString(),
+    });
+
+  revalidatePath("/profile");
+  revalidatePath("/");
   revalidatePath("/workouts");
 }
 
@@ -173,6 +203,12 @@ export async function logSession(formData: FormData): Promise<LogSessionResult> 
   const workoutId = String(formData.get("workout_id") || "");
   if (!workoutId) return { ok: false, message: "Saknar pass-id." };
 
+  const completedDate =
+    String(formData.get("completed_date") || "").trim() || todayDateInputValue();
+  const completedAt =
+    dateInputToCompletedAt(completedDate) ??
+    dateInputToCompletedAt(todayDateInputValue())!;
+
   const { data: session, error } = await supabase
     .from("training_sessions")
     .insert({
@@ -184,6 +220,7 @@ export async function logSession(formData: FormData): Promise<LogSessionResult> 
         : null,
       rpe_1_10: formData.get("rpe_1_10") ? Number(formData.get("rpe_1_10")) : null,
       notes: (formData.get("notes") as string) || null,
+      completed_at: completedAt,
     })
     .select("id")
     .single();
@@ -207,7 +244,11 @@ export async function logSession(formData: FormData): Promise<LogSessionResult> 
 
   await supabase
     .from("workouts")
-    .update({ status: "done", updated_at: new Date().toISOString() })
+    .update({
+      status: "done",
+      scheduled_date: completedDate,
+      updated_at: new Date().toISOString(),
+    })
     .eq("id", workoutId)
     .eq("user_id", userId);
 

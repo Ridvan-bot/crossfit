@@ -14,11 +14,17 @@ export default async function PhoneWorkoutPage({ params }: Props) {
 
   const { data: workout } = await supabase
     .from("workouts")
-    .select("id, title, equipment_notes")
+    .select("id, title")
     .eq("id", id)
     .eq("user_id", user!.id)
     .maybeSingle();
   if (!workout) notFound();
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("equipment")
+    .eq("id", user!.id)
+    .maybeSingle();
 
   const { data: sections } = await supabase
     .from("workout_sections")
@@ -37,7 +43,7 @@ export default async function PhoneWorkoutPage({ params }: Props) {
     <PhonePlayer
       workoutId={id}
       title={workout.title}
-      meta={workout.equipment_notes ?? ""}
+      meta={profile?.equipment ?? ""}
       sections={ordered}
     />
   );
