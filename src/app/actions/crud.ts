@@ -165,6 +165,7 @@ export async function updateProfile(formData: FormData) {
   revalidatePath("/profile");
   revalidatePath("/");
   revalidatePath("/workouts");
+  redirect("/profile?saved=1");
 }
 
 export async function deleteWorkout(formData: FormData) {

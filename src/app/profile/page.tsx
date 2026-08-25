@@ -1,10 +1,16 @@
 import { AppNav } from "@/components/AppNav";
 import { EquipmentPicker } from "@/components/EquipmentPicker";
+import { ProfileSaveButton } from "@/components/ProfileSaveButton";
 import { updateProfile } from "@/app/actions/crud";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-export default async function ProfilePage() {
+type Props = {
+  searchParams: Promise<{ saved?: string }>;
+};
+
+export default async function ProfilePage({ searchParams }: Props) {
+  const { saved } = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
@@ -31,6 +37,26 @@ export default async function ProfilePage() {
           </p>
         </div>
 
+        {saved === "1" ? (
+          <div
+            role="status"
+            className="flex items-center gap-3 rounded-xl border border-emerald-500/40 bg-emerald-500/15 px-4 py-3 text-emerald-100"
+          >
+            <span
+              className="flex size-8 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-lg font-bold text-stone-950"
+              aria-hidden
+            >
+              ✓
+            </span>
+            <div>
+              <p className="font-semibold">Profilen är sparad</p>
+              <p className="text-sm text-emerald-100/80">
+                Visningsnamn och utrustning är uppdaterade.
+              </p>
+            </div>
+          </div>
+        ) : null}
+
         <form
           action={updateProfile}
           className="grid gap-4 rounded-xl border border-stone-800 bg-stone-900/50 p-4 md:grid-cols-2"
@@ -52,17 +78,10 @@ export default async function ProfilePage() {
             hint="Det du har hemma / i gymmet. Syns som kontext i telefonvyn."
           />
 
-          <button
-            type="submit"
-            className="md:col-span-2 rounded-lg bg-amber-500 py-2.5 font-semibold text-stone-950"
-          >
-            Spara profil
-          </button>
+          <ProfileSaveButton />
         </form>
 
-        <p className="text-sm text-stone-500">
-          Inloggad som {user.email}
-        </p>
+        <p className="text-sm text-stone-500">Inloggad som {user.email}</p>
       </main>
     </>
   );
