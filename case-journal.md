@@ -3,18 +3,19 @@
 ## 1) Snabbstatus
 
 - Senast uppdaterad: 2026-08-25
-- Övergripande mål: Bygga ett textbaserat system i Markdown för att planera, logga och coacha CrossFit-träning.
-- Nuvarande läge: Block 2 pågår (#005–#006 genomförda, #007 planerat). Workout-GUI tillagt.
+- Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
+- Nuvarande läge: Next.js-app + schema i Supabase-projektet **crossfit** (`mjtuxpdqeopikjaqlsna`). Pass #007 loggat i md.
 - Nästa steg:
-  - Kör pass #007 via `workout-gui/index.html` och logga resultat.
-  - Fortsätt block 2 enligt `docs/wod-library.md` och `docs/training-log.md`.
+  - Skapa konto i appen, seeda pass #001–#008.
+  - Deploy till Vercel (`npx vercel login` + `npx vercel --prod`).
+  - Kör pass #008.
 
 ## 2) Miljö och kontext
 
 - Repo: `crossfit`
-- Format: Primärt `.md` + enkel HTML i `workout-gui/`
+- Format: Next.js (`src/`) + Supabase; `docs/` och `workout-gui/` som arkiv/legacy
+- Supabase: projekt **crossfit** (`mjtuxpdqeopikjaqlsna`)
 - Träningsfokus: Teknik och styrka framför flås
-- Frekvens: 1 pass/vecka i nuläget
 - Fokusområde: Olympiska lyft (clean/snatch)
 - Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep
 
@@ -49,7 +50,16 @@
 
 - Skapat `workout-gui/`: väljare + telefon-GUI + tavla-GUI (landscape chalk).
 - Syfte: läsbarhet under träning (svårt att följa hela `.md`-loggen live).
-- `AGENTS.md` uppdaterad: markdown är fortfarande källa till sanning; GUI speglar passdata.
+
+### 2026-08-25 - Next.js + Supabase (crossfit-projekt)
+
+- Scaffoldat Next.js App Router + Tailwind + Auth (signup/login).
+- Schema + RLS i nytt Supabase-projekt **crossfit** (`mjtuxpdqeopikjaqlsna`).
+- Sidor: dashboard, pass CRUD, telefon/tavla-timer, historik, WOD-bibliotek, mål.
+- Seed-knapp importerar pass #001–#008 + sessioner/mål från träningsloggen.
+- `docs/` och `workout-gui/` = arkiv; app + DB = källa till sanning.
+- MCP `~/.cursor/mcp.json` pekar på `project_ref=mjtuxpdqeopikjaqlsna`.
+- Vercel-deploy väntar på `vercel login` lokalt.
 
 ## 4) Planerade ändringar / roadmap
 

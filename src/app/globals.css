@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-plex), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+  --font-chalk: var(--font-amatic), cursive;
+  --font-hand: var(--font-caveat), cursive;
+}
+
+body {
+  background: #0c0a09;
+  color: #f5f5f4;
+}
