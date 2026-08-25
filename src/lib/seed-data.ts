@@ -121,7 +121,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         coaching_tip: "10 min AMRAP",
         movements: [
           { name: "Power Clean", detail: "6", suggested_weight_kg: 30 },
-          { name: "Dumbbell Snatch", detail: "10 · 15 kg, 3+3", suggested_weight_kg: 15 },
+          { name: "Dumbbell Snatch", detail: "10 växelvis", suggested_weight_kg: 15 },
           { name: "AbMat Sit-up", detail: "12" },
           { name: "Double-unders", detail: "20" },
         ],
@@ -251,7 +251,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         timer_preset_sec: 600,
         movements: [
           { name: "Power Clean", detail: "6", suggested_weight_kg: 30 },
-          { name: "Dumbbell Snatch", detail: "10 · 15 kg", suggested_weight_kg: 15 },
+          { name: "Dumbbell Snatch", detail: "10", suggested_weight_kg: 15 },
           { name: "AbMat Sit-up", detail: "12" },
           { name: "Double-unders", detail: "20" },
         ],
@@ -315,8 +315,8 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 8,
         timer_preset_sec: 480,
         movements: [
-          { name: "Dumbbell Snatch", detail: "6 · 3+3", suggested_weight_kg: 15 },
-          { name: "Dumbbell Clean & Push Press", detail: "10 · 5+5", suggested_weight_kg: 15 },
+          { name: "Dumbbell Snatch", detail: "6 växelvis", suggested_weight_kg: 15 },
+          { name: "Dumbbell Clean & Push Press", detail: "10 växelvis", suggested_weight_kg: 15 },
           { name: "Double-unders", detail: "20" },
         ],
       },
@@ -381,7 +381,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         coaching_tip: "AMRAP — kör tills klockan tar slut",
         movements: [
           { name: "Power Clean", detail: "6", suggested_weight_kg: 35 },
-          { name: "Dumbbell Snatch", detail: "10 · 3+3", suggested_weight_kg: 15 },
+          { name: "Dumbbell Snatch", detail: "10 växelvis", suggested_weight_kg: 15 },
           { name: "AbMat Sit-up", detail: "12" },
           { name: "Double-unders", detail: "20" },
         ],
@@ -450,7 +450,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         movements: [
           { name: "Power Snatch", detail: "6", suggested_weight_kg: 30 },
           { name: "Clean & Push Press", detail: "10", suggested_weight_kg: 30 },
-          { name: "Kettlebell Swing", detail: "20 · rysk", suggested_weight_kg: 20 },
+          { name: "Kettlebell Swing", detail: "20 rysk", suggested_weight_kg: 20 },
         ],
       },
     ],
@@ -517,8 +517,8 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         coaching_tip: "AMRAP — kör tills klockan tar slut",
         movements: [
           { name: "Power Clean", detail: "5", suggested_weight_kg: 35 },
-          { name: "Kettlebell Swing", detail: "10 · rysk", suggested_weight_kg: 20 },
-          { name: "Dumbbell Snatch", detail: "10 · 3+3", suggested_weight_kg: 15 },
+          { name: "Kettlebell Swing", detail: "10 rysk", suggested_weight_kg: 20 },
+          { name: "Dumbbell Snatch", detail: "10 växelvis", suggested_weight_kg: 15 },
           { name: "AbMat Sit-up", detail: "15" },
         ],
       },
@@ -586,8 +586,8 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         timer_preset_sec: 480,
         coaching_tip: "Benchmark #004 · mål ≤ 4:46",
         movements: [
-          { name: "Dumbbell Snatch", detail: "6 · 3+3", suggested_weight_kg: 15 },
-          { name: "Dumbbell Clean & Push Press", detail: "10 · 5+5", suggested_weight_kg: 15 },
+          { name: "Dumbbell Snatch", detail: "6 växelvis", suggested_weight_kg: 15 },
+          { name: "Dumbbell Clean & Push Press", detail: "10 växelvis", suggested_weight_kg: 15 },
           { name: "Double-unders", detail: "20" },
         ],
       },
