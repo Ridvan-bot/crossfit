@@ -1,7 +1,8 @@
 # AGENTS - Crossfit-projekt
 
-1. Ingen kod i detta skede.
-   Allt arbete sker i `.md`-filer: struktur, planer, loggar, WOD-bibliotek och coachingprinciper.
+1. Primärt arbete i `.md`-filer: struktur, planer, loggar, WOD-bibliotek och coachingprinciper.
+   Undantag: `workout-gui/` – HTML-passvyer med timer (telefon + tavla/landscape).
+   Passdata i GUI ska spegla `docs/training-log.md` (markdown är källa till sanning).
 
 2. Kalla rörelser med officiella namn.
    Namn och grundstruktur följer CrossFits officiella lista:

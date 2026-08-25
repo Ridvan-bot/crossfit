@@ -355,9 +355,9 @@ Logga varje pass med samma struktur för att se progression över tid.
 
 ---
 
-## 2026-08-21 - Pass #007 (Clean Day + KB – utan hopprep)
+## 2026-08-25 - Pass #007 (Clean Day + KB – utan hopprep)
 
-**STATUS:** Planerat  
+**STATUS:** Genomfört  
 **Plats:** Hemma/Box  
 **Utrustning:** Skivstång + vikter · KB 20 kg · DB 15 kg · AbMat · Hopprep **används inte**  
 **Sömn/stress:** Fyll i innan pass.
@@ -371,18 +371,24 @@ Logga varje pass med samma struktur för att se progression över tid.
 - Dynamisk mobilitet + front-rack prep
 - 2 uppvärmningsset Hang Power Clean + lätta Kettlebell Swing
 
-#### Del 2 – Teknik (ca 15–20 min)
+#### Del 2 – Teknik (ca 12–15 min)
 - **Hang Power Clean** 8 × 2
 - **Fokus:** timing och rackposition
 
 > [!TIP]
 > **FÖRSLAG:** **35 kg** (inga 2,5-skivor: nästa steg från 30 kg). Backa till **30 kg** om tekniken brister.
 
-#### Del 3 – Styrka (ca 18 min)
+> [!NOTE]
+> **Loggat:** HPC **30 kg** (samma som #005/#006-nivå i clean).
+
+#### Del 3 – Styrka (ca 10–12 min)
 - **Front Squat** 5 × 3
 
 > [!TIP]
 > **FÖRSLAG:** **45 kg** (var 40 kg i #005). Alternativ: **50 kg** om 45 känns lätt.
+
+> [!NOTE]
+> **Loggat:** Front Squat **50 kg** (+10 kg mot #005).
 
 #### Del 4 – Metcon (10 min AMRAP)
 - 5 Power Clean
@@ -397,15 +403,16 @@ Logga varje pass med samma struktur för att se progression över tid.
 
 | Fält | Värde |
 | --- | --- |
-| Hang Power Clean | ____ kg |
-| Front Squat | ____ kg |
-| Power Clean (metcon) | ____ kg |
-| HPC set 1–8 | __ / __ / __ / __ / __ / __ / __ / __ kg |
-| FS set 1–5 | __ / __ / __ / __ / __ kg |
-| **Score** | Fyll i efter pass |
-| **Känsla (1–5)** | Fyll i efter pass |
-| **RPE (1–10)** | Fyll i efter pass |
-| Kommentar | |
+| Hang Power Clean | **30 kg** |
+| Front Squat | **50 kg** |
+| Power Clean (metcon) | **40 kg** |
+| KB Swing / DB Snatch | **20 kg** / **15 kg** |
+| HPC set 1–8 | 30 / 30 / 30 / 30 / 30 / 30 / 30 / 30 kg |
+| FS set 1–5 | 50 / 50 / 50 / 50 / 50 kg |
+| **Score** | **4 hela varv** (10 min AMRAP) |
+| **Känsla (1–5)** | 4 (bra genom hela WOD:en) |
+| **RPE (1–10)** | 7 |
+| Kommentar | HPC 30 kg. FS **50 kg** – tydlig styrkeökning (#005: 40 kg). Metcon: PC 40 kg / KB 20 / DB 15 – samma PC-vikt som #005-metcon men ny WOD-struktur med KB + sit-ups; 4 varv med bra känsla. |
 
 ---
 
@@ -420,13 +427,13 @@ Logga varje pass med samma struktur för att se progression över tid.
 - 3–5 min hopprep
 - Dynamisk mobilitet overhead + höfter
 
-#### Del 2 – Teknik (ca 15–20 min)
+#### Del 2 – Teknik (ca 12–15 min)
 - **Hang Power Snatch** 8 × 2
 
 > [!TIP]
 > **FÖRSLAG:** **30–32 kg**
 
-#### Del 3 – Styrka (ca 18 min, lättare DL-vecka)
+#### Del 3 – Styrka (ca 15–18 min, lättare DL-vecka)
 - **Deadlift** 4 × 3 · **Push Press** 3 × 5
 
 > [!TIP]

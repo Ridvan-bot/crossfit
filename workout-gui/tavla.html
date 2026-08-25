@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>CrossFit Tavla</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --chalk: #f4f1ea;
+      --chalk-dim: rgba(244, 241, 234, 0.55);
+      --chalk-line: rgba(244, 241, 234, 0.35);
+      --board: #0c0c0c;
+      --dust: rgba(255, 255, 255, 0.03);
+      --frame: #2a2a2a;
+      --safe-t: env(safe-area-inset-top, 0px);
+      --safe-r: env(safe-area-inset-right, 0px);
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-l: env(safe-area-inset-left, 0px);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background: #050505;
+      color: var(--chalk);
+      font-family: "Caveat", cursive;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    /* Full-bleed chalkboard */
+    .board {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
+      background:
+        radial-gradient(ellipse 120% 80% at 50% 40%, #161616 0%, #0a0a0a 55%, #050505 100%);
+      border: 10px solid var(--frame);
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.65);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 0;
+      padding: calc(12px + var(--safe-t)) calc(16px + var(--safe-r)) calc(12px + var(--safe-b)) calc(16px + var(--safe-l));
+    }
+
+    /* Chalk dust / grain overlay */
+    .board::before {
+      content: "";
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      opacity: 0.45;
+      background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+    }
+
+    /* Faint chalk smudges */
+    .board::after {
+      content: "";
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 40% 25% at 20% 70%, rgba(255,255,255,0.04), transparent 70%),
+        radial-gradient(ellipse 30% 20% at 75% 25%, rgba(255,255,255,0.035), transparent 70%);
+    }
+
+    .col {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .col-left {
+      padding-right: 2vw;
+      border-right: 2px solid var(--chalk-line);
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+
+    .col-right {
+      padding-left: 2.5vw;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 0.4vh;
+    }
+
+    .back {
+      font-family: "Amatic SC", cursive;
+      font-size: clamp(1rem, 2.2vh, 1.4rem);
+      letter-spacing: 0.12em;
+      color: var(--chalk-dim);
+      text-decoration: none;
+      border: 1.5px solid var(--chalk-line);
+      padding: 4px 12px;
+      border-radius: 2px;
+    }
+
+    .back:hover { color: var(--chalk); border-color: var(--chalk-dim); }
+
+    select.pass {
+      font-family: "Amatic SC", cursive;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2.6vh, 1.6rem);
+      letter-spacing: 0.08em;
+      background: transparent;
+      color: var(--chalk);
+      border: 1.5px solid var(--chalk-line);
+      padding: 4px 28px 4px 10px;
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--chalk-dim) 50%),
+        linear-gradient(135deg, var(--chalk-dim) 50%, transparent 50%);
+      background-position: calc(100% - 14px) 50%, calc(100% - 9px) 50%;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+      max-width: 55%;
+    }
+
+    select.pass option {
+      background: #111;
+      color: #eee;
+    }
+
+    .wod-head {
+      text-align: center;
+      margin: 0.5vh 0 1vh;
+    }
+
+    .wod-head h1 {
+      font-family: "Amatic SC", cursive;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 9vh, 5.5rem);
+      letter-spacing: 0.2em;
+      line-height: 0.9;
+      text-shadow: 0 0 1px rgba(255,255,255,0.35);
+    }
+
+    .wod-underline {
+      display: block;
+      width: 28%;
+      height: 3px;
+      margin: 0.4vh auto 0.8vh;
+      background: var(--chalk);
+      opacity: 0.85;
+      border-radius: 2px;
+      transform: rotate(-0.4deg);
+    }
+
+    .format {
+      font-family: "Amatic SC", cursive;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 4.5vh, 2.8rem);
+      letter-spacing: 0.14em;
+      text-align: center;
+      margin-bottom: 1.2vh;
+    }
+
+    .format span {
+      border-bottom: 2px solid var(--chalk-line);
+      padding-bottom: 2px;
+    }
+
+    .section-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.6vw;
+      flex-wrap: wrap;
+      margin-bottom: 1.2vh;
+    }
+
+    .section-tabs button {
+      font-family: "Amatic SC", cursive;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 2.4vh, 1.35rem);
+      letter-spacing: 0.1em;
+      color: var(--chalk-dim);
+      background: transparent;
+      border: 1.5px solid transparent;
+      padding: 2px 10px;
+      cursor: pointer;
+    }
+
+    .section-tabs button.active {
+      color: var(--chalk);
+      border-color: var(--chalk-line);
+      border-bottom-color: var(--chalk);
+    }
+
+    .moves {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(0.4rem, 1.5vh, 1.1rem);
+      min-height: 0;
+      overflow: hidden;
+      padding: 0 1vw;
+    }
+
+    .move {
+      text-align: center;
+      width: 100%;
+    }
+
+    .move .name {
+      font-family: "Amatic SC", cursive;
+      font-weight: 700;
+      font-size: clamp(1.7rem, 5.2vh, 3.4rem);
+      letter-spacing: 0.1em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .move .meta {
+      font-family: "Caveat", cursive;
+      font-size: clamp(1.25rem, 3.4vh, 2.1rem);
+      color: var(--chalk);
+      opacity: 0.9;
+      letter-spacing: 0.04em;
+      margin-top: 0.15em;
+    }
+
+    .move .weight {
+      color: var(--chalk);
+      opacity: 1;
+    }
+
+    .tip {
+      text-align: center;
+      font-size: clamp(1rem, 2.6vh, 1.5rem);
+      color: var(--chalk-dim);
+      margin-top: 0.8vh;
+      max-width: 36ch;
+      line-height: 1.2;
+    }
+
+    .footer-motto {
+      font-family: "Amatic SC", cursive;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.8vh, 2.4rem);
+      letter-spacing: 0.22em;
+      text-align: center;
+      margin-top: auto;
+      padding-top: 1vh;
+      opacity: 0.9;
+    }
+
+    /* RIGHT: timer */
+    .timer-label {
+      font-family: "Amatic SC", cursive;
+      font-weight: 700;
+      font-size: clamp(1.2rem, 3vh, 1.8rem);
+      letter-spacing: 0.28em;
+      color: var(--chalk-dim);
+      text-align: center;
+    }
+
+    .clock {
+      font-family: "Amatic SC", cursive;
+      font-weight: 700;
+      font-size: clamp(5rem, 22vh, 11rem);
+      line-height: 0.85;
+      letter-spacing: 0.06em;
+      text-align: center;
+      text-shadow: 0 0 2px rgba(255,255,255,0.25);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .clock.warn { color: #ffe8a8; }
+    .clock.done { color: #ffb4a8; }
+
+    .modes {
+      display: flex;
+      gap: 0.8vw;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .modes button,
+    .presets button,
+    .controls button {
+      font-family: "Amatic SC", cursive;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--chalk);
+      background: transparent;
+      border: 2px solid var(--chalk-line);
+      cursor: pointer;
+      padding: 0.45em 0.9em;
+      font-size: clamp(1rem, 2.8vh, 1.55rem);
+      min-height: 44px;
+    }
+
+    .modes button.active {
+      border-color: var(--chalk);
+      box-shadow: inset 0 0 0 1px var(--chalk-dim);
+    }
+
+    .presets {
+      display: flex;
+      gap: 0.6vw;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 0.8vw;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .controls #btnStart {
+      border-color: var(--chalk);
+      font-size: clamp(1.2rem, 3.2vh, 1.85rem);
+    }
+
+    .controls #btnStart.running {
+      border-style: dashed;
+    }
+
+    .hint-r {
+      font-size: clamp(0.95rem, 2.2vh, 1.25rem);
+      color: var(--chalk-dim);
+      text-align: center;
+      letter-spacing: 0.06em;
+    }
+
+    /* Portrait fallback nudge */
+    @media (orientation: portrait) {
+      .board {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 100dvh;
+      }
+      .col-left {
+        border-right: none;
+        border-bottom: 2px solid var(--chalk-line);
+        padding-right: 0;
+        padding-bottom: 1.5vh;
+      }
+      .col-right {
+        padding-left: 0;
+        padding-top: 1.5vh;
+        gap: 1vh;
+      }
+      .clock {
+        font-size: clamp(4rem, 18vw, 7rem);
+      }
+      .rotate-hint {
+        display: block !important;
+      }
+    }
+
+    .rotate-hint {
+      display: none;
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      font-family: "Amatic SC", cursive;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      color: var(--chalk-dim);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="board" id="board">
+    <p class="rotate-hint">TIPPA SKÄRMEN LIGGER NER FÖR BÄSTA VY</p>
+
+    <div class="col col-left">
+      <div class="top-bar">
+        <a class="back" href="index.html">← VÄLJ GUI</a>
+        <select class="pass" id="passSelect" aria-label="Välj pass"></select>
+      </div>
+
+      <div class="wod-head">
+        <h1>WOD</h1>
+        <span class="wod-underline"></span>
+      </div>
+
+      <p class="format"><span id="formatLabel">AMRAP 10 MIN</span></p>
+
+      <nav class="section-tabs" id="sectionTabs" aria-label="Passdelar"></nav>
+
+      <div class="moves" id="moves"></div>
+
+      <p class="tip" id="tip"></p>
+
+      <p class="footer-motto">YOU VS YOU</p>
+    </div>
+
+    <div class="col col-right">
+      <p class="timer-label" id="timerLabel">TIMER</p>
+      <div class="clock" id="clock">10:00</div>
+
+      <div class="modes" id="modes">
+        <button type="button" data-mode="countdown" class="active">NEDRÄKNING</button>
+        <button type="button" data-mode="stopwatch">STOPPUR</button>
+        <button type="button" data-mode="emom">EMOM</button>
+      </div>
+
+      <div class="presets" id="presets">
+        <button type="button" data-sec="300">5:00</button>
+        <button type="button" data-sec="480">8:00</button>
+        <button type="button" data-sec="600">10:00</button>
+        <button type="button" data-adj="-60">−1</button>
+        <button type="button" data-adj="60">+1</button>
+      </div>
+
+      <div class="controls">
+        <button type="button" id="btnStart">START</button>
+        <button type="button" id="btnReset">RESET</button>
+        <button type="button" id="btnBeep">LJUD</button>
+      </div>
+
+      <p class="hint-r" id="hintR">Tryck START när du är redo</p>
+    </div>
+  </div>
+
+  <script>
+    /** Speglar docs/training-log.md — synka vid ändring. */
+    const PASSES = [
+      {
+        id: "007",
+        title: "PASS #007",
+        sections: [
+          {
+            key: "warmup",
+            tab: "WARMUP",
+            format: "WARMUP · TAR CA 10 MIN",
+            tip: "Ingen hopprep",
+            timerPreset: 600,
+            moves: [
+              { name: "RASK MARSCH", meta: "2 MIN", weight: null },
+              { name: "AIR SQUAT", meta: "2 × 10", weight: null },
+              { name: "MOBILITET + FRONT-RACK", meta: "DYNAMISKT", weight: null },
+              { name: "UPPVÄRMNINGSSET", meta: "2 SET HPC + LÄTTA KB SWING", weight: null },
+            ],
+          },
+          {
+            key: "teknik",
+            tab: "TEKNIK",
+            format: "TEKNIK · TAR CA 12–15 MIN",
+            tip: "8 × 2 · timing och rackposition · backa till 30 kg om tekniken brister",
+            timerPreset: null,
+            moves: [
+              { name: "HANG POWER CLEAN", meta: "8 × 2", weight: "35 kg" },
+            ],
+          },
+          {
+            key: "styrka",
+            tab: "STYRKA",
+            format: "STYRKA · TAR CA 10–12 MIN",
+            tip: "5 × 3 · djup och stabil front-rack · 50 kg om 45 känns lätt",
+            timerPreset: null,
+            moves: [
+              { name: "FRONT SQUAT", meta: "5 × 3", weight: "45 kg" },
+            ],
+          },
+          {
+            key: "metcon",
+            tab: "METCON",
+            format: "AMRAP · TAR 10 MIN:",
+            tip: "Första varvet lugnt · kör tills klockan tar slut · PC samma vikt som teknik om möjligt",
+            timerPreset: 600,
+            moves: [
+              { name: "POWER CLEAN", meta: "5", weight: "35 kg" },
+              { name: "KETTLEBELL SWING", meta: "10 · RYSK", weight: "20 kg" },
+              { name: "DUMBBELL SNATCH", meta: "10 · 3+3", weight: "15 kg" },
+              { name: "ABMAT SIT-UP", meta: "15", weight: null },
+            ],
+          },
+        ],
+      },
+      {
+        id: "008",
+        title: "PASS #008",
+        sections: [
+          {
+            key: "warmup",
+            tab: "WARMUP",
+            format: "WARMUP · TAR CA 10 MIN",
+            tip: "",
+            timerPreset: 300,
+            moves: [
+              { name: "HOPPREP", meta: "3–5 MIN LUGNT", weight: null },
+              { name: "MOBILITET", meta: "OVERHEAD + HÖFTER", weight: null },
+            ],
+          },
+          {
+            key: "teknik",
+            tab: "TEKNIK",
+            format: "TEKNIK · TAR CA 12–15 MIN",
+            tip: "8 × 2 · utan 2,5-skivor: 30 kg",
+            timerPreset: null,
+            moves: [
+              { name: "HANG POWER SNATCH", meta: "8 × 2", weight: "30–32 kg" },
+            ],
+          },
+          {
+            key: "styrka",
+            tab: "STYRKA",
+            format: "STYRKA · TAR CA 15–18 MIN",
+            tip: "Lättare DL-vecka · Deadlift + Push Press",
+            timerPreset: null,
+            moves: [
+              { name: "DEADLIFT", meta: "4 × 3", weight: "50 kg" },
+              { name: "PUSH PRESS", meta: "3 × 5", weight: "42–45 kg" },
+            ],
+          },
+          {
+            key: "metcon",
+            tab: "METCON",
+            format: "FOR TIME · TAR MAX 8 MIN:",
+            tip: "Benchmark #004 · mål ≤ 4:46",
+            timerPreset: 480,
+            moves: [
+              { name: "DUMBBELL SNATCH", meta: "6 · 3+3", weight: "15 kg" },
+              { name: "DB CLEAN & PUSH PRESS", meta: "10 · 5+5", weight: "15 kg" },
+              { name: "DOUBLE-UNDERS", meta: "20", weight: null },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const state = {
+      passIndex: 0,
+      sectionIndex: 3, // start på metcon (tavlan)
+      mode: "countdown",
+      remainingMs: 600000,
+      elapsedMs: 0,
+      emomRound: 1,
+      running: false,
+      sound: true,
+      raf: null,
+      lastTick: 0,
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const el = {
+      passSelect: $("passSelect"),
+      formatLabel: $("formatLabel"),
+      sectionTabs: $("sectionTabs"),
+      moves: $("moves"),
+      tip: $("tip"),
+      clock: $("clock"),
+      modes: $("modes"),
+      presets: $("presets"),
+      btnStart: $("btnStart"),
+      btnReset: $("btnReset"),
+      btnBeep: $("btnBeep"),
+      hintR: $("hintR"),
+      timerLabel: $("timerLabel"),
+    };
+
+    const pass = () => PASSES[state.passIndex];
+    const section = () => pass().sections[state.sectionIndex];
+
+    function formatMs(ms) {
+      const total = Math.max(0, Math.ceil(ms / 1000));
+      const m = Math.floor(total / 60);
+      const s = total % 60;
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
+    function displayMs() {
+      if (state.mode === "stopwatch") return state.elapsedMs;
+      if (state.mode === "emom") return 60000 - (state.elapsedMs % 60000);
+      return state.remainingMs;
+    }
+
+    function renderPassSelect() {
+      el.passSelect.innerHTML = PASSES.map(
+        (p, i) => `<option value="${i}">${p.title}</option>`
+      ).join("");
+      el.passSelect.value = String(state.passIndex);
+    }
+
+    function renderTabs() {
+      el.sectionTabs.innerHTML = pass().sections
+        .map(
+          (s, i) =>
+            `<button type="button" data-i="${i}" class="${i === state.sectionIndex ? "active" : ""}">${s.tab}</button>`
+        )
+        .join("");
+    }
+
+    function renderBoard() {
+      const s = section();
+      el.formatLabel.textContent = s.format;
+      el.tip.textContent = s.tip || "";
+      el.tip.style.display = s.tip ? "block" : "none";
+
+      el.moves.innerHTML = s.moves
+        .map((m) => {
+          const weight = m.weight ? ` <span class="weight">(${m.weight})</span>` : "";
+          return `
+            <div class="move">
+              <div class="name">${m.name}</div>
+              <div class="meta">${m.meta}${weight}</div>
+            </div>`;
+        })
+        .join("");
+    }
+
+    function renderClock() {
+      const ms = displayMs();
+      el.clock.textContent = formatMs(ms);
+      el.clock.classList.toggle("warn", state.mode === "countdown" && ms > 0 && ms <= 30000);
+      el.clock.classList.toggle("done", state.mode === "countdown" && ms <= 0);
+
+      if (state.mode === "emom") {
+        el.timerLabel.textContent = `EMOM · RUNDA ${state.emomRound}`;
+        el.hintR.textContent = "60 sek per runda";
+      } else if (state.mode === "stopwatch") {
+        el.timerLabel.textContent = "STOPPUR";
+        el.hintR.textContent = "Tid uppåt";
+      } else {
+        el.timerLabel.textContent = "TIMER";
+        el.hintR.textContent = state.running ? "Pågår…" : "Tryck START när du är redo";
+      }
+    }
+
+    function renderChrome() {
+      el.modes.querySelectorAll("button").forEach((b) => {
+        b.classList.toggle("active", b.dataset.mode === state.mode);
+      });
+      el.btnStart.textContent = state.running ? "PAUS" : "START";
+      el.btnStart.classList.toggle("running", state.running);
+      el.btnBeep.textContent = state.sound ? "LJUD PÅ" : "LJUD AV";
+      const lock = state.mode !== "countdown";
+      el.presets.querySelectorAll("button").forEach((b) => {
+        b.disabled = lock;
+        b.style.opacity = lock ? "0.35" : "1";
+      });
+    }
+
+    function beep(freq = 880, dur = 0.18) {
+      if (!state.sound) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = "sine";
+        o.frequency.value = freq;
+        g.gain.value = 0.09;
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start();
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+        o.stop(ctx.currentTime + dur);
+        setTimeout(() => ctx.close(), 400);
+      } catch (_) {}
+    }
+
+    function stopLoop() {
+      if (state.raf) cancelAnimationFrame(state.raf);
+      state.raf = null;
+      state.running = false;
+      renderChrome();
+    }
+
+    function tick(now) {
+      if (!state.running) return;
+      const dt = now - state.lastTick;
+      state.lastTick = now;
+
+      if (state.mode === "stopwatch") {
+        state.elapsedMs += dt;
+      } else if (state.mode === "countdown") {
+        state.remainingMs = Math.max(0, state.remainingMs - dt);
+        if (state.remainingMs <= 0) {
+          stopLoop();
+          beep(523, 0.12);
+          setTimeout(() => beep(784, 0.28), 140);
+          renderClock();
+          return;
+        }
+        if (state.remainingMs <= 3000 && state.remainingMs + dt > 3000) beep(660, 0.1);
+      } else {
+        const prev = state.emomRound;
+        state.elapsedMs += dt;
+        state.emomRound = Math.floor(state.elapsedMs / 60000) + 1;
+        if (state.emomRound !== prev) beep(700, 0.15);
+      }
+
+      renderClock();
+      state.raf = requestAnimationFrame(tick);
+    }
+
+    function start() {
+      if (state.running) {
+        stopLoop();
+        return;
+      }
+      state.running = true;
+      state.lastTick = performance.now();
+      renderChrome();
+      beep(520, 0.08);
+      tryWakeLock();
+      state.raf = requestAnimationFrame(tick);
+    }
+
+    function resetTimer() {
+      stopLoop();
+      const s = section();
+      state.elapsedMs = 0;
+      state.emomRound = 1;
+      if (state.mode === "countdown") {
+        state.remainingMs = (s.timerPreset || 600) * 1000;
+      }
+      renderClock();
+      renderChrome();
+    }
+
+    function setMode(mode) {
+      stopLoop();
+      state.mode = mode;
+      state.elapsedMs = 0;
+      state.emomRound = 1;
+      if (mode === "countdown") {
+        state.remainingMs = (section().timerPreset || 600) * 1000;
+      }
+      renderClock();
+      renderChrome();
+    }
+
+    function selectSection(i) {
+      state.sectionIndex = i;
+      const s = section();
+      if (!state.running && state.mode === "countdown" && s.timerPreset) {
+        state.remainingMs = s.timerPreset * 1000;
+      }
+      renderTabs();
+      renderBoard();
+      renderClock();
+    }
+
+    function selectPass(i) {
+      stopLoop();
+      state.passIndex = i;
+      state.sectionIndex = pass().sections.length - 1;
+      state.mode = "countdown";
+      state.remainingMs = (section().timerPreset || 600) * 1000;
+      state.elapsedMs = 0;
+      renderPassSelect();
+      renderTabs();
+      renderBoard();
+      renderClock();
+      renderChrome();
+    }
+
+    async function tryWakeLock() {
+      try {
+        if ("wakeLock" in navigator) await navigator.wakeLock.request("screen");
+      } catch (_) {}
+    }
+
+    el.passSelect.addEventListener("change", (e) => selectPass(Number(e.target.value)));
+    el.sectionTabs.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-i]");
+      if (b) selectSection(Number(b.dataset.i));
+    });
+    el.btnStart.addEventListener("click", start);
+    el.btnReset.addEventListener("click", resetTimer);
+    el.btnBeep.addEventListener("click", () => {
+      state.sound = !state.sound;
+      renderChrome();
+      if (state.sound) beep(600, 0.08);
+    });
+    el.modes.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-mode]");
+      if (b) setMode(b.dataset.mode);
+    });
+    el.presets.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-sec], button[data-adj]");
+      if (!b || b.disabled) return;
+      if (b.dataset.adj != null) {
+        state.remainingMs = Math.max(0, state.remainingMs + Number(b.dataset.adj) * 1000);
+      } else {
+        stopLoop();
+        state.remainingMs = Number(b.dataset.sec) * 1000;
+      }
+      renderClock();
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && state.running) tryWakeLock();
+    });
+
+    selectPass(0);
+  </script>
+</body>
+</html>

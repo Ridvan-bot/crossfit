@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#141210" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>CrossFit Workout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #141210;
+      --bg-elev: #1e1b17;
+      --bg-panel: #26211c;
+      --stroke: #3d352c;
+      --text: #f2ebe0;
+      --muted: #a89a88;
+      --accent: #e8a54b;
+      --accent-dim: #a8792f;
+      --go: #6fbf73;
+      --stop: #d96b5a;
+      --warn: #e8a54b;
+      --radius: 14px;
+      --safe-b: env(safe-area-inset-bottom, 0px);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, #2a2318 0%, transparent 55%),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.08) 2px,
+          rgba(0, 0, 0, 0.08) 3px
+        );
+    }
+
+    .app {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 16px 16px calc(24px + var(--safe-b));
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 100dvh;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .eyebrow {
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      color: var(--accent);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.85rem, 7vw, 2.4rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+
+    select, button {
+      font: inherit;
+      color: inherit;
+      border: 1px solid var(--stroke);
+      background: var(--bg-panel);
+      border-radius: 12px;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 1.05rem;
+      font-weight: 500;
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, var(--accent) 50%),
+        linear-gradient(135deg, var(--accent) 50%, transparent 50%);
+      background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    .panel {
+      background: var(--bg-elev);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .section-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .section-nav button {
+      padding: 12px 4px;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      min-height: 48px;
+    }
+
+    .section-nav button.active {
+      background: var(--accent);
+      color: #1a140c;
+      border-color: var(--accent);
+    }
+
+    .section-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-label {
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .hint {
+      margin: 0;
+      color: var(--accent);
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .moves {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .moves li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 12px 14px;
+      background: var(--bg-panel);
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+    }
+
+    .moves .n {
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 800;
+      font-size: 1.55rem;
+      line-height: 1;
+      color: var(--accent);
+      min-width: 1.4em;
+    }
+
+    .moves .body {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .moves .name {
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .moves .detail {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .nav-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .nav-row button {
+      min-height: 52px;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .timer-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: sticky;
+      bottom: calc(8px + var(--safe-b));
+      z-index: 5;
+      box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .timer-modes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .timer-modes button {
+      min-height: 44px;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+    }
+
+    .timer-modes button.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .clock {
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 800;
+      font-size: clamp(3.6rem, 18vw, 5.2rem);
+      line-height: 0.9;
+      text-align: center;
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+      padding: 8px 0 4px;
+    }
+
+    .clock.warn { color: var(--warn); }
+    .clock.done { color: var(--stop); }
+
+    .timer-controls {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .timer-controls button {
+      min-height: 56px;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    #btnStart {
+      background: var(--go);
+      color: #102012;
+      border-color: var(--go);
+    }
+
+    #btnStart.running {
+      background: var(--stop);
+      color: #2a100e;
+      border-color: var(--stop);
+    }
+
+    .presets {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .presets button {
+      min-height: 40px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .presets button:disabled {
+      opacity: 0.35;
+    }
+
+    .footnote {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="eyebrow">Passvy · timer</div>
+      <h1 id="passTitle">Pass</h1>
+      <p class="meta" id="passMeta"></p>
+    </header>
+
+    <label class="sr-only" for="passSelect" style="position:absolute;left:-9999px">Välj pass</label>
+    <select id="passSelect" aria-label="Välj pass"></select>
+
+    <nav class="section-nav" id="sectionNav" aria-label="Passdelar"></nav>
+
+    <section class="panel section-card" id="sectionView"></section>
+
+    <div class="nav-row">
+      <button type="button" id="btnPrev">Föregående</button>
+      <button type="button" id="btnNext">Nästa del</button>
+    </div>
+
+    <section class="panel timer-panel" aria-label="Timer">
+      <div class="timer-modes" id="timerModes">
+        <button type="button" data-mode="countdown" class="active">Nedräkning</button>
+        <button type="button" data-mode="stopwatch">Stoppur</button>
+        <button type="button" data-mode="emom">EMOM</button>
+      </div>
+
+      <div class="clock" id="clock">10:00</div>
+
+      <div class="presets" id="presets">
+        <button type="button" data-sec="300">5:00</button>
+        <button type="button" data-sec="480">8:00</button>
+        <button type="button" data-sec="600">10:00</button>
+        <button type="button" data-adj="-60">−1 min</button>
+        <button type="button" data-adj="60">+1 min</button>
+      </div>
+
+      <div class="timer-controls">
+        <button type="button" id="btnStart">Start</button>
+        <button type="button" id="btnReset">Nollställ</button>
+        <button type="button" id="btnBeep">Ljud av</button>
+      </div>
+      <p class="footnote" id="timerHint">Nedräkning · tryck Start när du är redo</p>
+    </section>
+  </div>
+
+  <script>
+    /** Passdata speglar docs/training-log.md — uppdatera här när passet ändras. */
+    const PASSES = [
+      {
+        id: "007",
+        title: "Pass #007",
+        subtitle: "Clean Day + KB · utan hopprep",
+        date: "2026-08-21",
+        equipment: "Stång · KB 20 kg · DB 15 kg · AbMat",
+        defaultCountdown: 600,
+        sections: [
+          {
+            key: "warmup",
+            label: "Warmup",
+            short: "1",
+            duration: "tar ca 10 min",
+            tip: "Tar ca 10 min · ingen hopprep",
+            items: [
+              { name: "Rask marsch", detail: "2 min (ute eller på plats)" },
+              { name: "Air Squat", detail: "2 × 10" },
+              { name: "Mobilitet + front-rack prep", detail: "Dynamiskt" },
+              { name: "Uppvärmningsset", detail: "2 set Hang Power Clean + lätta KB Swing" },
+            ],
+          },
+          {
+            key: "teknik",
+            label: "Teknik",
+            short: "2",
+            duration: "tar ca 12–15 min",
+            tip: "Tar ca 12–15 min · förslag Hang Power Clean 35 kg (backa till 30 om tekniken brister)",
+            items: [
+              { name: "Hang Power Clean", detail: "8 × 2 · timing och rackposition" },
+            ],
+          },
+          {
+            key: "styrka",
+            label: "Styrka",
+            short: "3",
+            duration: "tar ca 10–12 min",
+            tip: "Tar ca 10–12 min · förslag Front Squat 45 kg (50 kg om 45 känns lätt)",
+            items: [
+              { name: "Front Squat", detail: "5 × 3 · djup och stabil front-rack" },
+            ],
+          },
+          {
+            key: "metcon",
+            label: "Metcon",
+            short: "4",
+            duration: "tar 10 min (AMRAP)",
+            tip: "Tar 10 min · AMRAP · första varvet lugnt · kör tills klockan tar slut",
+            timerPreset: 600,
+            items: [
+              { name: "Power Clean", detail: "5 reps · samma vikt som teknik om möjligt" },
+              { name: "Kettlebell Swing", detail: "10 reps · 20 kg, rysk · neutral rygg" },
+              { name: "Dumbbell Snatch", detail: "10 reps · 15 kg, 3+3" },
+              { name: "AbMat Sit-up", detail: "15 reps" },
+            ],
+          },
+        ],
+      },
+      {
+        id: "008",
+        title: "Pass #008",
+        subtitle: "Snatch · kontroll + benchmark",
+        date: "Planerat",
+        equipment: "Stång · DB 15 kg · Hopprep (enligt plan)",
+        defaultCountdown: 480,
+        sections: [
+          {
+            key: "warmup",
+            label: "Warmup",
+            short: "1",
+            duration: "tar ca 10 min",
+            tip: "Tar ca 10 min",
+            items: [
+              { name: "Hopprep", detail: "3–5 min lugnt" },
+              { name: "Mobilitet", detail: "Overhead + höfter" },
+            ],
+          },
+          {
+            key: "teknik",
+            label: "Teknik",
+            short: "2",
+            duration: "tar ca 12–15 min",
+            tip: "Tar ca 12–15 min · förslag Hang Power Snatch 30–32 kg (utan 2,5-skivor: 30 kg)",
+            items: [
+              { name: "Hang Power Snatch", detail: "8 × 2" },
+            ],
+          },
+          {
+            key: "styrka",
+            label: "Styrka",
+            short: "3",
+            duration: "tar ca 15–18 min",
+            tip: "Tar ca 15–18 min · lättare DL-vecka · förslag Deadlift 50 kg · Push Press 40–45 kg",
+            items: [
+              { name: "Deadlift", detail: "4 × 3" },
+              { name: "Push Press", detail: "3 × 5" },
+            ],
+          },
+          {
+            key: "metcon",
+            label: "Metcon",
+            short: "4",
+            duration: "tar max 8 min",
+            tip: "For Time · tar max 8 min · benchmark #004 · mål ≤ 4:46",
+            timerPreset: 480,
+            items: [
+              { name: "Dumbbell Snatch", detail: "6 · 15 kg, 3+3" },
+              { name: "Dumbbell Clean & Push Press", detail: "10 · 15 kg, 5+5" },
+              { name: "Double-unders", detail: "20" },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const state = {
+      passIndex: 0,
+      sectionIndex: 0,
+      mode: "countdown", // countdown | stopwatch | emom
+      remainingMs: 600000,
+      elapsedMs: 0,
+      emomRound: 1,
+      running: false,
+      sound: true,
+      raf: null,
+      lastTick: 0,
+      endAt: 0,
+    };
+
+    const el = {
+      passSelect: document.getElementById("passSelect"),
+      passTitle: document.getElementById("passTitle"),
+      passMeta: document.getElementById("passMeta"),
+      sectionNav: document.getElementById("sectionNav"),
+      sectionView: document.getElementById("sectionView"),
+      btnPrev: document.getElementById("btnPrev"),
+      btnNext: document.getElementById("btnNext"),
+      clock: document.getElementById("clock"),
+      btnStart: document.getElementById("btnStart"),
+      btnReset: document.getElementById("btnReset"),
+      btnBeep: document.getElementById("btnBeep"),
+      timerModes: document.getElementById("timerModes"),
+      presets: document.getElementById("presets"),
+      timerHint: document.getElementById("timerHint"),
+    };
+
+    function currentPass() {
+      return PASSES[state.passIndex];
+    }
+
+    function currentSection() {
+      return currentPass().sections[state.sectionIndex];
+    }
+
+    function formatMs(ms) {
+      const total = Math.max(0, Math.ceil(ms / 1000));
+      const m = Math.floor(total / 60);
+      const s = total % 60;
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
+    function renderPassSelect() {
+      el.passSelect.innerHTML = PASSES.map(
+        (p, i) => `<option value="${i}">${p.title} — ${p.subtitle}</option>`
+      ).join("");
+      el.passSelect.value = String(state.passIndex);
+    }
+
+    function renderHeader() {
+      const p = currentPass();
+      el.passTitle.textContent = p.title;
+      el.passMeta.textContent = `${p.subtitle} · ${p.date} · ${p.equipment}`;
+    }
+
+    function renderSectionNav() {
+      const p = currentPass();
+      el.sectionNav.innerHTML = p.sections
+        .map(
+          (s, i) =>
+            `<button type="button" data-i="${i}" class="${i === state.sectionIndex ? "active" : ""}">${s.short} ${s.label}</button>`
+        )
+        .join("");
+    }
+
+    function renderSection() {
+      const s = currentSection();
+      const items = s.items
+        .map(
+          (it, i) => `
+          <li>
+            <span class="n">${i + 1}</span>
+            <span class="body">
+              <span class="name">${it.name}</span>
+              <span class="detail">${it.detail}</span>
+            </span>
+          </li>`
+        )
+        .join("");
+
+      el.sectionView.innerHTML = `
+        <h2 class="section-label">Del ${s.short} · ${s.label}${s.duration ? ` · ${s.duration}` : ""}</h2>
+        ${s.tip ? `<p class="hint">${s.tip}</p>` : ""}
+        <ul class="moves">${items}</ul>
+      `;
+
+      el.btnPrev.disabled = state.sectionIndex === 0;
+      el.btnNext.disabled = state.sectionIndex === currentPass().sections.length - 1;
+      el.btnPrev.style.opacity = el.btnPrev.disabled ? "0.4" : "1";
+      el.btnNext.style.opacity = el.btnNext.disabled ? "0.4" : "1";
+    }
+
+    function displayMs() {
+      if (state.mode === "stopwatch") return state.elapsedMs;
+      if (state.mode === "emom") {
+        const within = state.elapsedMs % 60000;
+        return 60000 - within;
+      }
+      return state.remainingMs;
+    }
+
+    function renderClock() {
+      const ms = displayMs();
+      el.clock.textContent = formatMs(ms);
+      el.clock.classList.remove("warn", "done");
+      if (state.mode === "countdown" && ms <= 30000 && ms > 0) el.clock.classList.add("warn");
+      if ((state.mode === "countdown" && ms <= 0) || (state.mode === "emom" && ms <= 0 && !state.running)) {
+        el.clock.classList.add("done");
+      }
+      if (state.mode === "emom") {
+        el.timerHint.textContent = `EMOM · runda ${state.emomRound} · 60 sek/runda`;
+      } else if (state.mode === "stopwatch") {
+        el.timerHint.textContent = "Stoppur · tid uppåt";
+      } else {
+        el.timerHint.textContent = "Nedräkning · tryck Start när du är redo";
+      }
+    }
+
+    function renderTimerChrome() {
+      el.timerModes.querySelectorAll("button").forEach((b) => {
+        b.classList.toggle("active", b.dataset.mode === state.mode);
+      });
+      el.btnStart.textContent = state.running ? "Paus" : "Start";
+      el.btnStart.classList.toggle("running", state.running);
+      el.btnBeep.textContent = state.sound ? "Ljud på" : "Ljud av";
+      const presetsDisabled = state.mode === "stopwatch" || state.mode === "emom";
+      el.presets.querySelectorAll("button").forEach((b) => {
+        b.disabled = presetsDisabled;
+      });
+    }
+
+    function beep(freq = 880, dur = 0.18) {
+      if (!state.sound) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = "sine";
+        o.frequency.value = freq;
+        g.gain.value = 0.08;
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start();
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+        o.stop(ctx.currentTime + dur);
+        setTimeout(() => ctx.close(), 400);
+      } catch (_) {}
+    }
+
+    function stopLoop() {
+      if (state.raf) cancelAnimationFrame(state.raf);
+      state.raf = null;
+      state.running = false;
+      renderTimerChrome();
+    }
+
+    function tick(now) {
+      if (!state.running) return;
+      const dt = now - state.lastTick;
+      state.lastTick = now;
+
+      if (state.mode === "stopwatch") {
+        state.elapsedMs += dt;
+      } else if (state.mode === "countdown") {
+        state.remainingMs = Math.max(0, state.remainingMs - dt);
+        if (state.remainingMs <= 0) {
+          stopLoop();
+          beep(523, 0.12);
+          setTimeout(() => beep(784, 0.25), 140);
+          renderClock();
+          return;
+        }
+        if (state.remainingMs <= 3000 && state.remainingMs + dt > 3000) beep(660, 0.1);
+      } else if (state.mode === "emom") {
+        const prevRound = state.emomRound;
+        state.elapsedMs += dt;
+        state.emomRound = Math.floor(state.elapsedMs / 60000) + 1;
+        if (state.emomRound !== prevRound) beep(700, 0.15);
+      }
+
+      renderClock();
+      state.raf = requestAnimationFrame(tick);
+    }
+
+    function start() {
+      if (state.running) {
+        stopLoop();
+        return;
+      }
+      state.running = true;
+      state.lastTick = performance.now();
+      renderTimerChrome();
+      beep(520, 0.08);
+      state.raf = requestAnimationFrame(tick);
+    }
+
+    function resetTimer() {
+      stopLoop();
+      const p = currentPass();
+      const s = currentSection();
+      if (state.mode === "countdown") {
+        state.remainingMs = (s.timerPreset || p.defaultCountdown) * 1000;
+      }
+      state.elapsedMs = 0;
+      state.emomRound = 1;
+      renderClock();
+      renderTimerChrome();
+    }
+
+    function setMode(mode) {
+      stopLoop();
+      state.mode = mode;
+      state.elapsedMs = 0;
+      state.emomRound = 1;
+      if (mode === "countdown") {
+        const s = currentSection();
+        state.remainingMs = (s.timerPreset || currentPass().defaultCountdown) * 1000;
+      }
+      renderClock();
+      renderTimerChrome();
+    }
+
+    function selectSection(i) {
+      state.sectionIndex = i;
+      const s = currentSection();
+      if (!state.running && state.mode === "countdown" && s.timerPreset) {
+        state.remainingMs = s.timerPreset * 1000;
+      }
+      renderSectionNav();
+      renderSection();
+      renderClock();
+    }
+
+    function selectPass(i) {
+      stopLoop();
+      state.passIndex = i;
+      state.sectionIndex = 0;
+      state.mode = "countdown";
+      state.remainingMs = currentPass().defaultCountdown * 1000;
+      state.elapsedMs = 0;
+      renderPassSelect();
+      renderHeader();
+      renderSectionNav();
+      renderSection();
+      renderClock();
+      renderTimerChrome();
+    }
+
+    el.passSelect.addEventListener("change", (e) => selectPass(Number(e.target.value)));
+    el.sectionNav.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-i]");
+      if (!btn) return;
+      selectSection(Number(btn.dataset.i));
+    });
+    el.btnPrev.addEventListener("click", () => {
+      if (state.sectionIndex > 0) selectSection(state.sectionIndex - 1);
+    });
+    el.btnNext.addEventListener("click", () => {
+      if (state.sectionIndex < currentPass().sections.length - 1) {
+        selectSection(state.sectionIndex + 1);
+      }
+    });
+    el.btnStart.addEventListener("click", start);
+    el.btnReset.addEventListener("click", resetTimer);
+    el.btnBeep.addEventListener("click", () => {
+      state.sound = !state.sound;
+      renderTimerChrome();
+      if (state.sound) beep(600, 0.08);
+    });
+    el.timerModes.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-mode]");
+      if (!btn) return;
+      setMode(btn.dataset.mode);
+    });
+    el.presets.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-sec], button[data-adj]");
+      if (!btn || btn.disabled) return;
+      if (btn.dataset.adj != null) {
+        state.remainingMs = Math.max(0, state.remainingMs + Number(btn.dataset.adj) * 1000);
+      } else {
+        state.remainingMs = Number(btn.dataset.sec) * 1000;
+        stopLoop();
+      }
+      renderClock();
+    });
+
+    // Keep screen awake hint via NoSleep-like wake lock when supported
+    async function tryWakeLock() {
+      try {
+        if ("wakeLock" in navigator) {
+          await navigator.wakeLock.request("screen");
+        }
+      } catch (_) {}
+    }
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && state.running) tryWakeLock();
+    });
+    el.btnStart.addEventListener("click", () => {
+      if (state.running) tryWakeLock();
+    });
+
+    selectPass(0);
+  </script>
+</body>
+</html>

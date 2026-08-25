@@ -2,17 +2,17 @@
 
 ## 1) Snabbstatus
 
-- Senast uppdaterad: 2026-05-29
+- Senast uppdaterad: 2026-08-25
 - Övergripande mål: Bygga ett textbaserat system i Markdown för att planera, logga och coacha CrossFit-träning.
-- Nuvarande läge: Block 1 (#001–#004) genomfört och loggat. Block 2 (#005–#008) planerat.
+- Nuvarande läge: Block 2 pågår (#005–#006 genomförda, #007 planerat). Workout-GUI tillagt.
 - Nästa steg:
-  - Kör pass #005 (2026-05-29) och logga vikter/score.
+  - Kör pass #007 via `workout-gui/index.html` och logga resultat.
   - Fortsätt block 2 enligt `docs/wod-library.md` och `docs/training-log.md`.
 
 ## 2) Miljö och kontext
 
 - Repo: `crossfit`
-- Format: Endast `.md` (ingen kod just nu)
+- Format: Primärt `.md` + enkel HTML i `workout-gui/`
 - Träningsfokus: Teknik och styrka framför flås
 - Frekvens: 1 pass/vecka i nuläget
 - Fokusområde: Olympiska lyft (clean/snatch)
@@ -44,6 +44,12 @@
 - Block 1 avslutat (pass #001–#004) med tydlig progression i pacing och styrka.
 - Nytt 4-pass-block (#005–#008) tillagt i `docs/wod-library.md` och `docs/training-log.md`.
 - Pass #005 (Clean Day) redo att köras idag; små viktökningar från block 1 (HPC/FS/PC förslag 35/45 kg).
+
+### 2026-08-25 - Workout GUI
+
+- Skapat `workout-gui/`: väljare + telefon-GUI + tavla-GUI (landscape chalk).
+- Syfte: läsbarhet under träning (svårt att följa hela `.md`-loggen live).
+- `AGENTS.md` uppdaterad: markdown är fortfarande källa till sanning; GUI speglar passdata.
 
 ## 4) Planerade ändringar / roadmap
 
