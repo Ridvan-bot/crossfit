@@ -1,9 +1,65 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
+import { FitToBox } from "@/components/FitToBox";
 import { WorkoutTimer } from "@/components/WorkoutTimer";
 import type { WorkoutSection } from "@/lib/types";
+
+const DEFAULT_BOARD_FRAC = 0.575;
+const MIN_BOARD_FRAC = 0.32;
+const MAX_BOARD_FRAC = 0.78;
+
+function clamp(n: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, n));
+}
+
+/** Hide right/bottom timer panel */
+function CollapseTimerIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M15 4v16" />
+      <path d="M11 9l3 3-3 3" />
+    </svg>
+  );
+}
+
+/** Show timer panel again */
+function ExpandTimerIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M15 4v16" />
+      <path d="M14 9l-3 3 3 3" />
+    </svg>
+  );
+}
 
 export function BoardPlayer({
   workoutId,
@@ -19,13 +75,97 @@ export function BoardPlayer({
     sections.findIndex((s) => s.kind === "metcon")
   );
   const [index, setIndex] = useState(metconIndex === -1 ? 0 : metconIndex);
+  const [timerOpen, setTimerOpen] = useState(true);
+  const [boardFrac, setBoardFrac] = useState(DEFAULT_BOARD_FRAC);
+  const [dragging, setDragging] = useState(false);
+  const layoutRef = useRef<HTMLDivElement>(null);
+  const draggingRef = useRef(false);
+
   const section = sections[index];
   const timerSec = useMemo(
     () => section?.timer_preset_sec ?? 600,
     [section?.timer_preset_sec]
   );
 
+  const updateFracFromPointer = useCallback((clientX: number, clientY: number) => {
+    const el = layoutRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.width < 8 || rect.height < 8) return;
+    const horizontal = rect.width >= rect.height;
+    const raw = horizontal
+      ? (clientX - rect.left) / rect.width
+      : (clientY - rect.top) / rect.height;
+    setBoardFrac(clamp(raw, MIN_BOARD_FRAC, MAX_BOARD_FRAC));
+  }, []);
+
+  const endDrag = useCallback(() => {
+    draggingRef.current = false;
+    setDragging(false);
+  }, []);
+
+  useEffect(() => {
+    if (!dragging) return;
+    const onMove = (e: PointerEvent) => {
+      if (!draggingRef.current) return;
+      updateFracFromPointer(e.clientX, e.clientY);
+    };
+    const onUp = () => endDrag();
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+    };
+  }, [dragging, endDrag, updateFracFromPointer]);
+
+  useEffect(() => {
+    if (!dragging) return;
+    const prev = document.body.style.cursor;
+    const prevSelect = document.body.style.userSelect;
+    const el = layoutRef.current;
+    const horizontal = el
+      ? el.getBoundingClientRect().width >= el.getBoundingClientRect().height
+      : true;
+    document.body.style.cursor = horizontal ? "col-resize" : "row-resize";
+    document.body.style.userSelect = "none";
+    return () => {
+      document.body.style.cursor = prev;
+      document.body.style.userSelect = prevSelect;
+    };
+  }, [dragging]);
+
+  const onDividerPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    draggingRef.current = true;
+    setDragging(true);
+    updateFracFromPointer(e.clientX, e.clientY);
+  };
+
   if (!section) return null;
+
+  const moveCount = section.section_movements.length;
+  const maxPx = !timerOpen
+    ? moveCount <= 1
+      ? 140
+      : moveCount <= 2
+        ? 120
+        : moveCount <= 3
+          ? 100
+          : 88
+    : moveCount <= 1
+      ? 120
+      : moveCount <= 2
+        ? 100
+        : moveCount <= 3
+          ? 84
+          : 72;
+
+  const boardFlex = timerOpen ? boardFrac : 1;
+  const timerFlex = timerOpen ? 1 - boardFrac : 0;
 
   return (
     <div className="fixed inset-0 border-[10px] border-[#2a2a2a] bg-[#0c0c0c] text-[#f4f1ea]">
@@ -36,41 +176,44 @@ export function BoardPlayer({
             "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E\")",
         }}
       />
-      <div className="relative z-10 grid h-full grid-cols-1 gap-0 landscape:grid-cols-[1.15fr_0.85fr]">
-        <div className="flex h-full min-h-0 flex-col border-b border-white/20 p-4 landscape:border-b-0 landscape:border-r landscape:pr-6">
-          <div className="mb-2 flex items-center justify-between gap-3">
+      <div
+        ref={layoutRef}
+        className={`relative z-10 flex h-full min-h-0 ${
+          timerOpen ? "flex-col landscape:flex-row" : "flex-col"
+        }`}
+      >
+        <div
+          className="flex min-h-0 min-w-0 flex-col p-3 landscape:p-4"
+          style={{ flex: `${boardFlex} 1 0%` }}
+        >
+          <div className="mb-1 flex shrink-0 items-center justify-between gap-3">
             <Link
-              href={`/workouts/${workoutId}`}
-              className="font-[family-name:var(--font-amatic)] text-lg tracking-widest text-white/50"
+              href="/"
+              className="font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/55 hover:text-white"
             >
-              ← VÄLJ GUI
+              ← DASHBOARD
             </Link>
-            <span className="font-[family-name:var(--font-amatic)] text-xl tracking-wider">
+            <span className="font-[family-name:var(--font-amatic)] text-2xl tracking-wider">
               {title}
             </span>
+            <Link
+              href={`/workouts/${workoutId}/phone`}
+              className="font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/55 hover:text-white"
+            >
+              TELEFON
+            </Link>
           </div>
 
-          <div className="text-center">
-            <h1 className="font-[family-name:var(--font-amatic)] text-[clamp(2.8rem,9vh,5.5rem)] font-bold tracking-[0.2em]">
-              WOD
-            </h1>
-            <div className="mx-auto mt-1 h-[3px] w-[28%] -rotate-[0.4deg] bg-white/85" />
-          </div>
-
-          <p className="mt-3 text-center font-[family-name:var(--font-amatic)] text-[clamp(1.4rem,4vh,2.4rem)] font-bold tracking-widest">
-            <span className="border-b border-white/30 pb-1">
-              {section.format_label ?? section.label.toUpperCase()}
-            </span>
-          </p>
-
-          <nav className="mt-3 flex flex-wrap justify-center gap-2">
+          <nav className="mb-2 flex shrink-0 flex-wrap justify-center gap-4">
             {sections.map((s, i) => (
               <button
                 key={s.id}
                 type="button"
                 onClick={() => setIndex(i)}
-                className={`font-[family-name:var(--font-amatic)] text-lg tracking-wider ${
-                  i === index ? "border border-white/40 border-b-white px-2 text-white" : "px-2 text-white/45"
+                className={`font-[family-name:var(--font-amatic)] text-[clamp(1.75rem,3.5vh,2.75rem)] tracking-wider ${
+                  i === index
+                    ? "border border-white/40 border-b-white px-3 text-white"
+                    : "px-3 text-white/45"
                 }`}
               >
                 {s.label.toUpperCase()}
@@ -78,39 +221,123 @@ export function BoardPlayer({
             ))}
           </nav>
 
-          <div className="flex flex-1 flex-col items-center justify-center gap-3 overflow-hidden px-2">
-            {section.section_movements.map((m) => (
-              <div key={m.id} className="w-full text-center">
-                <div className="font-[family-name:var(--font-amatic)] text-[clamp(1.6rem,5vh,3.2rem)] font-bold uppercase tracking-wider leading-none">
-                  {m.name}
-                </div>
-                <div className="font-[family-name:var(--font-caveat)] text-[clamp(1.2rem,3vh,2rem)]">
-                  {m.detail}
-                  {m.suggested_weight_kg != null ? ` (${m.suggested_weight_kg} kg)` : ""}
-                </div>
+          <FitToBox
+            className="px-3"
+            minPx={22}
+            maxPx={maxPx}
+            deps={[
+              section.id,
+              moveCount,
+              section.format_label,
+              section.coaching_tip,
+              timerOpen,
+            ]}
+          >
+            <div className="flex w-full flex-col items-center gap-[0.4em] text-center">
+              <div>
+                <h1 className="font-[family-name:var(--font-amatic)] text-[3.2em] font-bold leading-none tracking-[0.18em]">
+                  WOD
+                </h1>
+                <div className="mx-auto mt-[0.1em] h-[0.07em] w-[30%] -rotate-[0.4deg] bg-white/85" />
               </div>
-            ))}
-          </div>
 
-          {section.coaching_tip ? (
-            <p className="text-center font-[family-name:var(--font-caveat)] text-lg text-white/55">
-              {section.coaching_tip}
-            </p>
-          ) : null}
+              <p className="max-w-full px-[0.2em] text-balance font-[family-name:var(--font-amatic)] text-[1.45em] font-bold leading-tight tracking-wide">
+                <span className="border-b border-white/30 pb-[0.06em]">
+                  {section.format_label ?? section.label.toUpperCase()}
+                </span>
+              </p>
 
-          <p className="mt-auto pt-2 text-center font-[family-name:var(--font-amatic)] text-2xl font-bold tracking-[0.22em]">
+              <div
+                className="flex w-full flex-col items-center"
+                style={{
+                  gap:
+                    moveCount <= 2
+                      ? "0.65em"
+                      : moveCount <= 3
+                        ? "0.45em"
+                        : "0.3em",
+                }}
+              >
+                {section.section_movements.map((m) => (
+                  <div key={m.id} className="w-full px-1">
+                    <div className="font-[family-name:var(--font-amatic)] text-[2.4em] font-bold uppercase leading-[0.95] tracking-wider">
+                      {m.name}
+                    </div>
+                    <div className="mt-[0.12em] font-[family-name:var(--font-caveat)] text-[1.35em] leading-tight">
+                      {m.detail}
+                      {m.suggested_weight_kg != null
+                        ? ` (${m.suggested_weight_kg} kg)`
+                        : ""}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {section.coaching_tip ? (
+                <p className="max-w-[32ch] font-[family-name:var(--font-caveat)] text-[1em] leading-snug text-white/65">
+                  {section.coaching_tip}
+                </p>
+              ) : null}
+            </div>
+          </FitToBox>
+
+          <p className="shrink-0 pt-1 text-center font-[family-name:var(--font-amatic)] text-3xl font-bold tracking-[0.22em]">
             YOU VS YOU
           </p>
         </div>
 
-        <div className="flex h-full flex-col items-center justify-between gap-3 p-4 landscape:pl-6">
-          <WorkoutTimer key={`${section.id}-${timerSec}`} initialSeconds={timerSec} variant="board" />
-          <Link
-            href={`/workouts/${workoutId}/phone`}
-            className="font-[family-name:var(--font-amatic)] text-lg tracking-widest text-white/45"
+        {timerOpen ? (
+          <div
+            role="separator"
+            aria-orientation="vertical"
+            aria-valuenow={Math.round(boardFrac * 100)}
+            aria-valuemin={Math.round(MIN_BOARD_FRAC * 100)}
+            aria-valuemax={Math.round(MAX_BOARD_FRAC * 100)}
+            aria-label="Justera storlek mellan tavla och timer"
+            onPointerDown={onDividerPointerDown}
+            className={`relative z-20 flex shrink-0 touch-none items-center justify-center ${
+              dragging ? "bg-white/15" : "hover:bg-white/10"
+            } h-4 w-full cursor-row-resize landscape:h-full landscape:w-3 landscape:cursor-col-resize`}
           >
-            TELEFON-VY
-          </Link>
+            <div
+              className="pointer-events-none absolute inset-x-6 top-1/2 h-px -translate-y-1/2 bg-white/25 landscape:inset-x-auto landscape:inset-y-8 landscape:left-1/2 landscape:h-auto landscape:w-px landscape:translate-x-[-50%] landscape:translate-y-0"
+              aria-hidden
+            />
+            <button
+              type="button"
+              title="Dölj timer"
+              aria-label="Dölj timer"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={() => setTimerOpen(false)}
+              className="relative z-10 flex size-9 items-center justify-center rounded-full border border-white/35 bg-[#161616] text-white/75 shadow-[0_0_0_4px_#0c0c0c] transition hover:border-white/60 hover:bg-[#1e1e1e] hover:text-white active:scale-95"
+            >
+              <CollapseTimerIcon className="size-5 landscape:block portrait:rotate-90" />
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            title="Visa timer"
+            aria-label="Visa timer"
+            onClick={() => setTimerOpen(true)}
+            className="absolute bottom-3 right-3 z-30 flex size-10 items-center justify-center rounded-full border border-white/35 bg-[#161616] text-white/80 shadow-lg transition hover:border-white/60 hover:bg-[#1e1e1e] hover:text-white landscape:bottom-auto landscape:top-1/2 landscape:right-2 landscape:-translate-y-1/2"
+          >
+            <ExpandTimerIcon className="size-5" />
+          </button>
+        )}
+
+        <div
+          className={`min-h-0 min-w-0 flex-col p-3 landscape:p-4 ${
+            timerOpen ? "flex" : "hidden"
+          }`}
+          style={{ flex: `${timerFlex} 1 0%` }}
+          aria-hidden={!timerOpen}
+        >
+          <WorkoutTimer
+            key={`${section.id}-${timerSec}`}
+            initialSeconds={timerSec}
+            variant="board"
+          />
         </div>
       </div>
     </div>

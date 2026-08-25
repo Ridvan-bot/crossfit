@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { FitToBox } from "@/components/FitToBox";
 
 type Mode = "countdown" | "stopwatch" | "emom";
 
@@ -34,7 +35,10 @@ export function WorkoutTimer({ initialSeconds = 600, variant = "phone" }: Props)
     (freq = 880, dur = 0.18) => {
       if (!sound) return;
       try {
-        const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        const Ctx =
+          window.AudioContext ||
+          (window as unknown as { webkitAudioContext: typeof AudioContext })
+            .webkitAudioContext;
         const ctx = new Ctx();
         const o = ctx.createOscillator();
         const g = ctx.createGain();
@@ -137,9 +141,13 @@ export function WorkoutTimer({ initialSeconds = 600, variant = "phone" }: Props)
 
   const board = variant === "board";
 
-  return (
-    <div className={board ? "flex w-full flex-col items-center gap-3" : "flex flex-col gap-3"}>
-      <div className={`flex flex-wrap justify-center gap-2 ${board ? "font-[family-name:var(--font-amatic)]" : ""}`}>
+  const controls = (
+    <>
+      <div
+        className={`flex flex-wrap justify-center gap-[0.35em] ${
+          board ? "font-[family-name:var(--font-amatic)]" : ""
+        }`}
+      >
         {(
           [
             ["countdown", board ? "NEDRÄKNING" : "Nedräkning"],
@@ -153,8 +161,14 @@ export function WorkoutTimer({ initialSeconds = 600, variant = "phone" }: Props)
             onClick={() => setModeAndReset(m)}
             className={
               board
-                ? `border-2 px-3 py-1 text-xl tracking-wider ${mode === m ? "border-white" : "border-white/30"}`
-                : `rounded-lg border px-3 py-2 text-sm ${mode === m ? "border-amber-500 text-amber-400" : "border-stone-700"}`
+                ? `border-2 px-[0.45em] py-[0.15em] text-[0.85em] tracking-wider ${
+                    mode === m ? "border-white" : "border-white/30"
+                  }`
+                : `rounded-lg border px-3 py-2 text-sm ${
+                    mode === m
+                      ? "border-amber-500 text-amber-400"
+                      : "border-stone-700"
+                  }`
             }
           >
             {label}
@@ -165,21 +179,37 @@ export function WorkoutTimer({ initialSeconds = 600, variant = "phone" }: Props)
       <div
         className={
           board
-            ? `font-[family-name:var(--font-amatic)] text-[clamp(5rem,22vh,11rem)] font-bold leading-none tracking-wide ${warn ? "text-amber-200" : ""} ${done ? "text-red-300" : ""}`
-            : `text-center font-[family-name:var(--font-barlow)] text-6xl font-extrabold tabular-nums ${warn ? "text-amber-400" : ""} ${done ? "text-red-400" : ""}`
+            ? `font-[family-name:var(--font-amatic)] text-[4.2em] font-bold leading-none tracking-wide tabular-nums ${
+                warn ? "text-amber-200" : ""
+              } ${done ? "text-red-300" : ""}`
+            : `text-center font-[family-name:var(--font-barlow)] text-6xl font-extrabold tabular-nums ${
+                warn ? "text-amber-400" : ""
+              } ${done ? "text-red-400" : ""}`
         }
       >
         {formatMs(display)}
       </div>
 
       {mode === "emom" ? (
-        <p className={board ? "font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/60" : "text-center text-sm text-stone-400"}>
+        <p
+          className={
+            board
+              ? "font-[family-name:var(--font-amatic)] text-[0.9em] tracking-widest text-white/60"
+              : "text-center text-sm text-stone-400"
+          }
+        >
           Runda {emomRound}
         </p>
       ) : null}
 
       {mode === "countdown" ? (
-        <div className={`flex flex-wrap justify-center gap-2 ${board ? "font-[family-name:var(--font-amatic)] text-xl" : "text-sm"}`}>
+        <div
+          className={`flex flex-wrap justify-center gap-[0.3em] ${
+            board
+              ? "font-[family-name:var(--font-amatic)] text-[0.85em]"
+              : "text-sm"
+          }`}
+        >
           {[
             [300, "5:00"],
             [480, "8:00"],
@@ -192,7 +222,11 @@ export function WorkoutTimer({ initialSeconds = 600, variant = "phone" }: Props)
                 stopLoop();
                 setRemainingMs(Number(sec) * 1000);
               }}
-              className={board ? "border-2 border-white/30 px-3 py-1" : "rounded-lg border border-stone-700 px-3 py-2"}
+              className={
+                board
+                  ? "border-2 border-white/30 px-[0.4em] py-[0.12em]"
+                  : "rounded-lg border border-stone-700 px-3 py-2"
+              }
             >
               {label}
             </button>
@@ -200,21 +234,33 @@ export function WorkoutTimer({ initialSeconds = 600, variant = "phone" }: Props)
           <button
             type="button"
             onClick={() => setRemainingMs((v) => Math.max(0, v - 60000))}
-            className={board ? "border-2 border-white/30 px-3 py-1" : "rounded-lg border border-stone-700 px-3 py-2"}
+            className={
+              board
+                ? "border-2 border-white/30 px-[0.4em] py-[0.12em]"
+                : "rounded-lg border border-stone-700 px-3 py-2"
+            }
           >
             −1
           </button>
           <button
             type="button"
             onClick={() => setRemainingMs((v) => v + 60000)}
-            className={board ? "border-2 border-white/30 px-3 py-1" : "rounded-lg border border-stone-700 px-3 py-2"}
+            className={
+              board
+                ? "border-2 border-white/30 px-[0.4em] py-[0.12em]"
+                : "rounded-lg border border-stone-700 px-3 py-2"
+            }
           >
             +1
           </button>
         </div>
       ) : null}
 
-      <div className={`grid w-full max-w-md grid-cols-3 gap-2 ${board ? "font-[family-name:var(--font-amatic)]" : ""}`}>
+      <div
+        className={`grid w-full grid-cols-3 gap-[0.3em] ${
+          board ? "font-[family-name:var(--font-amatic)]" : "max-w-md"
+        }`}
+      >
         <button
           type="button"
           onClick={() => {
@@ -227,8 +273,12 @@ export function WorkoutTimer({ initialSeconds = 600, variant = "phone" }: Props)
           }}
           className={
             board
-              ? "border-2 border-white py-3 text-2xl tracking-wider"
-              : `rounded-lg py-3 font-bold ${running ? "bg-red-500 text-stone-950" : "bg-emerald-500 text-stone-950"}`
+              ? "border-2 border-white py-[0.35em] text-[1.05em] tracking-wider"
+              : `rounded-lg py-3 font-bold ${
+                  running
+                    ? "bg-red-500 text-stone-950"
+                    : "bg-emerald-500 text-stone-950"
+                }`
           }
         >
           {running ? (board ? "PAUS" : "Paus") : board ? "START" : "Start"}
@@ -236,7 +286,11 @@ export function WorkoutTimer({ initialSeconds = 600, variant = "phone" }: Props)
         <button
           type="button"
           onClick={reset}
-          className={board ? "border-2 border-white/40 py-3 text-2xl" : "rounded-lg border border-stone-700 py-3"}
+          className={
+            board
+              ? "border-2 border-white/40 py-[0.35em] text-[1.05em]"
+              : "rounded-lg border border-stone-700 py-3"
+          }
         >
           {board ? "RESET" : "Nollställ"}
         </button>
@@ -245,11 +299,38 @@ export function WorkoutTimer({ initialSeconds = 600, variant = "phone" }: Props)
           onClick={() => {
             setSound((s) => !s);
           }}
-          className={board ? "border-2 border-white/40 py-3 text-2xl" : "rounded-lg border border-stone-700 py-3"}
+          className={
+            board
+              ? "border-2 border-white/40 py-[0.35em] text-[1.05em]"
+              : "rounded-lg border border-stone-700 py-3"
+          }
         >
-          {sound ? (board ? "LJUD PÅ" : "Ljud på") : board ? "LJUD AV" : "Ljud av"}
+          {sound
+            ? board
+              ? "LJUD PÅ"
+              : "Ljud på"
+            : board
+              ? "LJUD AV"
+              : "Ljud av"}
         </button>
       </div>
-    </div>
+    </>
   );
+
+  if (board) {
+    return (
+      <FitToBox
+        className="h-full w-full px-2"
+        minPx={28}
+        maxPx={88}
+        deps={[mode, initialSeconds]}
+      >
+        <div className="flex w-full flex-col items-center gap-[0.45em]">
+          {controls}
+        </div>
+      </FitToBox>
+    );
+  }
+
+  return <div className="flex flex-col gap-3">{controls}</div>;
 }
