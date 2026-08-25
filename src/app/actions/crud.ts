@@ -245,6 +245,165 @@ export async function updateSection(formData: FormData) {
   revalidatePath(`/workouts/${workoutId}`);
 }
 
+export type BoardSaveResult = { ok: true } | { ok: false; message: string };
+
+function isTempId(id: string) {
+  return id.startsWith("temp-");
+}
+
+/** Spara hela tavlans utkast: sektioner + rörelser (lägg till / uppdatera / radera). */
+export async function saveBoardEdit(input: {
+  workoutId: string;
+  deletedSectionIds: string[];
+  sections: {
+    id: string;
+    label: string;
+    format_label: string | null;
+    coaching_tip: string | null;
+    kind: string;
+    sort_order: number;
+    movements: {
+      id: string;
+      name: string;
+      detail: string | null;
+      suggested_weight_kg: number | null;
+      sort_order: number;
+    }[];
+  }[];
+}): Promise<BoardSaveResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, message: "Inte inloggad." };
+
+  const { data: owned } = await supabase
+    .from("workouts")
+    .select("id")
+    .eq("id", input.workoutId)
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (!owned) return { ok: false, message: "Passet hittades inte." };
+
+  for (const sectionId of input.deletedSectionIds) {
+    if (isTempId(sectionId)) continue;
+    const { error } = await supabase
+      .from("workout_sections")
+      .delete()
+      .eq("id", sectionId)
+      .eq("workout_id", input.workoutId);
+    if (error) return { ok: false, message: error.message };
+  }
+
+  const allowedKinds = ["warmup", "technique", "strength", "metcon", "other"];
+
+  for (const sec of input.sections) {
+    const kind = allowedKinds.includes(sec.kind) ? sec.kind : "other";
+    const label = sec.label.trim() || "Del";
+    const format_label = sec.format_label?.trim() || null;
+    const coaching_tip = sec.coaching_tip?.trim() || null;
+    let sectionId = sec.id;
+
+    if (isTempId(sec.id)) {
+      const { data: inserted, error } = await supabase
+        .from("workout_sections")
+        .insert({
+          workout_id: input.workoutId,
+          kind,
+          sort_order: sec.sort_order,
+          label,
+          format_label: format_label ?? label.toUpperCase(),
+          coaching_tip,
+          timer_preset_sec: kind === "metcon" ? 600 : null,
+        })
+        .select("id")
+        .single();
+      if (error || !inserted) {
+        return { ok: false, message: error?.message ?? "Kunde inte skapa del." };
+      }
+      sectionId = inserted.id;
+    } else {
+      const { error } = await supabase
+        .from("workout_sections")
+        .update({
+          label,
+          format_label,
+          coaching_tip,
+          kind,
+          sort_order: sec.sort_order,
+        })
+        .eq("id", sectionId)
+        .eq("workout_id", input.workoutId);
+      if (error) return { ok: false, message: error.message };
+    }
+
+    const { data: existingMoves, error: listErr } = await supabase
+      .from("section_movements")
+      .select("id")
+      .eq("section_id", sectionId);
+    if (listErr) return { ok: false, message: listErr.message };
+
+    const keptIds = new Set(
+      sec.movements.filter((m) => !isTempId(m.id)).map((m) => m.id)
+    );
+    for (const row of existingMoves ?? []) {
+      if (!keptIds.has(row.id)) {
+        const { error } = await supabase
+          .from("section_movements")
+          .delete()
+          .eq("id", row.id)
+          .eq("section_id", sectionId);
+        if (error) return { ok: false, message: error.message };
+      }
+    }
+
+    for (const m of sec.movements) {
+      const name = m.name.trim();
+      if (!name) {
+        if (!isTempId(m.id)) {
+          const { error } = await supabase
+            .from("section_movements")
+            .delete()
+            .eq("id", m.id)
+            .eq("section_id", sectionId);
+          if (error) return { ok: false, message: error.message };
+        }
+        continue;
+      }
+
+      const payload = {
+        name,
+        detail: m.detail?.trim() || null,
+        suggested_weight_kg:
+          m.suggested_weight_kg != null && !Number.isNaN(m.suggested_weight_kg)
+            ? m.suggested_weight_kg
+            : null,
+        sort_order: m.sort_order,
+      };
+
+      if (isTempId(m.id)) {
+        const { error } = await supabase.from("section_movements").insert({
+          section_id: sectionId,
+          ...payload,
+        });
+        if (error) return { ok: false, message: error.message };
+      } else {
+        const { error } = await supabase
+          .from("section_movements")
+          .update(payload)
+          .eq("id", m.id)
+          .eq("section_id", sectionId);
+        if (error) return { ok: false, message: error.message };
+      }
+    }
+  }
+
+  revalidatePath(`/workouts/${input.workoutId}`);
+  revalidatePath(`/workouts/${input.workoutId}/board`);
+  revalidatePath(`/workouts/${input.workoutId}/phone`);
+  return { ok: true };
+}
+
 export async function addSection(formData: FormData) {
   const supabase = await createClient();
   const {

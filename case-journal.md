@@ -4,7 +4,7 @@
 
 - Senast uppdaterad: 2026-08-25
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
-- Nuvarande läge: Utrustning i profil; WOD byggs med sökbara CrossFit-rörelser. Schema uppdaterat (`profiles.equipment`).
+- Nuvarande läge: Utrustning i profil; WOD byggs med sökbara CrossFit-rörelser. Tavla har inline-redigering av WOD.
 - Nästa steg:
   - I Vercel: koppla GitHub-repot `Ridvan-bot/crossfit`, lägg env-variabler, deploy.
   - Fyll i utrustning under Profil.
@@ -20,6 +20,13 @@
 - Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep (sätts i appen under Profil)
 
 ## 3) Genomfört
+
+### 2026-08-25 - Redigera WOD på tavla
+
+- Edit-knapp uppe till höger på tavlan → redigeringsläge.
+- Delnamn, format, rörelser, reps/detalj, vikt (kg) och coaching-tip är editerbara.
+- Lägg till / ta bort rörelser och delar direkt på tavlan.
+- SPARA via `saveBoardEdit` (Supabase); AVBRYT återställer utkast.
 
 ### 2026-08-25 - Profil-utrustning + rörelseväljare
 
