@@ -39,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="sv">
       <body
-        className={`${plex.variable} ${barlow.variable} ${amatic.variable} ${caveat.variable} min-h-dvh bg-stone-950 font-sans text-stone-100 antialiased`}
+        className={`${plex.variable} ${barlow.variable} ${amatic.variable} ${caveat.variable} min-h-dvh font-sans text-stone-100 antialiased`}
       >
         {children}
       </body>

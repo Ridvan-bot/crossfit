@@ -8,7 +8,9 @@ import {
   useRef,
   useState,
   type PointerEvent as ReactPointerEvent,
+  type ReactNode,
 } from "react";
+import { createPortal } from "react-dom";
 import { FitToBox } from "@/components/FitToBox";
 import {
   LogSessionSheet,
@@ -23,6 +25,33 @@ const MAX_BOARD_FRAC = 0.78;
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
+}
+
+/** Render tavlan utanför app-layout så global UI-CSS inte påverkar. */
+function BoardPortal({ children }: { children: ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const html = document.documentElement;
+    const body = document.body;
+    html.dataset.board = "true";
+    const prevBackground = body.style.background;
+    const prevBackgroundImage = body.style.backgroundImage;
+    const prevColor = body.style.color;
+    body.style.background = "#0c0c0c";
+    body.style.backgroundImage = "none";
+    body.style.color = "#f4f1ea";
+    return () => {
+      delete html.dataset.board;
+      body.style.background = prevBackground;
+      body.style.backgroundImage = prevBackgroundImage;
+      body.style.color = prevColor;
+    };
+  }, []);
+
+  if (!mounted) return null;
+  return createPortal(children, document.body);
 }
 
 /** Hide right/bottom timer panel */
@@ -156,17 +185,19 @@ export function BoardPlayer({
 
   if (!section) {
     return (
-      <div className="fixed inset-0 flex flex-col items-center justify-center gap-4 bg-[#0c0c0c] p-6 text-[#f4f1ea]">
-        <p className="font-[family-name:var(--font-amatic)] text-3xl tracking-wider text-white/70">
-          Inga delar i passet ännu
-        </p>
-        <Link
-          href={`/workouts/${workoutId}`}
-          className="font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/55 hover:text-white"
-        >
-          ← TILL PASSET
-        </Link>
-      </div>
+      <BoardPortal>
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-4 bg-[#0c0c0c] p-6 text-[#f4f1ea]">
+          <p className="font-[family-name:var(--font-amatic)] text-3xl tracking-wider text-white/70">
+            Inga delar i passet ännu
+          </p>
+          <Link
+            href={`/workouts/${workoutId}`}
+            className="font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/55 hover:text-white"
+          >
+            ← TILL PASSET
+          </Link>
+        </div>
+      </BoardPortal>
     );
   }
 
@@ -191,7 +222,8 @@ export function BoardPlayer({
   const timerFlex = timerOpen ? 1 - boardFrac : 0;
 
   return (
-    <div className="fixed inset-0 border-[10px] border-[#2a2a2a] bg-[#0c0c0c] text-[#f4f1ea]">
+    <BoardPortal>
+    <div className="fixed inset-0 z-[9999] border-[10px] border-[#2a2a2a] bg-[#0c0c0c] text-[#f4f1ea] [font-family:var(--font-amatic),cursive]">
       <div
         className="pointer-events-none absolute inset-0 opacity-40 mix-blend-soft-light"
         style={{
@@ -391,5 +423,6 @@ export function BoardPlayer({
         variant="board"
       />
     </div>
+    </BoardPortal>
   );
 }

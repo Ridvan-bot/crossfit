@@ -21,34 +21,26 @@ export default async function WorkoutsPage() {
   return (
     <>
       <AppNav />
-      <main className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="font-[family-name:var(--font-barlow)] text-4xl font-extrabold uppercase">
-              Pass
-            </h1>
-            <p className="text-stone-400">
-              Skapa WOD med rörelser. Utrustning ställer du in under{" "}
-              <Link href="/profile" className="text-amber-400 hover:underline">
-                Profil
-              </Link>
-              .
-            </p>
-          </div>
-        </div>
+      <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
+        <header>
+          <p className="ui-eyebrow">Programmera</p>
+          <h1 className="ui-title mt-1 text-4xl sm:text-5xl">Pass</h1>
+          <p className="mt-2 text-stone-400">
+            Skapa WOD med rörelser. Utrustning ställer du in under{" "}
+            <Link href="/profile" className="ui-link">
+              Profil
+            </Link>
+            .
+          </p>
+        </header>
 
-        <form
-          action={createWorkout}
-          className="grid gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-4 md:grid-cols-2"
-        >
-          <h2 className="md:col-span-2 text-sm font-semibold uppercase tracking-wider text-amber-500">
-            Nytt pass
-          </h2>
+        <form action={createWorkout} className="ui-card grid gap-3 p-5 md:grid-cols-2">
+          <h2 className="ui-eyebrow md:col-span-2">Nytt pass</h2>
           <input
             name="title"
             required
             placeholder={`Titel (t.ex. Pass #${String(nextPassNumber).padStart(3, "0")})`}
-            className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
+            className="ui-input"
           />
           <div>
             <input
@@ -56,70 +48,54 @@ export default async function WorkoutsPage() {
               type="number"
               min={1}
               placeholder={`Auto → #${nextPassNumber}`}
-              className="w-full rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
+              className="ui-input"
             />
-            <p className="mt-1 text-xs text-stone-500">
+            <p className="mt-1.5 text-xs text-stone-500">
               Lämna tomt så sätts passnummer till {nextPassNumber} automatiskt.
             </p>
           </div>
           <textarea
             name="notes"
             placeholder="Anteckningar"
-            className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
+            className="ui-input md:col-span-2"
             rows={2}
           />
-          <fieldset className="md:col-span-2 space-y-2">
-            <legend className="text-sm text-stone-400">Mall för delar</legend>
-            <div className="flex flex-wrap gap-4 text-sm">
-              <label className="inline-flex items-center gap-2">
+          <fieldset className="md:col-span-2 space-y-3 rounded-xl border border-white/5 bg-black/20 p-3">
+            <legend className="px-1 text-sm text-stone-400">Mall för delar</legend>
+            <div className="flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap sm:gap-4">
+              <label className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-white/5">
                 <input
                   type="radio"
                   name="template"
                   value="classic"
                   defaultChecked
-                  className="accent-amber-500"
+                  className="accent-teal-500"
                 />
-                Classic (Warmup · Teknik · Styrka · Metcon)
+                Classic (4 delar)
               </label>
-              <label className="inline-flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="template"
-                  value="metcon"
-                  className="accent-amber-500"
-                />
+              <label className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-white/5">
+                <input type="radio" name="template" value="metcon" className="accent-teal-500" />
                 Bara Metcon
               </label>
-              <label className="inline-flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="template"
-                  value="empty"
-                  className="accent-amber-500"
-                />
-                Tomt (lägg till delar själv)
+              <label className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-white/5">
+                <input type="radio" name="template" value="empty" className="accent-teal-500" />
+                Tomt
               </label>
             </div>
           </fieldset>
-          <button
-            type="submit"
-            className="md:col-span-2 rounded-lg bg-amber-500 py-2 font-semibold text-stone-950"
-          >
+          <button type="submit" className="ui-btn ui-btn-primary md:col-span-2 py-3">
             Skapa pass
           </button>
         </form>
 
-        <ul className="divide-y divide-stone-800 rounded-xl border border-stone-800">
+        <ul className="ui-card divide-y divide-white/5 overflow-hidden">
           {(workouts ?? []).map((w) => (
             <li
               key={w.id}
-              className="flex flex-wrap items-center justify-between gap-3 px-4 py-3"
+              className="flex flex-wrap items-center justify-between gap-3 px-4 py-4 transition hover:bg-teal-500/[0.04]"
             >
               <div>
-                <Link
-                  href={`/workouts/${w.id}`}
-                  className="font-semibold hover:text-amber-400"
-                >
+                <Link href={`/workouts/${w.id}`} className="font-semibold hover:text-teal-300">
                   {w.title}
                   {w.pass_number != null ? (
                     <span className="ml-2 text-sm font-normal text-stone-500">
@@ -127,29 +103,31 @@ export default async function WorkoutsPage() {
                     </span>
                   ) : null}
                 </Link>
-                <p className="text-sm text-stone-500">
-                  {w.status}
+                <p className="mt-0.5 text-sm text-stone-500">
+                  <span
+                    className={
+                      w.status === "done"
+                        ? "text-teal-300/90"
+                        : "text-stone-400"
+                    }
+                  >
+                    {w.status}
+                  </span>
                   {w.scheduled_date ? ` · genomförd ${w.scheduled_date}` : ""}
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <Link
-                  href={`/workouts/${w.id}/phone`}
-                  className="rounded-md bg-stone-800 px-2 py-1 text-sm"
-                >
+                <Link href={`/workouts/${w.id}/phone`} className="ui-btn ui-btn-primary px-3 py-1.5 text-xs">
                   Telefon
                 </Link>
-                <Link
-                  href={`/workouts/${w.id}/board`}
-                  className="rounded-md bg-stone-800 px-2 py-1 text-sm"
-                >
+                <Link href={`/workouts/${w.id}/board`} className="ui-btn ui-btn-ghost px-3 py-1.5 text-xs">
                   Tavla
                 </Link>
                 <form action={deleteWorkout}>
                   <input type="hidden" name="id" value={w.id} />
                   <button
                     type="submit"
-                    className="rounded-md px-2 py-1 text-sm text-red-400 hover:bg-red-950/40"
+                    className="rounded-lg px-3 py-1.5 text-xs text-red-400 hover:bg-red-950/40"
                   >
                     Ta bort
                   </button>
@@ -158,7 +136,7 @@ export default async function WorkoutsPage() {
             </li>
           ))}
           {(workouts ?? []).length === 0 ? (
-            <li className="px-4 py-6 text-stone-500">
+            <li className="px-4 py-8 text-center text-stone-500">
               Inga pass ännu. Skapa ett eller seeda från dashboard.
             </li>
           ) : null}

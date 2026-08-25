@@ -133,7 +133,7 @@ export function LogSessionSheet({
           <div>
             <p
               className={`text-xs font-semibold uppercase tracking-[0.16em] ${
-                isBoard ? "text-white/45" : "text-amber-500"
+                isBoard ? "text-white/45" : "text-teal-500"
               }`}
             >
               Pass klart
@@ -176,7 +176,7 @@ export function LogSessionSheet({
                 className={`flex size-14 items-center justify-center rounded-full border text-2xl ${
                   isBoard
                     ? "border-white/30 text-white"
-                    : "border-amber-500/50 text-amber-400"
+                    : "border-teal-500/50 text-teal-400"
                 }`}
                 aria-hidden
               >
@@ -202,7 +202,7 @@ export function LogSessionSheet({
                   className={`flex-1 rounded-xl py-3 text-center font-semibold ${
                     isBoard
                       ? "bg-[#f4f1ea] text-[#0c0c0c]"
-                      : "bg-amber-500 text-stone-950"
+                      : "bg-teal-500 text-stone-950"
                   }`}
                 >
                   Visa historik
@@ -336,7 +336,7 @@ export function LogSessionSheet({
                 className={`mt-1 rounded-xl py-3.5 font-semibold disabled:opacity-60 ${
                   isBoard
                     ? "bg-[#f4f1ea] text-[#0c0c0c]"
-                    : "bg-amber-500 text-stone-950"
+                    : "bg-teal-500 text-stone-950"
                 }`}
               >
                 {pending ? "Sparar…" : "Spara & markera klart"}
@@ -352,5 +352,5 @@ export function LogSessionSheet({
 function fieldClass(isBoard: boolean) {
   return isBoard
     ? "rounded-lg border border-white/20 bg-[#0c0c0c] px-3 py-2.5 outline-none focus:border-white/45"
-    : "rounded-lg border border-stone-700 bg-stone-950 px-3 py-2.5 outline-none focus:border-amber-500/60";
+    : "rounded-lg border border-stone-700 bg-stone-950 px-3 py-2.5 outline-none focus:border-teal-500/60";
 }

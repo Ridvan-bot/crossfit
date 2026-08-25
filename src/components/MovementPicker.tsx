@@ -60,7 +60,7 @@ export function MovementPicker({
         placeholder="Sök rörelse (t.ex. Clean and Jerk)…"
         autoComplete="off"
         aria-label="Rörelse"
-        className="w-full rounded border border-stone-700 bg-stone-950 px-2 py-1.5 text-sm outline-none focus:border-amber-500/50"
+        className="w-full rounded border border-stone-700 bg-stone-950 px-2 py-1.5 text-sm outline-none focus:border-teal-500/50"
       />
       {open && (suggestions.length > 0 || canAddCustom) ? (
         <ul className="absolute z-30 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-stone-700 bg-stone-950 py-1 shadow-xl shadow-black/50">
@@ -82,7 +82,7 @@ export function MovementPicker({
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => pick(q)}
-                className="w-full px-3 py-2 text-left text-sm text-amber-300 hover:bg-stone-800"
+                className="w-full px-3 py-2 text-left text-sm text-teal-300 hover:bg-stone-800"
               >
                 Använd «{q}»
               </button>

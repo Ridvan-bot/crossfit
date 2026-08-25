@@ -55,23 +55,24 @@ export default async function WorkoutDetailPage({ params }: Props) {
   return (
     <>
       <AppNav />
-      <main className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-8">
+      <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="font-[family-name:var(--font-barlow)] text-4xl font-extrabold uppercase">
+            <p className="ui-eyebrow">Passdetalj</p>
+            <h1 className="ui-title mt-1 text-4xl sm:text-5xl">
               {workout.title}
             </h1>
             {profile?.equipment ? (
               <p className="text-stone-400">
                 Din utrustning: {profile.equipment}{" "}
-                <Link href="/profile" className="text-amber-400 hover:underline">
+                <Link href="/profile" className="text-teal-400 hover:underline">
                   ändra
                 </Link>
               </p>
             ) : (
               <p className="text-stone-500">
                 Ingen utrustning i profilen.{" "}
-                <Link href="/profile" className="text-amber-400 hover:underline">
+                <Link href="/profile" className="text-teal-400 hover:underline">
                   Lägg till under Profil
                 </Link>
               </p>
@@ -80,13 +81,13 @@ export default async function WorkoutDetailPage({ params }: Props) {
           <div className="flex flex-wrap gap-2">
             <Link
               href={`/workouts/${id}/phone`}
-              className="rounded-lg bg-amber-500 px-4 py-2 font-semibold text-stone-950"
+              className="ui-btn ui-btn-primary"
             >
               Telefon
             </Link>
             <Link
               href={`/workouts/${id}/board`}
-              className="rounded-lg border border-stone-600 px-4 py-2"
+              className="ui-btn ui-btn-outline"
             >
               Tavla
             </Link>
@@ -98,7 +99,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
           className="grid gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-4 md:grid-cols-2"
         >
           <input type="hidden" name="id" value={id} />
-          <h2 className="md:col-span-2 text-sm font-semibold uppercase tracking-wider text-amber-500">
+          <h2 className="md:col-span-2 text-sm font-semibold uppercase tracking-wider text-teal-500">
             Redigera pass
           </h2>
           <input
@@ -136,7 +137,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
         </form>
 
         <div className="flex flex-wrap items-end justify-between gap-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-amber-500">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-teal-500">
             Passdelar
           </h2>
         </div>
@@ -153,7 +154,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
             className="rounded-xl border border-stone-800 bg-stone-900/40 p-4"
           >
             <div className="flex flex-wrap items-start justify-between gap-2">
-              <h3 className="font-semibold text-amber-400">
+              <h3 className="font-semibold text-teal-400">
                 {s.label}
                 {s.estimated_minutes_min
                   ? ` · tar ca ${s.estimated_minutes_min}${
@@ -232,7 +233,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
               />
               <button
                 type="submit"
-                className="md:col-span-2 text-left text-sm text-amber-400 hover:underline"
+                className="md:col-span-2 text-left text-sm text-teal-400 hover:underline"
               >
                 Spara del
               </button>
@@ -246,7 +247,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
                     <span className="text-stone-400"> · {m.detail}</span>
                   ) : null}
                   {m.suggested_weight_kg != null ? (
-                    <span className="text-amber-300">
+                    <span className="text-teal-300">
                       {" "}
                       · ({m.suggested_weight_kg} kg)
                     </span>
@@ -317,8 +318,8 @@ export default async function WorkoutDetailPage({ params }: Props) {
           </button>
         </form>
 
-        <section className="rounded-xl border border-amber-700/40 bg-amber-500/5 p-4">
-          <h2 className="font-semibold text-amber-200">Logga genomfört pass</h2>
+        <section className="rounded-xl border border-teal-700/40 bg-teal-500/5 p-4">
+          <h2 className="font-semibold text-teal-200">Logga genomfört pass</h2>
           <form
             action={logSessionFromForm}
             className="mt-3 grid gap-3 md:grid-cols-2"
@@ -404,7 +405,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
             </div>
             <button
               type="submit"
-              className="md:col-span-2 rounded-lg bg-amber-500 py-3 font-semibold text-stone-950"
+              className="md:col-span-2 rounded-lg bg-teal-500 py-3 font-semibold text-stone-950"
             >
               Spara session
             </button>

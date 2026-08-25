@@ -17,47 +17,66 @@ export default async function GoalsPage() {
   return (
     <>
       <AppNav />
-      <main className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-8">
-        <h1 className="font-[family-name:var(--font-barlow)] text-4xl font-extrabold uppercase">
-          Mål
-        </h1>
+      <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
+        <header>
+          <p className="ui-eyebrow">Långsiktigt</p>
+          <h1 className="ui-title mt-1 text-4xl sm:text-5xl">Mål</h1>
+        </header>
 
-        <form action={createGoal} className="grid gap-3 rounded-xl border border-stone-800 bg-stone-900/50 p-4 md:grid-cols-2">
-          <input name="title" required placeholder="Mål" className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
-          <input name="deadline" type="date" className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
-          <select name="status" defaultValue="ongoing" className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2">
+        <form action={createGoal} className="ui-card grid gap-3 p-5 md:grid-cols-2">
+          <input
+            name="title"
+            required
+            placeholder="Mål"
+            className="ui-input md:col-span-2"
+          />
+          <input name="deadline" type="date" className="ui-input" />
+          <select name="status" defaultValue="ongoing" className="ui-input">
             <option value="ongoing">ongoing</option>
             <option value="planned">planned</option>
             <option value="done">done</option>
           </select>
-          <input name="current_level" placeholder="Nuvarande nivå" className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
-          <input name="notes" placeholder="Anteckningar" className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
-          <button type="submit" className="md:col-span-2 rounded-lg bg-amber-500 py-2 font-semibold text-stone-950">
+          <input name="current_level" placeholder="Nuvarande nivå" className="ui-input" />
+          <input name="notes" placeholder="Anteckningar" className="ui-input" />
+          <button type="submit" className="ui-btn ui-btn-primary md:col-span-2 py-3">
             Lägg till mål
           </button>
         </form>
 
-        <ul className="space-y-4">
+        <ul className="ui-stagger space-y-4">
           {(goals ?? []).map((g) => (
-            <li key={g.id} className="rounded-xl border border-stone-800 bg-stone-900/40 p-4">
+            <li key={g.id} className="ui-card p-4">
               <form action={updateGoal} className="grid gap-2 md:grid-cols-2">
                 <input type="hidden" name="id" value={g.id} />
-                <input name="title" defaultValue={g.title} className="md:col-span-2 rounded border border-stone-700 bg-stone-950 px-2 py-1" />
-                <input name="deadline" type="date" defaultValue={g.deadline ?? ""} className="rounded border border-stone-700 bg-stone-950 px-2 py-1" />
-                <select name="status" defaultValue={g.status} className="rounded border border-stone-700 bg-stone-950 px-2 py-1">
+                <input
+                  name="title"
+                  defaultValue={g.title}
+                  className="ui-input md:col-span-2"
+                />
+                <input
+                  name="deadline"
+                  type="date"
+                  defaultValue={g.deadline ?? ""}
+                  className="ui-input"
+                />
+                <select name="status" defaultValue={g.status} className="ui-input">
                   <option value="ongoing">ongoing</option>
                   <option value="planned">planned</option>
                   <option value="done">done</option>
                 </select>
-                <input name="current_level" defaultValue={g.current_level ?? ""} className="rounded border border-stone-700 bg-stone-950 px-2 py-1" />
-                <input name="notes" defaultValue={g.notes ?? ""} className="rounded border border-stone-700 bg-stone-950 px-2 py-1" />
-                <button type="submit" className="rounded bg-stone-100 py-1 text-sm font-semibold text-stone-950">
+                <input
+                  name="current_level"
+                  defaultValue={g.current_level ?? ""}
+                  className="ui-input"
+                />
+                <input name="notes" defaultValue={g.notes ?? ""} className="ui-input" />
+                <button type="submit" className="ui-btn ui-btn-ghost py-2 text-sm">
                   Spara
                 </button>
               </form>
               <form action={deleteGoal} className="mt-2">
                 <input type="hidden" name="id" value={g.id} />
-                <button type="submit" className="text-sm text-red-400">
+                <button type="submit" className="text-sm text-red-400 hover:underline">
                   Ta bort
                 </button>
               </form>

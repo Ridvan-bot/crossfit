@@ -111,12 +111,12 @@ export function HelpTip({
         }
       : variant === "phone"
         ? {
-            btn: "border-stone-600 text-stone-400 hover:border-amber-500/50 hover:text-amber-300",
+            btn: "border-stone-600 text-stone-400 hover:border-teal-500/50 hover:text-teal-300",
             panel:
               "border-stone-600 bg-stone-900 text-stone-200 shadow-xl shadow-black/50",
           }
         : {
-            btn: "border-stone-600 text-stone-400 hover:border-amber-500/50 hover:text-amber-300",
+            btn: "border-stone-600 text-stone-400 hover:border-teal-500/50 hover:text-teal-300",
             panel:
               "border-stone-600 bg-stone-900 text-stone-200 shadow-xl shadow-black/50",
           };

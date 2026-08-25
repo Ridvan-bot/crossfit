@@ -68,11 +68,11 @@ export function EquipmentPicker({
               <button
                 type="button"
                 onClick={() => remove(item)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-sm text-amber-100 hover:bg-amber-500/20"
+                className="inline-flex items-center gap-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 py-1 text-sm text-teal-100 hover:bg-teal-500/20"
                 title="Ta bort"
               >
                 {item}
-                <span aria-hidden className="text-amber-400/80">
+                <span aria-hidden className="text-teal-400/80">
                   ×
                 </span>
               </button>
@@ -106,7 +106,7 @@ export function EquipmentPicker({
           }}
           placeholder="Sök eller lägg till utrustning…"
           autoComplete="off"
-          className="w-full rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 outline-none focus:border-amber-500/50"
+          className="w-full rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 outline-none focus:border-teal-500/50"
         />
 
         {open && (suggestions.length > 0 || canAddCustom) ? (
@@ -129,7 +129,7 @@ export function EquipmentPicker({
                   type="button"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => add(q)}
-                  className="w-full px-3 py-2 text-left text-sm text-amber-300 hover:bg-stone-800"
+                  className="w-full px-3 py-2 text-left text-sm text-teal-300 hover:bg-stone-800"
                 >
                   Lägg till «{q}»
                 </button>

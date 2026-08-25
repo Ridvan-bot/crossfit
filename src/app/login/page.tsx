@@ -28,45 +28,41 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 px-4">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500">CrossFit</p>
-        <h1 className="mt-1 font-[family-name:var(--font-barlow)] text-4xl font-extrabold uppercase tracking-wide">
-          Logga in
-        </h1>
+    <main className="relative mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 px-4">
+      <div className="pointer-events-none absolute left-1/2 top-24 size-64 -translate-x-1/2 rounded-full bg-teal-500/20 blur-3xl" />
+      <div className="ui-page relative ui-card p-6 sm:p-8">
+        <p className="ui-eyebrow">CrossFit</p>
+        <h1 className="ui-title mt-2 text-4xl">Logga in</h1>
+        <p className="mt-2 text-sm text-stone-400">Fortsätt där du slutade.</p>
+        <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-3">
+          <input
+            type="email"
+            required
+            placeholder="E-post"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="ui-input"
+          />
+          <input
+            type="password"
+            required
+            placeholder="Lösenord"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="ui-input"
+          />
+          {error ? <p className="text-sm text-red-400">{error}</p> : null}
+          <button type="submit" disabled={loading} className="ui-btn ui-btn-primary py-3 disabled:opacity-50">
+            {loading ? "Loggar in…" : "Logga in"}
+          </button>
+        </form>
+        <p className="mt-5 text-sm text-stone-400">
+          Inget konto?{" "}
+          <Link href="/signup" className="ui-link">
+            Skapa konto
+          </Link>
+        </p>
       </div>
-      <form onSubmit={onSubmit} className="flex flex-col gap-3">
-        <input
-          type="email"
-          required
-          placeholder="E-post"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="rounded-lg border border-stone-700 bg-stone-900 px-3 py-3"
-        />
-        <input
-          type="password"
-          required
-          placeholder="Lösenord"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="rounded-lg border border-stone-700 bg-stone-900 px-3 py-3"
-        />
-        {error ? <p className="text-sm text-red-400">{error}</p> : null}
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded-lg bg-amber-500 py-3 font-semibold text-stone-950 disabled:opacity-50"
-        >
-          {loading ? "Loggar in…" : "Logga in"}
-        </button>
-      </form>
-      <p className="text-sm text-stone-400">
-        Inget konto?{" "}
-        <Link href="/signup" className="text-amber-400 hover:underline">
-          Skapa konto
-        </Link>
-      </p>
     </main>
   );
 }
