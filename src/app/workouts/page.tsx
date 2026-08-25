@@ -68,11 +68,44 @@ export default async function WorkoutsPage() {
             className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
             rows={2}
           />
+          <fieldset className="md:col-span-2 space-y-2">
+            <legend className="text-sm text-stone-400">Mall för delar</legend>
+            <div className="flex flex-wrap gap-4 text-sm">
+              <label className="inline-flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="template"
+                  value="classic"
+                  defaultChecked
+                  className="accent-amber-500"
+                />
+                Classic (Warmup · Teknik · Styrka · Metcon)
+              </label>
+              <label className="inline-flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="template"
+                  value="metcon"
+                  className="accent-amber-500"
+                />
+                Bara Metcon
+              </label>
+              <label className="inline-flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="template"
+                  value="empty"
+                  className="accent-amber-500"
+                />
+                Tomt (lägg till delar själv)
+              </label>
+            </div>
+          </fieldset>
           <button
             type="submit"
             className="md:col-span-2 rounded-lg bg-amber-500 py-2 font-semibold text-stone-950"
           >
-            Skapa pass (med 4 tomma delar)
+            Skapa pass
           </button>
         </form>
 

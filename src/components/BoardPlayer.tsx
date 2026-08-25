@@ -74,11 +74,11 @@ export function BoardPlayer({
   title: string;
   sections: WorkoutSection[];
 }) {
-  const metconIndex = Math.max(
-    0,
-    sections.findIndex((s) => s.kind === "metcon")
-  );
-  const [index, setIndex] = useState(metconIndex === -1 ? 0 : metconIndex);
+  const initialIndex = (() => {
+    const metcon = sections.findIndex((s) => s.kind === "metcon");
+    return metcon >= 0 ? metcon : 0;
+  })();
+  const [index, setIndex] = useState(initialIndex);
   const [timerOpen, setTimerOpen] = useState(true);
   const [logOpen, setLogOpen] = useState(false);
   const [boardFrac, setBoardFrac] = useState(DEFAULT_BOARD_FRAC);
@@ -154,7 +154,21 @@ export function BoardPlayer({
     updateFracFromPointer(e.clientX, e.clientY);
   };
 
-  if (!section) return null;
+  if (!section) {
+    return (
+      <div className="fixed inset-0 flex flex-col items-center justify-center gap-4 bg-[#0c0c0c] p-6 text-[#f4f1ea]">
+        <p className="font-[family-name:var(--font-amatic)] text-3xl tracking-wider text-white/70">
+          Inga delar i passet ännu
+        </p>
+        <Link
+          href={`/workouts/${workoutId}`}
+          className="font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/55 hover:text-white"
+        >
+          ← TILL PASSET
+        </Link>
+      </div>
+    );
+  }
 
   const moveCount = section.section_movements.length;
   const maxPx = !timerOpen

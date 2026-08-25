@@ -1,4 +1,17 @@
-export type SectionKind = "warmup" | "technique" | "strength" | "metcon";
+export type SectionKind =
+  | "warmup"
+  | "technique"
+  | "strength"
+  | "metcon"
+  | "other";
+
+export const SECTION_KIND_OPTIONS: { value: SectionKind; label: string }[] = [
+  { value: "warmup", label: "Warmup" },
+  { value: "technique", label: "Teknik" },
+  { value: "strength", label: "Styrka" },
+  { value: "metcon", label: "Metcon" },
+  { value: "other", label: "Övrigt" },
+];
 
 export type SectionMovement = {
   id: string;

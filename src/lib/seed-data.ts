@@ -7,7 +7,7 @@ export type SeedMovement = {
 };
 
 export type SeedSection = {
-  kind: "warmup" | "technique" | "strength" | "metcon";
+  kind: "warmup" | "technique" | "strength" | "metcon" | "other";
   label: string;
   format_label?: string;
   estimated_minutes_min?: number;

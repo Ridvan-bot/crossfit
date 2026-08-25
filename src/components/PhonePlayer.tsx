@@ -33,7 +33,16 @@ export function PhonePlayer({
   );
 
   if (!section) {
-    return <p className="p-6 text-stone-400">Inga sektioner.</p>;
+    return (
+      <div className="mx-auto flex min-h-dvh max-w-lg flex-col gap-4 bg-stone-950 px-4 py-4">
+        <Link href={`/workouts/${workoutId}`} className="text-sm text-stone-400">
+          ← Tillbaka
+        </Link>
+        <p className="text-stone-400">
+          Inga delar i passet ännu. Lägg till delar på pass-sidan först.
+        </p>
+      </div>
+    );
   }
 
   const duration =
@@ -69,19 +78,19 @@ export function PhonePlayer({
         <p className="mt-1 text-sm text-stone-400">{meta}</p>
       </header>
 
-      <nav className="grid grid-cols-4 gap-2">
+      <nav className="flex flex-wrap gap-2">
         {sections.map((s, i) => (
           <button
             key={s.id}
             type="button"
             onClick={() => setIndex(i)}
-            className={`rounded-lg border py-3 text-xs font-bold uppercase tracking-wide ${
+            className={`min-w-[4.5rem] flex-1 rounded-lg border py-3 text-xs font-bold uppercase tracking-wide ${
               i === index
                 ? "border-amber-500 bg-amber-500 text-stone-950"
                 : "border-stone-700 bg-stone-900"
             }`}
           >
-            {i + 1} {s.label}
+            {s.label}
           </button>
         ))}
       </nav>

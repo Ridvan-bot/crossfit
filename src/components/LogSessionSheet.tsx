@@ -32,6 +32,7 @@ export function suggestedLiftsFromSections(
       if (lifts.length >= 5) return lifts;
     }
   }
+  // Fallback: rörelser med föreslagen vikt oavsett deltyp
   if (lifts.length === 0) {
     for (const s of sections) {
       for (const m of s.section_movements) {

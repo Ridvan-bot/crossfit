@@ -43,15 +43,67 @@ export async function createWorkout(formData: FormData) {
 
   if (error || !data) throw new Error(error?.message ?? "create failed");
 
-  const kinds = [
-    { kind: "warmup", label: "Warmup", format: "WARMUP · TAR CA 10 MIN", min: 10, max: 10 },
-    { kind: "technique", label: "Teknik", format: "TEKNIK · TAR CA 12–15 MIN", min: 12, max: 15 },
-    { kind: "strength", label: "Styrka", format: "STYRKA · TAR CA 10–12 MIN", min: 10, max: 12 },
-    { kind: "metcon", label: "Metcon", format: "AMRAP · TAR 10 MIN:", min: 10, max: 10, timer: 600 },
-  ] as const;
+  const template = String(formData.get("template") || "classic");
+  type SectionSeed = {
+    kind: "warmup" | "technique" | "strength" | "metcon" | "other";
+    label: string;
+    format: string;
+    min: number;
+    max: number;
+    timer?: number;
+  };
 
-  for (let i = 0; i < kinds.length; i++) {
-    const k = kinds[i];
+  let seeds: SectionSeed[] = [];
+  if (template === "metcon") {
+    seeds = [
+      {
+        kind: "metcon",
+        label: "Metcon",
+        format: "AMRAP · TAR 10 MIN:",
+        min: 10,
+        max: 10,
+        timer: 600,
+      },
+    ];
+  } else if (template === "empty") {
+    seeds = [];
+  } else {
+    // classic (default)
+    seeds = [
+      {
+        kind: "warmup",
+        label: "Warmup",
+        format: "WARMUP · TAR CA 10 MIN",
+        min: 10,
+        max: 10,
+      },
+      {
+        kind: "technique",
+        label: "Teknik",
+        format: "TEKNIK · TAR CA 12–15 MIN",
+        min: 12,
+        max: 15,
+      },
+      {
+        kind: "strength",
+        label: "Styrka",
+        format: "STYRKA · TAR CA 10–12 MIN",
+        min: 10,
+        max: 12,
+      },
+      {
+        kind: "metcon",
+        label: "Metcon",
+        format: "AMRAP · TAR 10 MIN:",
+        min: 10,
+        max: 10,
+        timer: 600,
+      },
+    ];
+  }
+
+  for (let i = 0; i < seeds.length; i++) {
+    const k = seeds[i];
     await supabase.from("workout_sections").insert({
       workout_id: data.id,
       kind: k.kind,
@@ -60,7 +112,7 @@ export async function createWorkout(formData: FormData) {
       format_label: k.format,
       estimated_minutes_min: k.min,
       estimated_minutes_max: k.max,
-      timer_preset_sec: "timer" in k ? k.timer : null,
+      timer_preset_sec: k.timer ?? null,
     });
   }
 
@@ -166,10 +218,15 @@ export async function updateSection(formData: FormData) {
 
   const sectionId = String(formData.get("section_id"));
   const workoutId = String(formData.get("workout_id"));
+  const kind = String(formData.get("kind") || "other");
+  const allowed = ["warmup", "technique", "strength", "metcon", "other"];
+  const safeKind = allowed.includes(kind) ? kind : "other";
 
   await supabase
     .from("workout_sections")
     .update({
+      label: String(formData.get("label") || "").trim() || "Del",
+      kind: safeKind,
       format_label: (formData.get("format_label") as string) || null,
       coaching_tip: (formData.get("coaching_tip") as string) || null,
       estimated_minutes_min: formData.get("estimated_minutes_min")
@@ -183,6 +240,57 @@ export async function updateSection(formData: FormData) {
         : null,
     })
     .eq("id", sectionId);
+
+  revalidatePath(`/workouts/${workoutId}`);
+}
+
+export async function addSection(formData: FormData) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const workoutId = String(formData.get("workout_id"));
+  const label = String(formData.get("label") || "").trim() || "Ny del";
+  const kind = String(formData.get("kind") || "other");
+  const allowed = ["warmup", "technique", "strength", "metcon", "other"];
+  const safeKind = allowed.includes(kind) ? kind : "other";
+
+  const { data: maxRow } = await supabase
+    .from("workout_sections")
+    .select("sort_order")
+    .eq("workout_id", workoutId)
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const sortOrder = (maxRow?.sort_order ?? -1) + 1;
+  const timerDefault = safeKind === "metcon" ? 600 : null;
+
+  await supabase.from("workout_sections").insert({
+    workout_id: workoutId,
+    kind: safeKind,
+    sort_order: sortOrder,
+    label,
+    format_label: label.toUpperCase(),
+    timer_preset_sec: timerDefault,
+  });
+
+  revalidatePath(`/workouts/${workoutId}`);
+}
+
+export async function deleteSection(formData: FormData) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const sectionId = String(formData.get("section_id"));
+  const workoutId = String(formData.get("workout_id"));
+
+  await supabase.from("workout_sections").delete().eq("id", sectionId);
 
   revalidatePath(`/workouts/${workoutId}`);
 }
