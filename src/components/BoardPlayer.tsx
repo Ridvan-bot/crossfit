@@ -10,6 +10,10 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { FitToBox } from "@/components/FitToBox";
+import {
+  LogSessionSheet,
+  suggestedLiftsFromSections,
+} from "@/components/LogSessionSheet";
 import { WorkoutTimer } from "@/components/WorkoutTimer";
 import type { WorkoutSection } from "@/lib/types";
 
@@ -76,6 +80,7 @@ export function BoardPlayer({
   );
   const [index, setIndex] = useState(metconIndex === -1 ? 0 : metconIndex);
   const [timerOpen, setTimerOpen] = useState(true);
+  const [logOpen, setLogOpen] = useState(false);
   const [boardFrac, setBoardFrac] = useState(DEFAULT_BOARD_FRAC);
   const [dragging, setDragging] = useState(false);
   const layoutRef = useRef<HTMLDivElement>(null);
@@ -85,6 +90,10 @@ export function BoardPlayer({
   const timerSec = useMemo(
     () => section?.timer_preset_sec ?? 600,
     [section?.timer_preset_sec]
+  );
+  const suggestedLifts = useMemo(
+    () => suggestedLiftsFromSections(sections),
+    [sections]
   );
 
   const updateFracFromPointer = useCallback((clientX: number, clientY: number) => {
@@ -196,12 +205,21 @@ export function BoardPlayer({
             <span className="font-[family-name:var(--font-amatic)] text-2xl tracking-wider">
               {title}
             </span>
-            <Link
-              href={`/workouts/${workoutId}/phone`}
-              className="font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/55 hover:text-white"
-            >
-              TELEFON
-            </Link>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setLogOpen(true)}
+                className="font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/80 underline decoration-white/30 underline-offset-4 hover:text-white hover:decoration-white"
+              >
+                PASS KLART
+              </button>
+              <Link
+                href={`/workouts/${workoutId}/phone`}
+                className="font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/55 hover:text-white"
+              >
+                TELEFON
+              </Link>
+            </div>
           </div>
 
           <nav className="mb-2 flex shrink-0 flex-wrap justify-center gap-4">
@@ -281,9 +299,18 @@ export function BoardPlayer({
             </div>
           </FitToBox>
 
-          <p className="shrink-0 pt-1 text-center font-[family-name:var(--font-amatic)] text-3xl font-bold tracking-[0.22em]">
-            YOU VS YOU
-          </p>
+          <div className="flex shrink-0 items-center justify-center gap-4 pt-1">
+            <p className="font-[family-name:var(--font-amatic)] text-3xl font-bold tracking-[0.22em]">
+              YOU VS YOU
+            </p>
+            <button
+              type="button"
+              onClick={() => setLogOpen(true)}
+              className="rounded-full border border-white/35 px-4 py-1 font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/80 transition hover:border-white/60 hover:bg-white/10 hover:text-white"
+            >
+              ✓ KLART
+            </button>
+          </div>
         </div>
 
         {timerOpen ? (
@@ -340,6 +367,15 @@ export function BoardPlayer({
           />
         </div>
       </div>
+
+      <LogSessionSheet
+        open={logOpen}
+        onClose={() => setLogOpen(false)}
+        workoutId={workoutId}
+        workoutTitle={title}
+        suggestedLifts={suggestedLifts}
+        variant="board"
+      />
     </div>
   );
 }

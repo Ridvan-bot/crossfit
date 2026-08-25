@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { AppNav } from "@/components/AppNav";
 import {
   addMovement,
-  logSession,
+  logSessionFromForm,
   updateSection,
   updateWorkout,
 } from "@/app/actions/crud";
@@ -140,7 +140,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
 
         <section className="rounded-xl border border-amber-700/40 bg-amber-500/5 p-4">
           <h2 className="font-semibold text-amber-200">Logga genomfört pass</h2>
-          <form action={logSession} className="mt-3 grid gap-3 md:grid-cols-2">
+          <form action={logSessionFromForm} className="mt-3 grid gap-3 md:grid-cols-2">
             <input type="hidden" name="workout_id" value={id} />
             <input name="score_text" placeholder="Score (t.ex. 4 hela varv)" className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />
             <input name="feeling_1_5" type="number" min={1} max={5} placeholder="Känsla 1–5" className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2" />

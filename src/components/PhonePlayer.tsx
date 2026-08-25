@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import {
+  LogSessionSheet,
+  suggestedLiftsFromSections,
+} from "@/components/LogSessionSheet";
 import { WorkoutTimer } from "@/components/WorkoutTimer";
 import type { WorkoutSection } from "@/lib/types";
 
@@ -17,10 +21,15 @@ export function PhonePlayer({
   sections: WorkoutSection[];
 }) {
   const [index, setIndex] = useState(0);
+  const [logOpen, setLogOpen] = useState(false);
   const section = sections[index];
   const timerSec = useMemo(
     () => section?.timer_preset_sec ?? 600,
     [section?.timer_preset_sec]
+  );
+  const suggestedLifts = useMemo(
+    () => suggestedLiftsFromSections(sections),
+    [sections]
   );
 
   if (!section) {
@@ -37,8 +46,10 @@ export function PhonePlayer({
         } min`
       : null;
 
+  const isLast = index === sections.length - 1;
+
   return (
-    <div className="mx-auto flex min-h-dvh max-w-lg flex-col gap-4 bg-stone-950 px-4 py-4">
+    <div className="mx-auto flex min-h-dvh max-w-lg flex-col gap-4 bg-stone-950 px-4 py-4 pb-6">
       <div className="flex items-center justify-between gap-2">
         <Link href={`/workouts/${workoutId}`} className="text-sm text-stone-400">
           ← Tillbaka
@@ -99,7 +110,9 @@ export function PhonePlayer({
                 <span className="block text-lg font-semibold">{m.name}</span>
                 <span className="text-sm text-stone-400">
                   {m.detail}
-                  {m.suggested_weight_kg != null ? ` · (${m.suggested_weight_kg} kg)` : ""}
+                  {m.suggested_weight_kg != null
+                    ? ` · (${m.suggested_weight_kg} kg)`
+                    : ""}
                 </span>
               </span>
             </li>
@@ -116,25 +129,48 @@ export function PhonePlayer({
         >
           Föregående
         </button>
-        <button
-          type="button"
-          disabled={index === sections.length - 1}
-          onClick={() => setIndex((v) => Math.min(sections.length - 1, v + 1))}
-          className="rounded-xl border border-stone-700 py-3 font-semibold disabled:opacity-40"
-        >
-          Nästa del
-        </button>
+        {isLast ? (
+          <button
+            type="button"
+            onClick={() => setLogOpen(true)}
+            className="rounded-xl bg-amber-500 py-3 font-semibold text-stone-950"
+          >
+            Pass klart
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setIndex((v) => Math.min(sections.length - 1, v + 1))}
+            className="rounded-xl border border-stone-700 py-3 font-semibold"
+          >
+            Nästa del
+          </button>
+        )}
       </div>
 
       <section className="sticky bottom-2 rounded-xl border border-stone-800 bg-stone-900 p-4 shadow-2xl shadow-black/50">
-        <WorkoutTimer key={`${section.id}-${timerSec}`} initialSeconds={timerSec} variant="phone" />
-        <Link
-          href={`/workouts/${workoutId}`}
-          className="mt-3 block text-center text-sm text-amber-400"
+        <WorkoutTimer
+          key={`${section.id}-${timerSec}`}
+          initialSeconds={timerSec}
+          variant="phone"
+        />
+        <button
+          type="button"
+          onClick={() => setLogOpen(true)}
+          className="mt-3 w-full rounded-xl border border-amber-500/50 bg-amber-500/10 py-3 text-sm font-semibold text-amber-300 hover:bg-amber-500/20"
         >
-          Logga resultat →
-        </Link>
+          Markera klart & logga
+        </button>
       </section>
+
+      <LogSessionSheet
+        open={logOpen}
+        onClose={() => setLogOpen(false)}
+        workoutId={workoutId}
+        workoutTitle={title}
+        suggestedLifts={suggestedLifts}
+        variant="phone"
+      />
     </div>
   );
 }

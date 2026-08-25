@@ -157,18 +157,26 @@ export async function updateSection(formData: FormData) {
   revalidatePath(`/workouts/${workoutId}`);
 }
 
-export async function logSession(formData: FormData) {
+export type LogSessionResult =
+  | { ok: true }
+  | { ok: false; message: string };
+
+/** Logga genomfört pass. Returnerar alltid resultat (ingen redirect). */
+export async function logSession(formData: FormData): Promise<LogSessionResult> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
+  if (!user) return { ok: false, message: "Inte inloggad." };
 
-  const workoutId = String(formData.get("workout_id"));
+  const userId = user.id;
+  const workoutId = String(formData.get("workout_id") || "");
+  if (!workoutId) return { ok: false, message: "Saknar pass-id." };
+
   const { data: session, error } = await supabase
     .from("training_sessions")
     .insert({
-      user_id: user.id,
+      user_id: userId,
       workout_id: workoutId,
       score_text: (formData.get("score_text") as string) || null,
       feeling_1_5: formData.get("feeling_1_5")
@@ -180,7 +188,9 @@ export async function logSession(formData: FormData) {
     .select("id")
     .single();
 
-  if (error || !session) throw new Error(error?.message ?? "log failed");
+  if (error || !session) {
+    return { ok: false, message: error?.message ?? "Kunde inte spara session." };
+  }
 
   const liftNames = formData.getAll("lift_name") as string[];
   const liftWeights = formData.getAll("lift_weight") as string[];
@@ -199,12 +209,20 @@ export async function logSession(formData: FormData) {
     .from("workouts")
     .update({ status: "done", updated_at: new Date().toISOString() })
     .eq("id", workoutId)
-    .eq("user_id", user.id);
+    .eq("user_id", userId);
 
   revalidatePath(`/workouts/${workoutId}`);
   revalidatePath("/sessions");
   revalidatePath("/");
-  redirect(`/sessions`);
+
+  return { ok: true };
+}
+
+/** Formulär-action från passdetalj: logga och gå till historik. */
+export async function logSessionFromForm(formData: FormData): Promise<void> {
+  const result = await logSession(formData);
+  if (!result.ok) throw new Error(result.message);
+  redirect("/sessions");
 }
 
 export async function createTemplate(formData: FormData) {
