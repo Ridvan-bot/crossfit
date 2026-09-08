@@ -2,13 +2,12 @@
 
 ## 1) Snabbstatus
 
-- Senast uppdaterad: 2026-08-25
+- Senast uppdaterad: 2026-09-08
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
-- Nuvarande läge: Utrustning i profil; WOD byggs med sökbara CrossFit-rörelser. Tavla har inline-redigering av WOD.
+- Nuvarande läge: Block 3 upplagt (#008–#011 utan hopprep; tidigare #008 med hopprep = #012). Tavla har inline-redigering.
 - Nästa steg:
-  - I Vercel: koppla GitHub-repot `Ridvan-bot/crossfit`, lägg env-variabler, deploy.
-  - Fyll i utrustning under Profil.
-  - Kör pass #008.
+  - Kör pass #008 (Clean Day, block 3).
+  - Logga äldre pass om session saknas.
 
 ## 2) Miljö och kontext
 
@@ -20,6 +19,15 @@
 - Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep (sätts i appen under Profil)
 
 ## 3) Genomfört
+
+### 2026-09-08 - Dashboard-bakgrund
+
+- Bytt ut hårda teal-blobs mot chalk/gym-atmosfär (`public/dashboard-bg.jpg` + mjuk overlay).
+- Stitch MCP autentiserades men verktyg fanns inte i sessionen — bakgrund genererad och polishad manuellt.
+
+- Nya pass i Supabase + seed: Clean/Snatch-växling, ingen hopprep.
+- Progression från loggade vikter (#006–#007): HPC/HPS 35, FS 55, DL 60/55, PP 45.
+- Test-pass (#9) borttaget för att frigöra passnummer.
 
 ### 2026-08-25 - Redigera WOD på tavla
 
