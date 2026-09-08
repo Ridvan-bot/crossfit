@@ -98,7 +98,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 15,
         estimated_minutes_max: 15,
         movements: [
-          { name: "Hang Power Clean", detail: "6 × 2", suggested_weight_kg: 30 },
+          { name: "Hang Power Clean", detail: "2 × 6", suggested_weight_kg: 30 },
         ],
       },
       {
@@ -165,7 +165,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 15,
         estimated_minutes_max: 15,
         movements: [
-          { name: "Hang Power Snatch", detail: "6 × 2", suggested_weight_kg: 30 },
+          { name: "Hang Power Snatch", detail: "2 × 6", suggested_weight_kg: 30 },
         ],
       },
       {
@@ -176,7 +176,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 18,
         movements: [
           { name: "Deadlift", detail: "5 × 3", suggested_weight_kg: 50 },
-          { name: "Push Press", detail: "4 × 5", suggested_weight_kg: 30 },
+          { name: "Push Press", detail: "5 × 4", suggested_weight_kg: 30 },
         ],
       },
       {
@@ -229,7 +229,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 15,
         estimated_minutes_max: 20,
         movements: [
-          { name: "Hang Power Clean", detail: "8 × 2", suggested_weight_kg: 30 },
+          { name: "Hang Power Clean", detail: "2 × 8", suggested_weight_kg: 30 },
         ],
       },
       {
@@ -293,7 +293,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 15,
         estimated_minutes_max: 20,
         movements: [
-          { name: "Hang Power Snatch", detail: "8 × 2", suggested_weight_kg: 15 },
+          { name: "Hang Power Snatch", detail: "2 × 8", suggested_weight_kg: 15 },
         ],
       },
       {
@@ -303,8 +303,8 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 18,
         estimated_minutes_max: 18,
         movements: [
-          { name: "Deadlift", detail: "4 × 3", suggested_weight_kg: 50 },
-          { name: "Push Press", detail: "3 × 5", suggested_weight_kg: 40 },
+          { name: "Deadlift", detail: "3 × 4", suggested_weight_kg: 50 },
+          { name: "Push Press", detail: "5 × 3", suggested_weight_kg: 40 },
         ],
       },
       {
@@ -358,7 +358,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 15,
         estimated_minutes_max: 15,
         movements: [
-          { name: "Hang Power Clean", detail: "6 × 2", suggested_weight_kg: 35 },
+          { name: "Hang Power Clean", detail: "2 × 6", suggested_weight_kg: 35 },
         ],
       },
       {
@@ -414,7 +414,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         coaching_tip: "Ingen hopprep",
         movements: [
           { name: "Rask marsch", detail: "2 min" },
-          { name: "Air Squat", detail: "2 × 10" },
+          { name: "Air Squat", detail: "10 × 2" },
           { name: "Mobilitet", detail: "Höfter/axlar/anklar" },
           { name: "Uppvärmningsset", detail: "2 set HPS + Push Press" },
         ],
@@ -426,7 +426,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 15,
         estimated_minutes_max: 15,
         movements: [
-          { name: "Hang Power Snatch", detail: "6 × 2", suggested_weight_kg: 30 },
+          { name: "Hang Power Snatch", detail: "2 × 6", suggested_weight_kg: 30 },
         ],
       },
       {
@@ -437,7 +437,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 18,
         movements: [
           { name: "Deadlift", detail: "5 × 3", suggested_weight_kg: 55 },
-          { name: "Push Press", detail: "4 × 5", suggested_weight_kg: 40 },
+          { name: "Push Press", detail: "5 × 4", suggested_weight_kg: 40 },
         ],
       },
       {
@@ -481,7 +481,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         coaching_tip: "Ingen hopprep",
         movements: [
           { name: "Rask marsch", detail: "2 min" },
-          { name: "Air Squat", detail: "2 × 10" },
+          { name: "Air Squat", detail: "10 × 2" },
           { name: "Mobilitet + front-rack", detail: "Dynamiskt" },
           { name: "Uppvärmningsset", detail: "2 set HPC + lätta KB Swing" },
         ],
@@ -494,7 +494,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 15,
         coaching_tip: "Backa till 30 kg om tekniken brister",
         movements: [
-          { name: "Hang Power Clean", detail: "8 × 2", suggested_weight_kg: 35 },
+          { name: "Hang Power Clean", detail: "2 × 8", suggested_weight_kg: 35 },
         ],
       },
       {
@@ -562,7 +562,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 12,
         estimated_minutes_max: 15,
         movements: [
-          { name: "Hang Power Snatch", detail: "8 × 2", suggested_weight_kg: 30 },
+          { name: "Hang Power Snatch", detail: "2 × 8", suggested_weight_kg: 30 },
         ],
       },
       {
@@ -573,8 +573,8 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 18,
         coaching_tip: "Lättare DL-vecka",
         movements: [
-          { name: "Deadlift", detail: "4 × 3", suggested_weight_kg: 50 },
-          { name: "Push Press", detail: "3 × 5", suggested_weight_kg: 42 },
+          { name: "Deadlift", detail: "3 × 4", suggested_weight_kg: 50 },
+          { name: "Push Press", detail: "5 × 3", suggested_weight_kg: 42 },
         ],
       },
       {
@@ -611,7 +611,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         coaching_tip: "Ingen hopprep. Förbered Power Clean från golv.",
         movements: [
           { name: "Rask marsch", detail: "2 min" },
-          { name: "Air Squat", detail: "2 × 10" },
+          { name: "Air Squat", detail: "10 × 2" },
           { name: "Mobilitet", detail: "Höfter / handleder / front-rack" },
           { name: "Uppvärmningsset", detail: "2 set Power Clean + Front Squat" },
         ],
@@ -623,9 +623,9 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 15,
         estimated_minutes_max: 15,
         coaching_tip:
-          "Från golv (inte hang). Fokus: första drag, höfter genom, snabb rack.",
+          "2 reps × 6 gånger från golv (inte hang). Vila ca 90–120 sek mellan gångerna. Fokus: första drag, höfter genom, snabb rack.",
         movements: [
-          { name: "Power Clean", detail: "6 × 2", suggested_weight_kg: 35 },
+          { name: "Power Clean", detail: "2 × 6", suggested_weight_kg: 35 },
         ],
       },
       {
@@ -635,9 +635,9 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 15,
         estimated_minutes_max: 18,
         coaching_tip:
-          "Mer reps än #007 (5×3). Paus 1 sek i botten om det känns ostadigt.",
+          "5 reps × 4 gånger. Paus 1 sek i botten om det känns ostadigt.",
         movements: [
-          { name: "Front Squat", detail: "4 × 5", suggested_weight_kg: 50 },
+          { name: "Front Squat", detail: "5 × 4", suggested_weight_kg: 50 },
         ],
       },
       {
@@ -675,7 +675,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         coaching_tip: "Ingen hopprep",
         movements: [
           { name: "Rask marsch", detail: "2 min" },
-          { name: "Air Squat", detail: "2 × 10" },
+          { name: "Air Squat", detail: "10 × 2" },
           { name: "Mobilitet", detail: "Overhead + höfter" },
           { name: "Uppvärmningsset", detail: "2 set HPS + Push Press" },
         ],
@@ -688,7 +688,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 15,
         coaching_tip: "Dragbana + stabil overhead",
         movements: [
-          { name: "Hang Power Snatch", detail: "6 × 2", suggested_weight_kg: 35 },
+          { name: "Hang Power Snatch", detail: "2 × 6", suggested_weight_kg: 35 },
         ],
       },
       {
@@ -699,8 +699,8 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 18,
         coaching_tip: "DL 55 → 60 om rygg/teknik OK",
         movements: [
-          { name: "Deadlift", detail: "4 × 3", suggested_weight_kg: 60 },
-          { name: "Push Press", detail: "3 × 5", suggested_weight_kg: 45 },
+          { name: "Deadlift", detail: "3 × 4", suggested_weight_kg: 60 },
+          { name: "Push Press", detail: "5 × 3", suggested_weight_kg: 45 },
         ],
       },
       {
@@ -736,7 +736,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         coaching_tip: "Ingen hopprep",
         movements: [
           { name: "Rask marsch", detail: "2 min" },
-          { name: "Air Squat", detail: "2 × 10" },
+          { name: "Air Squat", detail: "10 × 2" },
           { name: "Mobilitet", detail: "Front-rack + höfter" },
           { name: "Uppvärmningsset", detail: "2 set HPC + Front Squat" },
         ],
@@ -749,7 +749,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 18,
         coaching_tip: "Mer volym — behåll teknik",
         movements: [
-          { name: "Hang Power Clean", detail: "8 × 2", suggested_weight_kg: 35 },
+          { name: "Hang Power Clean", detail: "2 × 8", suggested_weight_kg: 35 },
         ],
       },
       {
@@ -760,7 +760,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 18,
         coaching_tip: "Samma vikt som #009 om 55 kändes tungt",
         movements: [
-          { name: "Front Squat", detail: "4 × 5", suggested_weight_kg: 55 },
+          { name: "Front Squat", detail: "5 × 4", suggested_weight_kg: 55 },
         ],
       },
       {
@@ -797,7 +797,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         coaching_tip: "Ingen hopprep",
         movements: [
           { name: "Rask marsch", detail: "2 min" },
-          { name: "Air Squat", detail: "2 × 10" },
+          { name: "Air Squat", detail: "10 × 2" },
           { name: "Mobilitet", detail: "Overhead + höfter" },
           { name: "Uppvärmningsset", detail: "2 set HPS + Push Press" },
         ],
@@ -810,7 +810,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 15,
         coaching_tip: "Volym HPS — prioritera overhead",
         movements: [
-          { name: "Hang Power Snatch", detail: "8 × 2", suggested_weight_kg: 35 },
+          { name: "Hang Power Snatch", detail: "2 × 8", suggested_weight_kg: 35 },
         ],
       },
       {
@@ -821,8 +821,8 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_max: 18,
         coaching_tip: "Lättare DL-vecka",
         movements: [
-          { name: "Deadlift", detail: "4 × 3", suggested_weight_kg: 55 },
-          { name: "Push Press", detail: "3 × 5", suggested_weight_kg: 45 },
+          { name: "Deadlift", detail: "3 × 4", suggested_weight_kg: 55 },
+          { name: "Push Press", detail: "5 × 3", suggested_weight_kg: 45 },
         ],
       },
       {

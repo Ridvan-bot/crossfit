@@ -13,6 +13,9 @@
    Appen har en sökbar katalog i `src/lib/movements.ts`.
 
 4. När du bygger / föreslår WODs eller pass:
+   - **Reps/set-notation (alltid):** `A × B` betyder **A reps, B gånger** (set).
+     Exempel: `2 × 6` = 2 reps, 6 gånger. **Inte** sets×reps.
+     Skriv aldrig tvetydigt — håll dig till den här konventionen i alla WOD-texter.
    - Hämta inspiration från CrossFits dagliga WOD-sida:
      `https://www.crossfit.com/workout/`
      (format, pacing, struktur: AMRAP / For Time / EMOM / rounds, m.m.).

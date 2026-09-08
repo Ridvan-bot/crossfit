@@ -20,6 +20,11 @@
 
 ## 3) Genomfört
 
+### 2026-09-08 - WOD-notation reps × gånger
+
+- Konvention i appen: `A × B` = **A reps, B gånger**. Dokumenterat i `AGENTS.md`.
+- Befintliga pass uppdaterade (t.ex. teknik `6 × 2` → `2 × 6`).
+
 ### 2026-09-08 - WOD-inspiration från CrossFit.com
 
 - Vid framtida WOD-/passbygge: titta på `https://www.crossfit.com/workout/` för struktur och format, sedan skala till hemmautrustning och coachingfilosofi (noterat i `AGENTS.md`).
