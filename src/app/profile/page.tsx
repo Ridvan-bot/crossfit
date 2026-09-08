@@ -1,7 +1,9 @@
 import { AppNav } from "@/components/AppNav";
+import { AthletePreferencesFields } from "@/components/AthletePreferencesFields";
 import { EquipmentPicker } from "@/components/EquipmentPicker";
 import { ProfileSaveButton } from "@/components/ProfileSaveButton";
 import { updateProfile } from "@/app/actions/crud";
+import { parsePreferences } from "@/lib/athlete";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -19,9 +21,11 @@ export default async function ProfilePage({ searchParams }: Props) {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("display_name, equipment")
+    .select("display_name, equipment, preferences")
     .eq("id", user.id)
     .maybeSingle();
+
+  const preferences = parsePreferences(profile?.preferences);
 
   return (
     <>
@@ -31,8 +35,8 @@ export default async function ProfilePage({ searchParams }: Props) {
           <p className="ui-eyebrow">Konto</p>
           <h1 className="ui-title mt-1 text-4xl sm:text-5xl">Profil</h1>
           <p className="mt-2 max-w-2xl text-stone-400">
-            Din utrustning används som kontext för passen — när du bygger en WOD
-            väljer du rörelser, inte grejer.
+            Utrustning, fokus och preferenser — appen lär sig av det du loggar och
+            det du anger här, så varje atlet får en egen väg.
           </p>
         </header>
 
@@ -50,7 +54,7 @@ export default async function ProfilePage({ searchParams }: Props) {
             <div>
               <p className="font-semibold">Profilen är sparad</p>
               <p className="text-sm text-teal-100/80">
-                Visningsnamn och utrustning är uppdaterade.
+                Preferenser och utrustning används när nästa pass byggs.
               </p>
             </div>
           </div>
@@ -73,6 +77,8 @@ export default async function ProfilePage({ searchParams }: Props) {
             label="Min utrustning"
             hint="Det du har hemma / i gymmet. Syns som kontext i telefonvyn."
           />
+
+          <AthletePreferencesFields preferences={preferences} />
 
           <ProfileSaveButton />
         </form>

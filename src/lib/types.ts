@@ -58,6 +58,7 @@ export type Profile = {
   id: string;
   display_name: string | null;
   equipment: string | null;
+  preferences?: import("@/lib/athlete").AthletePreferences | Record<string, unknown>;
 };
 
 export type TrainingSession = {
@@ -70,3 +71,9 @@ export type TrainingSession = {
   completed_at: string;
   workouts?: { title: string; pass_number: number | null } | null;
 };
+
+export type {
+  AthletePreferences,
+  AthleteInsights,
+  MovementBest,
+} from "@/lib/athlete";

@@ -4,6 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { dateInputToCompletedAt, todayDateInputValue } from "@/lib/dates";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { recomputeAthleteInsights } from "@/app/actions/athlete";
+import { parsePreferences, type AthletePreferences } from "@/lib/athlete";
 
 export async function createWorkout(formData: FormData) {
   const supabase = await createClient();
@@ -153,14 +155,41 @@ export async function updateProfile(formData: FormData) {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  await supabase
-    .from("profiles")
-    .upsert({
-      id: user.id,
-      display_name: String(formData.get("display_name") || "").trim() || null,
-      equipment: (formData.get("equipment") as string) || null,
-      updated_at: new Date().toISOString(),
-    });
+  const focus = formData.getAll("focus").map(String);
+  const constraints = formData.getAll("constraints").map(String);
+  const experienceRaw = String(formData.get("experience") || "").trim();
+  const experience =
+    experienceRaw === "beginner" ||
+    experienceRaw === "intermediate" ||
+    experienceRaw === "advanced"
+      ? experienceRaw
+      : null;
+
+  const preferences: AthletePreferences = parsePreferences({
+    focus,
+    constraints,
+    experience,
+    sessions_per_week: formData.get("sessions_per_week")
+      ? Number(formData.get("sessions_per_week"))
+      : null,
+    fun_movements: String(formData.get("fun_movements") || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean),
+    avoid_movements: String(formData.get("avoid_movements") || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean),
+    notes: String(formData.get("athlete_notes") || "").trim() || null,
+  });
+
+  await supabase.from("profiles").upsert({
+    id: user.id,
+    display_name: String(formData.get("display_name") || "").trim() || null,
+    equipment: (formData.get("equipment") as string) || null,
+    preferences,
+    updated_at: new Date().toISOString(),
+  });
 
   revalidatePath("/profile");
   revalidatePath("/");
@@ -531,6 +560,8 @@ export async function logSession(formData: FormData): Promise<LogSessionResult> 
       message: `Session sparad men status kunde inte uppdateras: ${statusErr.message}`,
     };
   }
+
+  await recomputeAthleteInsights(userId);
 
   revalidatePath(`/workouts/${workoutId}`);
   revalidatePath("/workouts");

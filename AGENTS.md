@@ -37,5 +37,14 @@
 8. Fokus:
    Beslut och innehåll ska stötta långsiktig utveckling i CrossFit med teknik, styrka och hållbarhet.
 
-9. Secrets:
-   Aldrig committa `.env.local` eller API-nycklar. Använd `.env.example` med placeholders.
+10. Lära av användaren (skalbart, per atlet):
+    - Varje användare har egna `profiles.preferences` (fokus, constraints, kul/undvik)
+      och `athlete_insights` (bästa lyft, RPE/känsla, sammanfattning).
+    - Efter varje loggad session uppdateras insights automatiskt.
+    - När du bygger/föreslår WOD:er **måste** du läsa preferenser + insights
+      (och historik) — skala vikter, undvik constrained rörelser, variera efter
+      vad användaren tycker är kul och hur senaste passen gick.
+    - Olika atleter ska få olika upplevelser; kopiera inte samma pass till alla.
+
+11. Secrets:
+    Aldrig committa `.env.local` eller API-nycklar. Använd `.env.example` med placeholders.

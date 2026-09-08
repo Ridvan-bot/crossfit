@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { AppNav } from "@/components/AppNav";
+import { AthleteLearningCard } from "@/components/AthleteLearningCard";
 import { SeedButton } from "@/components/SeedButton";
+import { parsePreferences, type AthleteInsights } from "@/lib/athlete";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function HomePage() {
@@ -31,6 +33,21 @@ export default async function HomePage() {
     .select("*", { count: "exact", head: true })
     .eq("user_id", user!.id);
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("preferences")
+    .eq("id", user!.id)
+    .maybeSingle();
+
+  const { data: insightsRow } = await supabase
+    .from("athlete_insights")
+    .select("*")
+    .eq("user_id", user!.id)
+    .maybeSingle();
+
+  const preferences = parsePreferences(profile?.preferences);
+  const insights = insightsRow as AthleteInsights | null;
+
   return (
     <>
       <AppNav />
@@ -41,7 +58,7 @@ export default async function HomePage() {
             <p className="ui-eyebrow">Träning · hemma</p>
             <h1 className="ui-title mt-2 text-4xl sm:text-5xl">Dashboard</h1>
             <p className="mt-2 max-w-xl text-stone-400">
-              Nästa pass, senaste resultat och snabbstart — håll fokus på teknik och styrka.
+              Nästa pass, senaste resultat och lärdomar om dig — varje atlet får en egen väg.
             </p>
           </div>
         </header>
@@ -108,6 +125,8 @@ export default async function HomePage() {
               <p className="mt-4 text-stone-400">Ingen historik ännu.</p>
             )}
           </section>
+
+          <AthleteLearningCard preferences={preferences} insights={insights} />
         </div>
 
         {(count ?? 0) === 0 ? (

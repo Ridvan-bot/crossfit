@@ -4,10 +4,10 @@
 
 - Senast uppdaterad: 2026-09-08
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
-- Nuvarande läge: Block 3 upplagt (#008–#011 utan hopprep; tidigare #008 med hopprep = #012). Tavla har inline-redigering.
+- Nuvarande läge: Athlete learning live (preferenser + insights). Block 3 #008 genomfört; nästa #009.
 - Nästa steg:
-  - Kör pass #008 (Clean Day, block 3).
-  - Logga äldre pass om session saknas.
+  - Fyll/justera träningsprofil under Profil.
+  - Kör pass #009 — insights uppdateras automatiskt.
 
 ## 2) Miljö och kontext
 
@@ -19,6 +19,12 @@
 - Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep (sätts i appen under Profil)
 
 ## 3) Genomfört
+
+### 2026-09-08 - Lära av användaren (athlete learning)
+
+- `profiles.preferences` (fokus, constraints, kul/undvik, erfarenhet).
+- `athlete_insights` (bästa lyft, RPE/känsla, summary) — uppdateras efter varje loggad session.
+- Dashboard-kort + profilfält. Regel i `AGENTS.md`: WOD-bygge måste läsa preferenser + insights.
 
 ### 2026-09-08 - WOD-notation reps × gånger
 
