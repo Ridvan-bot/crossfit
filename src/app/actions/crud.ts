@@ -508,9 +508,14 @@ export async function logSession(formData: FormData): Promise<LogSessionResult> 
     }))
     .filter((l) => l.movement_name);
 
-  if (lifts.length) await supabase.from("session_lifts").insert(lifts);
+  if (lifts.length) {
+    const { error: liftErr } = await supabase.from("session_lifts").insert(lifts);
+    if (liftErr) {
+      return { ok: false, message: liftErr.message };
+    }
+  }
 
-  await supabase
+  const { error: statusErr } = await supabase
     .from("workouts")
     .update({
       status: "done",
@@ -520,7 +525,15 @@ export async function logSession(formData: FormData): Promise<LogSessionResult> 
     .eq("id", workoutId)
     .eq("user_id", userId);
 
+  if (statusErr) {
+    return {
+      ok: false,
+      message: `Session sparad men status kunde inte uppdateras: ${statusErr.message}`,
+    };
+  }
+
   revalidatePath(`/workouts/${workoutId}`);
+  revalidatePath("/workouts");
   revalidatePath("/sessions");
   revalidatePath("/");
 

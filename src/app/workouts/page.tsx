@@ -111,9 +111,9 @@ export default async function WorkoutsPage() {
                         : "text-stone-400"
                     }
                   >
-                    {w.status}
+                    {w.status === "done" ? "Genomfört" : "Planerat"}
                   </span>
-                  {w.scheduled_date ? ` · genomförd ${w.scheduled_date}` : ""}
+                  {w.scheduled_date ? ` · ${w.scheduled_date}` : ""}
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   useEffect,
   useId,
@@ -62,6 +63,7 @@ export function LogSessionSheet({
   suggestedLifts = [],
   variant = "phone",
 }: Props) {
+  const router = useRouter();
   const titleId = useId();
   const [pending, startTransition] = useTransition();
   const [saved, setSaved] = useState(false);
@@ -99,6 +101,7 @@ export function LogSessionSheet({
         return;
       }
       setSaved(true);
+      router.refresh();
     });
   }
 
@@ -186,23 +189,22 @@ export function LogSessionSheet({
                 Passet är markerat som klart och sparat i historiken.
               </p>
               <div className="flex w-full flex-col gap-2 sm:flex-row">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className={`flex-1 rounded-xl py-3 font-semibold ${
-                    isBoard
-                      ? "border border-white/30 hover:bg-white/10"
-                      : "border border-stone-600 hover:bg-stone-800"
-                  }`}
-                >
-                  Fortsätt i vyn
-                </button>
                 <Link
-                  href="/sessions"
+                  href="/"
                   className={`flex-1 rounded-xl py-3 text-center font-semibold ${
                     isBoard
                       ? "bg-[#f4f1ea] text-[#0c0c0c]"
                       : "bg-teal-500 text-stone-950"
+                  }`}
+                >
+                  Till dashboard
+                </Link>
+                <Link
+                  href="/sessions"
+                  className={`flex-1 rounded-xl py-3 text-center font-semibold ${
+                    isBoard
+                      ? "border border-white/30 hover:bg-white/10"
+                      : "border border-stone-600 hover:bg-stone-800"
                   }`}
                 >
                   Visa historik
