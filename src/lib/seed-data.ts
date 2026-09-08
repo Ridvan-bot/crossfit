@@ -598,8 +598,9 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     pass_number: 8,
     scheduled_date: null,
     status: "planned",
-    equipment_notes: "Stång · DB 15 · KB 20 · AbMat · ingen hopprep",
-    notes: "Block 3 vecka 1 – Clean. Teknik HPC + Front Squat + AMRAP utan hopprep.",
+    equipment_notes: "Stång · KB 20 · AbMat · ingen hopprep",
+    notes:
+      "Block 3 vecka 1 – Clean. Power Clean från golv + FS-volym + For Time (tydligt skilt från #007).",
     sections: [
       {
         kind: "warmup",
@@ -607,12 +608,12 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         format_label: "WARMUP · TAR CA 10 MIN",
         estimated_minutes_min: 10,
         estimated_minutes_max: 10,
-        coaching_tip: "Ingen hopprep",
+        coaching_tip: "Ingen hopprep. Förbered Power Clean från golv.",
         movements: [
           { name: "Rask marsch", detail: "2 min" },
           { name: "Air Squat", detail: "2 × 10" },
-          { name: "Mobilitet", detail: "Höfter / axlar / anklar" },
-          { name: "Uppvärmningsset", detail: "2 set HPC + Front Squat" },
+          { name: "Mobilitet", detail: "Höfter / handleder / front-rack" },
+          { name: "Uppvärmningsset", detail: "2 set Power Clean + Front Squat" },
         ],
       },
       {
@@ -621,33 +622,37 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         format_label: "TEKNIK · TAR CA 15 MIN",
         estimated_minutes_min: 15,
         estimated_minutes_max: 15,
-        coaching_tip: "Snabb rack, armbågar genom",
+        coaching_tip:
+          "Från golv (inte hang). Fokus: första drag, höfter genom, snabb rack.",
         movements: [
-          { name: "Hang Power Clean", detail: "6 × 2", suggested_weight_kg: 35 },
+          { name: "Power Clean", detail: "6 × 2", suggested_weight_kg: 35 },
         ],
       },
       {
         kind: "strength",
         label: "Styrka",
-        format_label: "STYRKA · TAR CA 18 MIN",
-        estimated_minutes_min: 18,
+        format_label: "STYRKA · TAR CA 15–18 MIN",
+        estimated_minutes_min: 15,
         estimated_minutes_max: 18,
-        coaching_tip: "FS 50 → 55 om tekniken sitter",
+        coaching_tip:
+          "Mer reps än #007 (5×3). Paus 1 sek i botten om det känns ostadigt.",
         movements: [
-          { name: "Front Squat", detail: "5 × 3", suggested_weight_kg: 55 },
+          { name: "Front Squat", detail: "4 × 5", suggested_weight_kg: 50 },
         ],
       },
       {
         kind: "metcon",
         label: "Metcon",
-        format_label: "AMRAP · TAR 10 MIN:",
-        estimated_minutes_min: 10,
-        estimated_minutes_max: 10,
-        timer_preset_sec: 600,
-        coaching_tip: "Första varvet lugnt. Jämför med #007 (4 varv).",
+        format_label: "FOR TIME · 3 ROUNDS · MAX 9 MIN:",
+        estimated_minutes_min: 9,
+        estimated_minutes_max: 9,
+        timer_preset_sec: 540,
+        coaching_tip:
+          "For Time (inte AMRAP). Logga total tid. Skala PC-vikt om tekniken brister.",
         movements: [
-          { name: "Power Clean", detail: "6", suggested_weight_kg: 40 },
-          { name: "Kettlebell Swing", detail: "10 rysk", suggested_weight_kg: 20 },
+          { name: "Power Clean", detail: "8", suggested_weight_kg: 35 },
+          { name: "Kettlebell Swing", detail: "12 rysk", suggested_weight_kg: 20 },
+          { name: "Push-up", detail: "10" },
           { name: "AbMat Sit-up", detail: "12" },
         ],
       },

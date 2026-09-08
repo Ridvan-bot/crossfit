@@ -20,6 +20,10 @@
 
 ## 3) Genomfört
 
+### 2026-09-08 - WOD-inspiration från CrossFit.com
+
+- Vid framtida WOD-/passbygge: titta på `https://www.crossfit.com/workout/` för struktur och format, sedan skala till hemmautrustning och coachingfilosofi (noterat i `AGENTS.md`).
+
 ### 2026-09-08 - Dashboard-bakgrund
 
 - Bytt ut hårda teal-blobs mot chalk/gym-atmosfär (`public/dashboard-bg.jpg` + mjuk overlay).

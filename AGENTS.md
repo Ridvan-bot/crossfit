@@ -12,19 +12,27 @@
    `https://www.crossfit.com/crossfit-movements`.
    Appen har en sökbar katalog i `src/lib/movements.ts`.
 
-4. Huvuddokument / ytor:
+4. När du bygger / föreslår WODs eller pass:
+   - Hämta inspiration från CrossFits dagliga WOD-sida:
+     `https://www.crossfit.com/workout/`
+     (format, pacing, struktur: AMRAP / For Time / EMOM / rounds, m.m.).
+   - Anpassa till hemmautrustning, ingen (eller begränsad) hopprep om användaren sagt det,
+     och coachingfilosofin: teknik → styrka → kort metcon.
+   - Kopiera inte rakt av benchmark-WODs utan att skala till nivå och utrustning.
+
+5. Huvuddokument / ytor:
    - App: dashboard, pass, telefon/tavla, historik, bibliotek, mål
    - `docs/movements.md`, `docs/wod-library.md`, `docs/training-log.md` (arkiv)
    - `docs/goals-and-metrics.md`, `docs/coaching-playbook.md` (arkiv)
 
-5. Språk och ton:
+6. Språk och ton:
    Skriv på svenska för coaching, mål och logg. Behåll engelska namn på movements/WOD-termer.
 
-6. Ändringar i upplägg:
+7. Ändringar i upplägg:
    Större förändringar i plan/filosofi dokumenteras kort i `case-journal.md` med datum och varför.
 
-7. Fokus:
+8. Fokus:
    Beslut och innehåll ska stötta långsiktig utveckling i CrossFit med teknik, styrka och hållbarhet.
 
-8. Secrets:
+9. Secrets:
    Aldrig committa `.env.local` eller API-nycklar. Använd `.env.example` med placeholders.
