@@ -714,7 +714,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         movements: [
           { name: "Power Snatch", detail: "6", suggested_weight_kg: 30 },
           { name: "Clean and Push Jerk", detail: "10", suggested_weight_kg: 30 },
-          { name: "Kettlebell Swing", detail: "20 rysk", suggested_weight_kg: 20 },
+          { name: "Kettlebell Snatch", detail: "20 växelvis", suggested_weight_kg: 20 },
         ],
       },
     ],

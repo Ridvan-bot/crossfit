@@ -240,20 +240,21 @@ export function LogSessionSheet({
               </label>
 
               <div className="grid grid-cols-2 gap-3">
-                <label className="grid gap-1 text-sm">
-                  <span
+                <div className="grid gap-1 text-sm">
+                  <div
                     className={`inline-flex items-center gap-1.5 ${
                       isBoard ? "text-white/55" : "text-stone-400"
                     }`}
                   >
-                    Känsla 1–5
+                    <label htmlFor="feeling_1_5">Känsla 1–5</label>
                     <HelpTip
                       text={FEELING_HELP_TEXT}
                       label="Vad betyder känsla?"
                       variant={isBoard ? "board" : "phone"}
                     />
-                  </span>
+                  </div>
                   <input
+                    id="feeling_1_5"
                     name="feeling_1_5"
                     type="number"
                     min={1}
@@ -261,21 +262,22 @@ export function LogSessionSheet({
                     inputMode="numeric"
                     className={fieldClass(isBoard)}
                   />
-                </label>
-                <label className="grid gap-1 text-sm">
-                  <span
+                </div>
+                <div className="grid gap-1 text-sm">
+                  <div
                     className={`inline-flex items-center gap-1.5 ${
                       isBoard ? "text-white/55" : "text-stone-400"
                     }`}
                   >
-                    RPE 1–10
+                    <label htmlFor="rpe_1_10">RPE 1–10</label>
                     <HelpTip
                       text={RPE_HELP_TEXT}
                       label="Vad betyder RPE?"
                       variant={isBoard ? "board" : "phone"}
                     />
-                  </span>
+                  </div>
                   <input
+                    id="rpe_1_10"
                     name="rpe_1_10"
                     type="number"
                     min={1}
@@ -283,7 +285,7 @@ export function LogSessionSheet({
                     inputMode="numeric"
                     className={fieldClass(isBoard)}
                   />
-                </label>
+                </div>
               </div>
 
               <label className="grid gap-1 text-sm">

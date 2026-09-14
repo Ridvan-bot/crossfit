@@ -24,8 +24,9 @@ type Props = {
 };
 
 /**
- * Frågetecken med förklaring: hover på desktop, tryck på mobil.
- * Tooltip renderas i portal (fixed) så den syns även i scrollande modaler.
+ * Frågetecken med förklaring.
+ * Öppnas med klick/tryck (stabilt på mobil och i modaler).
+ * Tooltip i portal med hög z-index så den syns ovanpå tavla/sheet.
  */
 export function HelpTip({
   text = RPE_HELP_TEXT,
@@ -35,7 +36,7 @@ export function HelpTip({
 }: Props) {
   const tipId = useId();
   const rootRef = useRef<HTMLSpanElement>(null);
-  const tipRef = useRef<HTMLSpanElement>(null);
+  const tipRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState<{ top: number; left: number } | null>(
     null
@@ -64,7 +65,7 @@ export function HelpTip({
       if (left < 12) left = 12;
 
       let top = r.bottom + 8;
-      const tipH = tipRef.current?.offsetHeight ?? 96;
+      const tipH = tipRef.current?.offsetHeight ?? 120;
       if (top + tipH > window.innerHeight - 12) {
         top = Math.max(12, r.top - tipH - 8);
       }
@@ -72,12 +73,12 @@ export function HelpTip({
     };
 
     place();
-    // Second pass after tip mounts (measure height)
-    requestAnimationFrame(place);
+    const raf = requestAnimationFrame(place);
 
     window.addEventListener("resize", place);
     window.addEventListener("scroll", place, true);
     return () => {
+      cancelAnimationFrame(raf);
       window.removeEventListener("resize", place);
       window.removeEventListener("scroll", place, true);
     };
@@ -94,9 +95,13 @@ export function HelpTip({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
-    window.addEventListener("pointerdown", onPointerDown);
+    // delay so the opening click doesn't immediately close
+    const timer = window.setTimeout(() => {
+      window.addEventListener("pointerdown", onPointerDown);
+    }, 0);
     window.addEventListener("keydown", onKey);
     return () => {
+      window.clearTimeout(timer);
       window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("keydown", onKey);
     };
@@ -121,37 +126,31 @@ export function HelpTip({
               "border-stone-600 bg-stone-900 text-stone-200 shadow-xl shadow-black/50",
           };
 
-  const canHover = () =>
-    typeof window !== "undefined" &&
-    window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  // Above board (z-9999) and log sheet (z-80)
+  const tipZ = "z-[10050]";
 
   const tip =
-    mounted && open && coords
+    mounted && open
       ? createPortal(
-          <span
+          <div
             ref={tipRef}
             id={tipId}
             role="tooltip"
-            style={{ top: coords.top, left: coords.left }}
-            className={`fixed z-[120] w-[min(20rem,calc(100vw-1.5rem))] rounded-lg border px-3 py-2.5 text-left text-sm leading-snug ${tone.panel}`}
+            style={{
+              top: coords?.top ?? -9999,
+              left: coords?.left ?? 0,
+              visibility: coords ? "visible" : "hidden",
+            }}
+            className={`fixed ${tipZ} w-[min(20rem,calc(100vw-1.5rem))] rounded-lg border px-3 py-2.5 text-left text-sm leading-snug ${tone.panel}`}
           >
             {text}
-          </span>,
+          </div>,
           document.body
         )
       : null;
 
   return (
-    <span
-      ref={rootRef}
-      className={`relative inline-flex ${className}`}
-      onMouseEnter={() => {
-        if (canHover()) setOpen(true);
-      }}
-      onMouseLeave={() => {
-        if (canHover()) setOpen(false);
-      }}
-    >
+    <span ref={rootRef} className={`relative inline-flex ${className}`}>
       <button
         type="button"
         aria-label={label}
@@ -162,7 +161,7 @@ export function HelpTip({
           e.stopPropagation();
           setOpen((v) => !v);
         }}
-        className={`inline-flex size-[1.15rem] shrink-0 items-center justify-center rounded-full border text-[0.7rem] font-semibold leading-none ${tone.btn}`}
+        className={`inline-flex size-6 shrink-0 items-center justify-center rounded-full border text-[0.75rem] font-semibold leading-none ${tone.btn}`}
       >
         ?
       </button>

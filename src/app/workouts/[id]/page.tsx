@@ -340,16 +340,17 @@ export default async function WorkoutDetailPage({ params }: Props) {
               placeholder="Score (t.ex. 4 hela varv)"
               className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
             />
-            <label className="grid gap-1.5">
-              <span className="inline-flex items-center gap-1.5 text-sm text-stone-400">
-                Känsla 1–5
+            <div className="grid gap-1.5">
+              <div className="inline-flex items-center gap-1.5 text-sm text-stone-400">
+                <label htmlFor="feeling_1_5_page">Känsla 1–5</label>
                 <HelpTip
                   text={FEELING_HELP_TEXT}
                   label="Vad betyder känsla?"
                   variant="app"
                 />
-              </span>
+              </div>
               <input
+                id="feeling_1_5_page"
                 name="feeling_1_5"
                 type="number"
                 min={1}
@@ -357,17 +358,18 @@ export default async function WorkoutDetailPage({ params }: Props) {
                 placeholder="1–5"
                 className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
               />
-            </label>
-            <label className="grid gap-1.5">
-              <span className="inline-flex items-center gap-1.5 text-sm text-stone-400">
-                RPE 1–10
+            </div>
+            <div className="grid gap-1.5">
+              <div className="inline-flex items-center gap-1.5 text-sm text-stone-400">
+                <label htmlFor="rpe_1_10_page">RPE 1–10</label>
                 <HelpTip
                   text={RPE_HELP_TEXT}
                   label="Vad betyder RPE?"
                   variant="app"
                 />
-              </span>
+              </div>
               <input
+                id="rpe_1_10_page"
                 name="rpe_1_10"
                 type="number"
                 min={1}
@@ -375,7 +377,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
                 placeholder="1–10"
                 className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
               />
-            </label>
+            </div>
             <textarea
               name="notes"
               placeholder="Kommentar"

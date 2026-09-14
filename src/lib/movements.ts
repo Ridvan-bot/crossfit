@@ -36,6 +36,7 @@ export const CROSSFIT_MOVEMENTS = [
   "Dumbbell Push Press",
   "Dumbbell Snatch",
   "Dumbbell Thruster",
+  "Kettlebell Snatch",
   "Kettlebell Swing",
   "Turkish Get-up",
   // Gymnastics / bodyweight
