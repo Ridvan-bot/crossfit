@@ -16,6 +16,11 @@
    - **Reps/set-notation (alltid):** `A × B` betyder **A reps, B gånger** (set).
      Exempel: `2 × 6` = 2 reps, 6 gånger. **Inte** sets×reps.
      Skriv aldrig tvetydigt — håll dig till den här konventionen i alla WOD-texter.
+   - **Metcon på tavlan (alltid):** `format_label` måste tydligt ange strukturen:
+     - For Time med fasta varv: t.ex. `FOR TIME · 3 ROUNDS · MAX 8 MIN:`
+     - AMRAP: t.ex. `AMRAP 10 MIN · SÅ MÅNGA VARV DU HINNER:`
+     - EMOM: t.ex. `EMOM 12 MIN · 1 RÖRELSE / MIN`
+     Antal varv / tid / format får **aldrig** bara ligga i coaching-tip — det ska synas i formatet på tavlan.
    - Hämta inspiration från CrossFits dagliga WOD-sida:
      `https://www.crossfit.com/workout/`
      (format, pacing, struktur: AMRAP / For Time / EMOM / rounds, m.m.).

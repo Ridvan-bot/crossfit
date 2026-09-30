@@ -2,12 +2,12 @@
 
 ## 1) Snabbstatus
 
-- Senast uppdaterad: 2026-09-08
+- Senast uppdaterad: 2026-09-30
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
-- Nuvarande läge: Athlete learning live (preferenser + insights). Block 3 #008 genomfört; nästa #009.
+- Nuvarande läge: Block 4 (#013–#016) upplagt utifrån loggade resultat. #012 genomfört (4:14).
 - Nästa steg:
-  - Fyll/justera träningsprofil under Profil.
-  - Kör pass #009 — insights uppdateras automatiskt.
+  - Kör pass #013 (Clean Day).
+  - Justera träningsprofil om nya rörelser känns fel.
 
 ## 2) Miljö och kontext
 
@@ -19,6 +19,12 @@
 - Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep (sätts i appen under Profil)
 
 ## 3) Genomfört
+
+### 2026-09-30 - Block 4 (#013–#016) från athlete data
+
+- Byggda utifrån logg: HPC 40, FS 50→55, DL 60 tungt, #011 sit-ups begränsar, #012 för lätt (RPE 5).
+- Nya rörelser: Goblet Squat, Shoulder Press, Thruster, Dumbbell Thruster, Sumo Deadlift High Pull, Hollow Rock, Push-up i metcon.
+- Ingen hopprep/DU. Formatetiketter med antal varv.
 
 ### 2026-09-08 - Lära av användaren (athlete learning)
 
