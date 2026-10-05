@@ -954,10 +954,10 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
         estimated_minutes_min: 8,
         estimated_minutes_max: 8,
         timer_preset_sec: 480,
-        coaching_tip: "DB Thruster är ny. Hellre lätt än fula PS-reps.",
+        coaching_tip: "1 DB — C&PP växelvis (inte thruster med två hantlar). Hellre lätt än fula PS-reps.",
         movements: [
           { name: "Power Snatch", detail: "6", suggested_weight_kg: 30 },
-          { name: "Dumbbell Thruster", detail: "10 växelvis", suggested_weight_kg: 15 },
+          { name: "Dumbbell Clean & Push Press", detail: "10 växelvis (1 DB)", suggested_weight_kg: 15 },
           { name: "Kettlebell Swing", detail: "15 rysk", suggested_weight_kg: 20 },
         ],
       },

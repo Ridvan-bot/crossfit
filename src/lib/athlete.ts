@@ -46,6 +46,7 @@ export const CONSTRAINT_OPTIONS: { value: string; label: string }[] = [
   { value: "no_jump_rope", label: "Ingen hopprep" },
   { value: "limited_plates", label: "Begränsade viktskivor (inga 2,5 kg)" },
   { value: "home_gym", label: "Hemma / begränsad box" },
+  { value: "one_dumbbell", label: "Bara 1 dumbbell (inte par)" },
   { value: "knee_sensitive", label: "Känsliga knän" },
   { value: "shoulder_sensitive", label: "Känsliga axlar" },
   { value: "back_sensitive", label: "Känslig rygg" },
