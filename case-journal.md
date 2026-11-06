@@ -4,10 +4,9 @@
 
 - Senast uppdaterad: 2026-11-06
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
-- Nuvarande läge: Block 5. Passupplägg varieras (samma warmup, olika arbetspass). #018 Oly-dag idag.
+- Nuvarande läge: Block 5 pågår. #017 genomfört (5:42). Passupplägg varieras (samma warmup, olika arbetspass). #018 är dagens teknik-/styrkepass utan metcon pga snuva.
 - Nästa steg:
-  - Kör pass #018 (styrka/oly, ingen metcon).
-  - #019 EMOM-WOD, #020 tung DL + chipper.
+  - #019 EMOM-WOD och #020 tung DL + chipper när andningen är OK.
 
 ## 2) Miljö och kontext
 
@@ -25,11 +24,17 @@
 - Alla pass hade samma fyra block (warmup / teknik / styrka / metcon). Det är inte CrossFit-variance.
 - Källa: Glassman-template (1–3 modaliteter, inte allt varje dag) och HQ Ask a Coach (sällan styrka + metcon samma pass).
 - Appen: `src/lib/session-layout.ts` — `STANDARD_WARMUP` + mallar (Oly, teknik, WOD, EMOM, skill+WOD, styrka+WOD). Classic 4-delar borttagen från skapa-pass.
-- Planerade pass:
-  - #018 Oly-dag (snuvig, ingen metcon): HPC 2 × 6 @ 35, FS 3 × 4 @ 50, SP 5 × 3 @ 30.
+- Passupplägg framåt:
   - #019 WOD-dag: EMOM 12 (Thruster / KB Swing / Push-up).
   - #020 tvådelat: Deadlift 3 × 4 @ 55 + kort chipper.
 - Genomförda pass (#001–#017) orörda.
+
+### 2026-11-06 - Pass #018 omgjort till teknik/styrka (ingen flås)
+
+- Robin snuvig, vill inte köra flås. CrossFit.com 261106 är Fight Gone Bad — skippad.
+- #018 (block 5 vecka 2, clean-dag) omlagd: metcon/For Time borttagen. Warmup utan marsch.
+- Teknik: Hang Power Clean 2 × 6 @ 35 (under loggade 40). Styrka: Front Squat 3 × 4 @ 50 + Shoulder Press 5 × 3 @ 30. Full vila.
+- #019–#020 orörda.
 
 ### 2026-09-30 - Block 4 (#013–#016) från athlete data
 
