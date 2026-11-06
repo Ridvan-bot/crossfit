@@ -2,12 +2,12 @@
 
 ## 1) Snabbstatus
 
-- Senast uppdaterad: 2026-09-30
+- Senast uppdaterad: 2026-11-06
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
-- Nuvarande läge: Block 4 (#013–#016) upplagt utifrån loggade resultat. #012 genomfört (4:14).
+- Nuvarande läge: Block 5 pågår. #017 genomfört (5:42). #018 är dagens pass (teknik + styrka, ingen metcon pga snuva).
 - Nästa steg:
-  - Kör pass #013 (Clean Day).
-  - Justera träningsprofil om nya rörelser känns fel.
+  - Kör pass #018.
+  - #019–#020 ligger kvar planerade när andningen är OK.
 
 ## 2) Miljö och kontext
 
@@ -19,6 +19,13 @@
 - Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep (sätts i appen under Profil)
 
 ## 3) Genomfört
+
+### 2026-11-06 - Pass #018 omgjort till teknik/styrka (ingen flås)
+
+- Robin snuvig, vill inte köra flås. CrossFit.com 261106 är Fight Gone Bad — skippad.
+- #018 (block 5 vecka 2, clean-dag) omlagd: metcon/For Time borttagen. Warmup utan marsch.
+- Teknik: Hang Power Clean 2 × 6 @ 35 (under loggade 40). Styrka: Front Squat 3 × 4 @ 50 + Shoulder Press 5 × 3 @ 30. Full vila.
+- #019–#020 orörda.
 
 ### 2026-09-30 - Block 4 (#013–#016) från athlete data
 
