@@ -6,6 +6,11 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { recomputeAthleteInsights } from "@/app/actions/athlete";
 import { parsePreferences, type AthletePreferences } from "@/lib/athlete";
+import {
+  resolveSessionLayout,
+  STANDARD_WARMUP,
+  type LayoutMovement,
+} from "@/lib/session-layout";
 
 export async function createWorkout(formData: FormData) {
   const supabase = await createClient();
@@ -45,77 +50,28 @@ export async function createWorkout(formData: FormData) {
 
   if (error || !data) throw new Error(error?.message ?? "create failed");
 
-  const template = String(formData.get("template") || "classic");
-  type SectionSeed = {
-    kind: "warmup" | "technique" | "strength" | "metcon" | "other";
-    label: string;
-    format: string;
-    min: number;
-    max: number;
-    timer?: number;
-  };
-
-  let seeds: SectionSeed[] = [];
-  if (template === "metcon") {
-    seeds = [
-      {
-        kind: "metcon",
-        label: "Metcon",
-        format: "AMRAP · TAR 10 MIN:",
-        min: 10,
-        max: 10,
-        timer: 600,
-      },
-    ];
-  } else if (template === "empty") {
-    seeds = [];
-  } else {
-    // classic (default)
-    seeds = [
-      {
-        kind: "warmup",
-        label: "Warmup",
-        format: "WARMUP · TAR CA 10 MIN",
-        min: 10,
-        max: 10,
-      },
-      {
-        kind: "technique",
-        label: "Teknik",
-        format: "TEKNIK · TAR CA 12–15 MIN",
-        min: 12,
-        max: 15,
-      },
-      {
-        kind: "strength",
-        label: "Styrka",
-        format: "STYRKA · TAR CA 10–12 MIN",
-        min: 10,
-        max: 12,
-      },
-      {
-        kind: "metcon",
-        label: "Metcon",
-        format: "AMRAP · TAR 10 MIN:",
-        min: 10,
-        max: 10,
-        timer: 600,
-      },
-    ];
-  }
-
-  for (let i = 0; i < seeds.length; i++) {
-    const k = seeds[i];
-    await supabase.from("workout_sections").insert({
-      workout_id: data.id,
-      kind: k.kind,
-      sort_order: i,
-      label: k.label,
-      format_label: k.format,
-      estimated_minutes_min: k.min,
-      estimated_minutes_max: k.max,
-      timer_preset_sec: k.timer ?? null,
-    });
+  const layout = resolveSessionLayout(String(formData.get("template") || ""));
+  for (let i = 0; i < layout.sections.length; i++) {
+    const k = layout.sections[i];
+    const { data: section, error: sectionError } = await supabase
+      .from("workout_sections")
+      .insert({
+        workout_id: data.id,
+        kind: k.kind,
+        sort_order: i,
+        label: k.label,
+        format_label: k.format_label,
+        estimated_minutes_min: k.estimated_minutes_min,
+        estimated_minutes_max: k.estimated_minutes_max,
+        coaching_tip: k.coaching_tip,
+        timer_preset_sec: k.timer_preset_sec,
+      })
+      .select("id")
+      .single();
+    if (sectionError || !section) {
+      throw new Error(sectionError?.message ?? "Kunde inte skapa passdel.");
+    }
+    await insertLayoutMovements(supabase, section.id, k.movements);
   }
 
   revalidatePath("/workouts");
@@ -455,18 +411,62 @@ export async function addSection(formData: FormData) {
     .maybeSingle();
 
   const sortOrder = (maxRow?.sort_order ?? -1) + 1;
+  const isWarmup = safeKind === "warmup";
   const timerDefault = safeKind === "metcon" ? 600 : null;
 
-  await supabase.from("workout_sections").insert({
-    workout_id: workoutId,
-    kind: safeKind,
-    sort_order: sortOrder,
-    label,
-    format_label: label.toUpperCase(),
-    timer_preset_sec: timerDefault,
-  });
+  const { data: section, error: sectionError } = await supabase
+    .from("workout_sections")
+    .insert({
+      workout_id: workoutId,
+      kind: safeKind,
+      sort_order: sortOrder,
+      label: isWarmup ? STANDARD_WARMUP.label : label,
+      format_label: isWarmup
+        ? STANDARD_WARMUP.format_label
+        : label.toUpperCase(),
+      estimated_minutes_min: isWarmup
+        ? STANDARD_WARMUP.estimated_minutes_min
+        : null,
+      estimated_minutes_max: isWarmup
+        ? STANDARD_WARMUP.estimated_minutes_max
+        : null,
+      coaching_tip: isWarmup ? STANDARD_WARMUP.coaching_tip : null,
+      timer_preset_sec: timerDefault,
+    })
+    .select("id")
+    .single();
+
+  if (sectionError || !section) {
+    throw new Error(sectionError?.message ?? "Kunde inte skapa del.");
+  }
+
+  if (isWarmup) {
+    await insertLayoutMovements(
+      supabase,
+      section.id,
+      STANDARD_WARMUP.movements
+    );
+  }
 
   revalidatePath(`/workouts/${workoutId}`);
+}
+
+async function insertLayoutMovements(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  sectionId: string,
+  movements: LayoutMovement[]
+) {
+  if (!movements.length) return;
+  const { error } = await supabase.from("section_movements").insert(
+    movements.map((m, i) => ({
+      section_id: sectionId,
+      name: m.name,
+      detail: m.detail,
+      suggested_weight_kg: m.suggested_weight_kg,
+      sort_order: i,
+    }))
+  );
+  if (error) throw new Error(error.message);
 }
 
 export async function deleteSection(formData: FormData) {

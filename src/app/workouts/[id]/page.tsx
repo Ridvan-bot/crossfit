@@ -293,6 +293,9 @@ export default async function WorkoutDetailPage({ params }: Props) {
           <h3 className="md:col-span-3 text-sm font-semibold text-stone-300">
             Lägg till del
           </h3>
+          <p className="md:col-span-3 text-xs text-stone-500">
+            Välj Warmup så infogas standarduppvärmningen (samma varje pass).
+          </p>
           <input
             name="label"
             required

@@ -16,16 +16,22 @@
    - **Reps/set-notation (alltid):** `A × B` betyder **A reps, B gånger** (set).
      Exempel: `2 × 6` = 2 reps, 6 gånger. **Inte** sets×reps.
      Skriv aldrig tvetydigt — håll dig till den här konventionen i alla WOD-texter.
-   - **Metcon på tavlan (alltid):** `format_label` måste tydligt ange strukturen:
+   - **Uppvärmning (alltid densamma):** använd `STANDARD_WARMUP` i `src/lib/session-layout.ts`.
+     Inte en unik warmup per pass. Specifik förberedelse av dagens rörelse hör hemma i arbetspasset.
+   - **Variera upplägget:** kör inte teknik + styrka + metcon varje pass. Dagen har en prioritet
+     (styrka/oly, teknik, WOD, EMOM). Tvådelat (skill+WOD eller styrka+WOD) ibland, inte som mall.
+     Mallar: `SESSION_LAYOUTS` i `src/lib/session-layout.ts`.
+   - **Metcon på tavlan (när det finns):** `format_label` måste tydligt ange strukturen:
      - For Time med fasta varv: t.ex. `FOR TIME · 3 ROUNDS · MAX 8 MIN:`
      - AMRAP: t.ex. `AMRAP 10 MIN · SÅ MÅNGA VARV DU HINNER:`
      - EMOM: t.ex. `EMOM 12 MIN · 1 RÖRELSE / MIN`
+     - Chipper: t.ex. `FOR TIME · CHIPPER · MAX 10 MIN:`
      Antal varv / tid / format får **aldrig** bara ligga i coaching-tip — det ska synas i formatet på tavlan.
    - Hämta inspiration från CrossFits dagliga WOD-sida:
      `https://www.crossfit.com/workout/`
-     (format, pacing, struktur: AMRAP / For Time / EMOM / rounds, m.m.).
-   - Anpassa till hemmautrustning, ingen (eller begränsad) hopprep om användaren sagt det,
-     och coachingfilosofin: teknik → styrka → kort metcon.
+     (format, pacing, struktur: AMRAP / For Time / EMOM / chipper / tungt lyft-dag, m.m.).
+   - Anpassa till hemmautrustning, ingen (eller begränsad) hopprep om användaren sagt det.
+     Coaching: kvalitet och intensitet i *dagens* prioritet — inte tre halvfärdiga block.
    - Kopiera inte rakt av benchmark-WODs utan att skala till nivå och utrustning.
 
 5. Huvuddokument / ytor:
