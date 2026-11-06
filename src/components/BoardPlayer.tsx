@@ -21,6 +21,7 @@ import {
 } from "@/components/LogSessionSheet";
 import { WorkoutTimer } from "@/components/WorkoutTimer";
 import type { SectionMovement, WorkoutSection } from "@/lib/types";
+import { firstWorkingSectionIndex } from "@/lib/session-layout";
 
 const DEFAULT_BOARD_FRAC = 0.575;
 const MIN_BOARD_FRAC = 0.32;
@@ -136,10 +137,7 @@ export function BoardPlayer({
   title: string;
   sections: WorkoutSection[];
 }) {
-  const initialIndex = (() => {
-    const metcon = initialSections.findIndex((s) => s.kind === "metcon");
-    return metcon >= 0 ? metcon : 0;
-  })();
+  const initialIndex = firstWorkingSectionIndex(initialSections);
   const router = useRouter();
   const [sections, setSections] = useState(() => cloneSections(initialSections));
   const [index, setIndex] = useState(initialIndex);

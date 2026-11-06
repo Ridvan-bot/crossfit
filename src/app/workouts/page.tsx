@@ -2,6 +2,10 @@ import Link from "next/link";
 import { AppNav } from "@/components/AppNav";
 import { createWorkout, deleteWorkout } from "@/app/actions/crud";
 import { createClient } from "@/lib/supabase/server";
+import {
+  DEFAULT_SESSION_LAYOUT,
+  SESSION_LAYOUT_OPTIONS,
+} from "@/lib/session-layout";
 
 export default async function WorkoutsPage() {
   const supabase = await createClient();
@@ -26,7 +30,8 @@ export default async function WorkoutsPage() {
           <p className="ui-eyebrow">Programmera</p>
           <h1 className="ui-title mt-1 text-4xl sm:text-5xl">Pass</h1>
           <p className="mt-2 text-stone-400">
-            Skapa WOD med rörelser. Utrustning ställer du in under{" "}
+            Uppvärmningen är alltid densamma. Variera arbetspasset. Utrustning
+            ställer du in under{" "}
             <Link href="/profile" className="ui-link">
               Profil
             </Link>
@@ -61,26 +66,32 @@ export default async function WorkoutsPage() {
             rows={2}
           />
           <fieldset className="md:col-span-2 space-y-3 rounded-xl border border-white/5 bg-black/20 p-3">
-            <legend className="px-1 text-sm text-stone-400">Mall för delar</legend>
-            <div className="flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap sm:gap-4">
-              <label className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-white/5">
-                <input
-                  type="radio"
-                  name="template"
-                  value="classic"
-                  defaultChecked
-                  className="accent-teal-500"
-                />
-                Classic (4 delar)
-              </label>
-              <label className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-white/5">
-                <input type="radio" name="template" value="metcon" className="accent-teal-500" />
-                Bara Metcon
-              </label>
-              <label className="inline-flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-white/5">
-                <input type="radio" name="template" value="empty" className="accent-teal-500" />
-                Tomt
-              </label>
+            <legend className="px-1 text-sm text-stone-400">Dagens prioritet</legend>
+            <p className="text-xs text-stone-500">
+              Uppvärmningen är alltid densamma. Välj arbetspasset — inte teknik +
+              styrka + metcon varje gång.
+            </p>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {SESSION_LAYOUT_OPTIONS.map((opt) => (
+                <label
+                  key={opt.id}
+                  className="inline-flex items-start gap-2 rounded-lg px-2 py-1.5 hover:bg-white/5"
+                >
+                  <input
+                    type="radio"
+                    name="template"
+                    value={opt.id}
+                    defaultChecked={opt.id === DEFAULT_SESSION_LAYOUT}
+                    className="mt-1 accent-teal-500"
+                  />
+                  <span>
+                    <span className="text-sm text-stone-200">{opt.label}</span>
+                    <span className="mt-0.5 block text-xs text-stone-500">
+                      {opt.hint}
+                    </span>
+                  </span>
+                </label>
+              ))}
             </div>
           </fieldset>
           <button type="submit" className="ui-btn ui-btn-primary md:col-span-2 py-3">

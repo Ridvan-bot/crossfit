@@ -4,10 +4,9 @@
 
 - Senast uppdaterad: 2026-11-06
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
-- Nuvarande läge: Block 5 pågår. #017 genomfört (5:42). #018 är dagens pass (teknik + styrka, ingen metcon pga snuva).
+- Nuvarande läge: Block 5 pågår. #017 genomfört (5:42). Passupplägg varieras (samma warmup, olika arbetspass). #018 är dagens teknik-/styrkepass utan metcon pga snuva.
 - Nästa steg:
-  - Kör pass #018.
-  - #019–#020 ligger kvar planerade när andningen är OK.
+  - #019 EMOM-WOD och #020 tung DL + chipper när andningen är OK.
 
 ## 2) Miljö och kontext
 
@@ -19,6 +18,16 @@
 - Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep (sätts i appen under Profil)
 
 ## 3) Genomfört
+
+### 2026-11-06 - Varierade passupplägg + standardwarmup
+
+- Alla pass hade samma fyra block (warmup / teknik / styrka / metcon). Det är inte CrossFit-variance.
+- Källa: Glassman-template (1–3 modaliteter, inte allt varje dag) och HQ Ask a Coach (sällan styrka + metcon samma pass).
+- Appen: `src/lib/session-layout.ts` — `STANDARD_WARMUP` + mallar (Oly, teknik, WOD, EMOM, skill+WOD, styrka+WOD). Classic 4-delar borttagen från skapa-pass.
+- Passupplägg framåt:
+  - #019 WOD-dag: EMOM 12 (Thruster / KB Swing / Push-up).
+  - #020 tvådelat: Deadlift 3 × 4 @ 55 + kort chipper.
+- Genomförda pass (#001–#017) orörda.
 
 ### 2026-11-06 - Pass #018 omgjort till teknik/styrka (ingen flås)
 

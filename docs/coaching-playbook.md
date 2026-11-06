@@ -11,23 +11,26 @@
 - Hållbarhet först: hellre lite för lätt än för tungt när teknik brister.
 - Programmering styrs av tillgänglig hemmautrustning i `docs/equipment-and-constraints.md`.
 
-## 2. Veckostruktur (1 pass/vecka)
+## 2. Passupplägg (variera)
 
-Varje pass innehåller:
+Uppvärmningen är **alltid densamma** (`STANDARD_WARMUP`). Därefter har dagen en prioritet — inte tre block varje gång.
 
-1. Teknikblock olympiska lyft (15-25 min)
-   - Clean/snatch-variationer med lätt till moderat belastning.
-2. Styrkeblock (20-30 min)
-   - 3-5 set i en huvudrörelse med tydlig progression.
-3. Kort metcon (8-12 min)
-   - 2-3 rörelser i kontrollerad intensitet utan maskinkrav.
+CrossFit HQ (Glassmans template + Ask a Coach) kör sällan styrka och metcon i samma pass: båda blir sämre, och skill-arbetet försvinner.
+
+Rotera mellan:
+
+1. **Styrka / Oly-dag** — tunga lyft eller olympiskt arbete, lång vila, ingen metcon.
+2. **Teknik-dag** — skill, ingen klocka.
+3. **WOD-dag** — ett metcon (For Time, AMRAP, EMOM, chipper) *är* passet.
+4. **Ibland tvådelat** — kort skill eller ett lyft + kort WOD. Inte standardmall.
+
+Prioritet över ett block (teknik, styrka, motor) mäts över flera pass, inte inuti varje pass.
 
 ## 3. Periodisering
 
 - Block om 6-8 veckor.
-- Exempel:
-  - Block A: clean-teknik + front squat + deadlift-bas.
-  - Block B: snatch-teknik + press + posterior chain.
+- Exempel över ett block (olika dagar, inte samma pass):
+  - Oly/clean-dag, WOD-dag, tung deadlift-dag, snatch-skill, press + kort couplet.
 - Deload/lätta veckor läggs in vid behov var 4-6 vecka.
 
 ## 4. Feedback-loop
