@@ -417,7 +417,7 @@ export function BoardPlayer({
   if (!section) {
     return (
       <BoardPortal>
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-4 bg-[#0c0c0c] p-6 text-[#f4f1ea]">
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-4 bg-[#0c0c0c] pt-[max(1.5rem,var(--safe-t))] pr-[max(1.5rem,var(--safe-r))] pb-[max(1.5rem,var(--safe-b))] pl-[max(1.5rem,var(--safe-l))] text-[#f4f1ea]">
           <p className="font-[family-name:var(--font-amatic)] text-3xl tracking-wider text-white/70">
             Inga delar i passet ännu
           </p>
@@ -464,7 +464,7 @@ export function BoardPlayer({
         />
         <div
           ref={layoutRef}
-          className={`relative z-10 flex h-full min-h-0 ${
+          className={`ui-safe-pad relative z-10 flex h-full min-h-0 ${
             timerOpen ? "flex-col landscape:flex-row" : "flex-col"
           }`}
         >
@@ -791,7 +791,7 @@ export function BoardPlayer({
               title="Visa timer"
               aria-label="Visa timer"
               onClick={() => setTimerOpen(true)}
-              className="absolute bottom-3 right-3 z-30 flex size-10 items-center justify-center rounded-full border border-white/35 bg-[#161616] text-white/80 shadow-lg transition hover:border-white/60 hover:bg-[#1e1e1e] hover:text-white landscape:bottom-auto landscape:top-1/2 landscape:right-2 landscape:-translate-y-1/2"
+              className="absolute bottom-[max(0.75rem,var(--safe-b))] right-[max(0.75rem,var(--safe-r))] z-30 flex size-10 items-center justify-center rounded-full border border-white/35 bg-[#161616] text-white/80 shadow-lg transition hover:border-white/60 hover:bg-[#1e1e1e] hover:text-white landscape:bottom-auto landscape:top-1/2 landscape:right-[max(0.5rem,var(--safe-r))] landscape:-translate-y-1/2"
             >
               <ExpandTimerIcon className="size-5" />
             </button>

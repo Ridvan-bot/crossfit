@@ -39,7 +39,7 @@ export default function SignupPage() {
   }
 
   return (
-    <main className="relative mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 px-4">
+    <main className="ui-auth-screen relative mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6">
       <div className="pointer-events-none absolute left-1/2 top-24 size-64 -translate-x-1/2 rounded-full bg-teal-500/20 blur-3xl" />
       <div className="ui-page relative ui-card p-6 sm:p-8">
         <p className="ui-eyebrow">CrossFit</p>

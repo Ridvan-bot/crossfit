@@ -23,6 +23,12 @@
   --stroke: rgba(148, 163, 184, 0.12);
   --stroke-strong: rgba(43, 179, 163, 0.35);
   --glow: rgba(26, 149, 135, 0.22);
+
+  /* iPhone notch / hemindikator — kräver viewport-fit=cover */
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
 }
 
 body {
@@ -236,4 +242,62 @@ html[data-board="true"] body {
   color: var(--color-teal-300);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* Safe area: bakgrund fyller kanten, innehåll sitter ovanför notch/hemindikator.
+   .ui-bottom-chrome är till för bottenmeny, Kör-knapp och sticky timer. */
+.ui-safe-t {
+  padding-top: var(--safe-t);
+}
+.ui-safe-b {
+  padding-bottom: var(--safe-b);
+}
+.ui-safe-x {
+  padding-left: var(--safe-l);
+  padding-right: var(--safe-r);
+}
+.ui-safe-pad {
+  padding-top: var(--safe-t);
+  padding-right: var(--safe-r);
+  padding-bottom: var(--safe-b);
+  padding-left: var(--safe-l);
+}
+.ui-bottom-chrome {
+  padding-bottom: calc(1rem + var(--safe-b));
+}
+
+main.ui-page {
+  padding-left: max(1rem, var(--safe-l));
+  padding-right: max(1rem, var(--safe-r));
+  padding-bottom: calc(2.5rem + var(--safe-b));
+}
+
+.ui-phone-screen {
+  padding-top: calc(1rem + var(--safe-t));
+  padding-right: max(1rem, var(--safe-r));
+  padding-bottom: calc(2rem + var(--safe-b));
+  padding-left: max(1rem, var(--safe-l));
+}
+
+.ui-auth-screen {
+  padding-top: max(1.5rem, var(--safe-t));
+  padding-right: max(1rem, var(--safe-r));
+  padding-bottom: max(1.5rem, var(--safe-b));
+  padding-left: max(1rem, var(--safe-l));
+}
+
+.ui-sheet {
+  padding-top: var(--safe-t);
+  padding-right: var(--safe-r);
+  padding-bottom: var(--safe-b);
+  padding-left: var(--safe-l);
+}
+
+@media (min-width: 640px) {
+  .ui-sheet {
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+  }
 }
