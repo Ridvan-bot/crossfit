@@ -164,18 +164,20 @@ export function PhonePlayer({
           onClick={() => setLogOpen(true)}
           className="ui-btn ui-btn-outline mt-3 w-full py-3"
         >
-          Markera klart & logga
+          Logga
         </button>
       </section>
 
-      <LogSessionSheet
-        open={logOpen}
-        onClose={() => setLogOpen(false)}
-        workoutId={workoutId}
-        workoutTitle={title}
-        suggestedLifts={suggestedLifts}
-        variant="phone"
-      />
+      {logOpen ? (
+        <LogSessionSheet
+          open
+          onClose={() => setLogOpen(false)}
+          workoutId={workoutId}
+          workoutTitle={title}
+          suggestedLifts={suggestedLifts}
+          variant="phone"
+        />
+      ) : null}
     </div>
   );
 }

@@ -812,14 +812,16 @@ export function BoardPlayer({
           </div>
         </div>
 
-        <LogSessionSheet
-          open={logOpen}
-          onClose={() => setLogOpen(false)}
-          workoutId={workoutId}
-          workoutTitle={title}
-          suggestedLifts={suggestedLifts}
-          variant="board"
-        />
+        {logOpen ? (
+          <LogSessionSheet
+            open
+            onClose={() => setLogOpen(false)}
+            workoutId={workoutId}
+            workoutTitle={title}
+            suggestedLifts={suggestedLifts}
+            variant="board"
+          />
+        ) : null}
       </div>
     </BoardPortal>
   );
