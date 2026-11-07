@@ -122,7 +122,7 @@ export function LogSessionSheet({
       />
 
       <div
-        className={`relative z-10 flex h-[min(96dvh,100%)] max-h-[96dvh] w-full flex-col overflow-hidden shadow-2xl sm:mx-4 sm:h-auto sm:max-h-[min(94dvh,920px)] sm:w-[min(100%-2rem,48rem)] sm:max-w-3xl sm:rounded-2xl ${
+        className={`ui-sheet relative z-10 flex h-[min(96dvh,100%)] max-h-[96dvh] w-full flex-col overflow-hidden shadow-2xl sm:mx-4 sm:h-auto sm:max-h-[min(94dvh,920px)] sm:w-[min(100%-2rem,48rem)] sm:max-w-3xl sm:rounded-2xl ${
           isBoard
             ? "border border-white/25 bg-[#121212] text-[#f4f1ea]"
             : "rounded-t-2xl border border-stone-700 bg-stone-900 text-stone-100 sm:rounded-2xl"

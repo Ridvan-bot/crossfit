@@ -34,7 +34,7 @@ export function PhonePlayer({
 
   if (!section) {
     return (
-      <div className="ui-page mx-auto flex min-h-dvh max-w-lg flex-col gap-4 px-4 py-6">
+      <div className="ui-page ui-phone-screen mx-auto flex min-h-dvh max-w-lg flex-col gap-4">
         <Link href={`/workouts/${workoutId}`} className="ui-link text-sm">
           ← Tillbaka
         </Link>
@@ -60,7 +60,7 @@ export function PhonePlayer({
   const isLast = index === sections.length - 1;
 
   return (
-    <div className="ui-page mx-auto flex min-h-dvh max-w-lg flex-col gap-4 px-4 py-4 pb-8">
+    <div className="ui-page ui-phone-screen mx-auto flex min-h-dvh max-w-lg flex-col gap-4">
       <div className="flex items-center justify-between gap-2">
         <Link href={`/workouts/${workoutId}`} className="text-sm text-stone-400 hover:text-stone-200">
           ← Tillbaka
@@ -153,7 +153,7 @@ export function PhonePlayer({
         )}
       </div>
 
-      <section className="ui-card sticky bottom-2 p-4 shadow-[0_-8px_40px_-12px_rgba(0,0,0,0.8)]">
+      <section className="ui-card ui-bottom-chrome sticky bottom-0 p-4 shadow-[0_-8px_40px_-12px_rgba(0,0,0,0.8)]">
         <WorkoutTimer
           key={`${section.id}-${timerSec}`}
           initialSeconds={timerSec}

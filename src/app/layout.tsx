@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, IBM_Plex_Sans, Amatic_SC, Caveat } from "next/font/google";
 import "./globals.css";
 
@@ -29,6 +29,18 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   title: "CrossFit Träning",
   description: "Pass, timer, logg och mål",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "CrossFit",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#07090a",
 };
 
 export default function RootLayout({
