@@ -26,21 +26,8 @@ export default async function WorkoutsPage() {
     <>
       <AppNav />
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
-        <header>
-          <p className="ui-eyebrow">Programmera</p>
-          <h1 className="ui-title mt-1 text-4xl sm:text-5xl">Pass</h1>
-          <p className="mt-2 text-stone-400">
-            Uppvärmningen är alltid densamma. Variera arbetspasset. Utrustning
-            ställer du in under{" "}
-            <Link href="/profile" className="ui-link">
-              Profil
-            </Link>
-            .
-          </p>
-        </header>
-
         <form action={createWorkout} className="ui-card grid gap-3 p-5 md:grid-cols-2">
-          <h2 className="ui-eyebrow md:col-span-2">Nytt pass</h2>
+          <h1 className="ui-eyebrow md:col-span-2">Nytt pass</h1>
           <input
             name="title"
             required
@@ -52,12 +39,9 @@ export default async function WorkoutsPage() {
               name="pass_number"
               type="number"
               min={1}
-              placeholder={`Auto → #${nextPassNumber}`}
+              placeholder={`#${nextPassNumber} (auto)`}
               className="ui-input"
             />
-            <p className="mt-1.5 text-xs text-stone-500">
-              Lämna tomt så sätts passnummer till {nextPassNumber} automatiskt.
-            </p>
           </div>
           <textarea
             name="notes"
@@ -67,10 +51,6 @@ export default async function WorkoutsPage() {
           />
           <fieldset className="md:col-span-2 space-y-3 rounded-xl border border-white/5 bg-black/20 p-3">
             <legend className="px-1 text-sm text-stone-400">Dagens prioritet</legend>
-            <p className="text-xs text-stone-500">
-              Uppvärmningen är alltid densamma. Välj arbetspasset — inte teknik +
-              styrka + metcon varje gång.
-            </p>
             <div className="grid gap-2 sm:grid-cols-2">
               {SESSION_LAYOUT_OPTIONS.map((opt) => (
                 <label
@@ -148,7 +128,7 @@ export default async function WorkoutsPage() {
           ))}
           {(workouts ?? []).length === 0 ? (
             <li className="px-4 py-8 text-center text-stone-500">
-              Inga pass ännu. Skapa ett eller seeda från dashboard.
+              Inga pass ännu.
             </li>
           ) : null}
         </ul>
