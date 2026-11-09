@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AppNav } from "@/components/AppNav";
 import { AthletePreferencesFields } from "@/components/AthletePreferencesFields";
 import { EquipmentPicker } from "@/components/EquipmentPicker";
@@ -38,6 +39,14 @@ export default async function ProfilePage({ searchParams }: Props) {
             Utrustning, fokus och preferenser — appen lär sig av det du loggar och
             det du anger här, så varje atlet får en egen väg.
           </p>
+          <nav className="mt-4 flex flex-wrap gap-2 md:hidden" aria-label="Fler sidor">
+            <Link href="/library" className="ui-btn ui-btn-ghost min-h-11">
+              Bibliotek
+            </Link>
+            <Link href="/goals" className="ui-btn ui-btn-ghost min-h-11">
+              Mål
+            </Link>
+          </nav>
         </header>
 
         {saved === "1" ? (

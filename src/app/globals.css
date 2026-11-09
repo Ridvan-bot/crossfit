@@ -245,7 +245,8 @@ html[data-board="true"] body {
 }
 
 /* Safe area: bakgrund fyller kanten, innehåll sitter ovanför notch/hemindikator.
-   .ui-bottom-chrome är till för bottenmeny, Kör-knapp och sticky timer. */
+   .ui-bottom-chrome är till för Kör-knapp och sticky timer.
+   .ui-bottom-nav är den fasta mobilmenyn (Hem / Pass / Historik / Profil). */
 .ui-safe-t {
   padding-top: var(--safe-t);
 }
@@ -266,10 +267,69 @@ html[data-board="true"] body {
   padding-bottom: calc(1rem + var(--safe-b));
 }
 
+.ui-bottom-nav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(7, 9, 10, 0.88);
+  backdrop-filter: blur(16px);
+  padding-top: 0.3rem;
+  padding-right: var(--safe-r);
+  padding-bottom: max(0.3rem, var(--safe-b));
+  padding-left: var(--safe-l);
+}
+
+.ui-bottom-nav a {
+  display: flex;
+  min-height: 3rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  padding: 0.2rem 0.25rem;
+  color: #a8a29e;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ui-bottom-nav a.is-active,
+.ui-bottom-nav a[aria-current="page"] {
+  color: #5ecfc0;
+}
+
+.ui-bottom-nav a:focus-visible {
+  outline: 2px solid #5ecfc0;
+  outline-offset: -3px;
+  border-radius: 0.6rem;
+}
+
+@media (min-width: 768px) {
+  .ui-bottom-nav {
+    display: none;
+  }
+}
+
 main.ui-page {
   padding-left: max(1rem, var(--safe-l));
   padding-right: max(1rem, var(--safe-r));
   padding-bottom: calc(2.5rem + var(--safe-b));
+}
+
+@media (max-width: 767px) {
+  main.ui-page {
+    padding-bottom: calc(1.25rem + 4.25rem + var(--safe-b));
+  }
 }
 
 .ui-phone-screen {
