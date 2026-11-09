@@ -58,22 +58,20 @@ export default async function WorkoutDetailPage({ params }: Props) {
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="ui-eyebrow">Passdetalj</p>
-            <h1 className="ui-title mt-1 text-4xl sm:text-5xl">
+            <h1 className="ui-title text-4xl sm:text-5xl">
               {workout.title}
             </h1>
             {profile?.equipment ? (
-              <p className="text-stone-400">
-                Din utrustning: {profile.equipment}{" "}
+              <p className="mt-1 text-stone-400">
+                {profile.equipment}{" "}
                 <Link href="/profile" className="text-teal-400 hover:underline">
                   ändra
                 </Link>
               </p>
             ) : (
-              <p className="text-stone-500">
-                Ingen utrustning i profilen.{" "}
+              <p className="mt-1 text-stone-500">
                 <Link href="/profile" className="text-teal-400 hover:underline">
-                  Lägg till under Profil
+                  Lägg till utrustning
                 </Link>
               </p>
             )}
@@ -293,9 +291,6 @@ export default async function WorkoutDetailPage({ params }: Props) {
           <h3 className="md:col-span-3 text-sm font-semibold text-stone-300">
             Lägg till del
           </h3>
-          <p className="md:col-span-3 text-xs text-stone-500">
-            Välj Warmup så infogas standarduppvärmningen (samma varje pass).
-          </p>
           <input
             name="label"
             required

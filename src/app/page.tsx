@@ -52,20 +52,9 @@ export default async function HomePage() {
     <>
       <AppNav />
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
-        <header className="relative overflow-hidden rounded-2xl border border-white/8 bg-[linear-gradient(145deg,rgba(18,26,28,0.78),rgba(8,10,12,0.62))] p-6 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.85)] backdrop-blur-md sm:p-8">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(26,149,135,0.16),transparent_55%)]" />
-          <div className="relative">
-            <p className="ui-eyebrow">Träning · hemma</p>
-            <h1 className="ui-title mt-2 text-4xl sm:text-5xl">Dashboard</h1>
-            <p className="mt-2 max-w-xl text-stone-400">
-              Nästa pass, senaste resultat och lärdomar om dig — varje atlet får en egen väg.
-            </p>
-          </div>
-        </header>
-
         <div className="ui-stagger grid gap-4 md:grid-cols-2">
           <section className="ui-card p-5 sm:p-6">
-            <h2 className="ui-eyebrow">Nästa pass</h2>
+            <h1 className="ui-eyebrow">Nästa pass</h1>
             {nextWorkout ? (
               <div className="mt-4 space-y-4">
                 <div>
@@ -131,13 +120,7 @@ export default async function HomePage() {
 
         {(count ?? 0) === 0 ? (
           <section className="ui-card ui-card-accent p-5 sm:p-6">
-            <h2 className="ui-title text-xl text-teal-100">Kom igång</h2>
-            <p className="mt-2 text-sm text-stone-400">
-              Importera pass #001–#008, mål och WOD-mallar från din träningslogg.
-            </p>
-            <div className="mt-4">
-              <SeedButton />
-            </div>
+            <SeedButton />
           </section>
         ) : null}
       </main>

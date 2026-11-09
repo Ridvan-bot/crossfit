@@ -25,10 +25,11 @@ export function AthleteLearningCard({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="ui-eyebrow">Lärdomar om dig</h2>
-          <p className="mt-2 max-w-2xl text-sm text-stone-300">
-            {insights?.summary_sv ??
-              "När du loggar pass byggs en personlig bild: vikter, RPE, känsla och preferenser. Det styr framtida WOD:er."}
-          </p>
+          {insights?.summary_sv ? (
+            <p className="mt-2 max-w-2xl text-sm text-stone-300">
+              {insights.summary_sv}
+            </p>
+          ) : null}
         </div>
         <Link href="/profile" className="ui-btn ui-btn-ghost text-xs">
           Uppdatera profil
