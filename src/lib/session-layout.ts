@@ -227,6 +227,11 @@ export function resolveSessionLayout(id: string | null | undefined) {
   return SESSION_LAYOUTS[DEFAULT_SESSION_LAYOUT];
 }
 
+/** Titel när användaren bara valt prioritet (Oly / WOD / EMOM…). */
+export function defaultWorkoutTitle(id: string | null | undefined): string {
+  return resolveSessionLayout(id).label;
+}
+
 /** Tavlan startar på första arbetspasset, inte på warmup. */
 export function firstWorkingSectionIndex(
   sections: Pick<WorkoutSection, "kind">[]
