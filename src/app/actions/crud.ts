@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { recomputeAthleteInsights } from "@/app/actions/athlete";
 import { parsePreferences, type AthletePreferences } from "@/lib/athlete";
 import {
+  defaultWorkoutTitle,
   resolveSessionLayout,
   STANDARD_WARMUP,
   type LayoutMovement,
@@ -19,8 +20,7 @@ export async function createWorkout(formData: FormData) {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const title = String(formData.get("title") || "").trim();
-  if (!title) return;
+  const layout = resolveSessionLayout(String(formData.get("template") || ""));
 
   const rawPass = String(formData.get("pass_number") || "").trim();
   let passNumber = rawPass ? Number(rawPass) : null;
@@ -36,6 +36,12 @@ export async function createWorkout(formData: FormData) {
     passNumber = (maxRow?.pass_number ?? 0) + 1;
   }
 
+  const title =
+    String(formData.get("title") || "").trim() ||
+    defaultWorkoutTitle(layout.id);
+
+  const notes = String(formData.get("notes") || "").trim() || null;
+
   const { data, error } = await supabase
     .from("workouts")
     .insert({
@@ -43,14 +49,13 @@ export async function createWorkout(formData: FormData) {
       title,
       pass_number: passNumber,
       status: "planned",
-      notes: (formData.get("notes") as string) || null,
+      notes,
     })
     .select("id")
     .single();
 
   if (error || !data) throw new Error(error?.message ?? "create failed");
 
-  const layout = resolveSessionLayout(String(formData.get("template") || ""));
   for (let i = 0; i < layout.sections.length; i++) {
     const k = layout.sections[i];
     const { data: section, error: sectionError } = await supabase
