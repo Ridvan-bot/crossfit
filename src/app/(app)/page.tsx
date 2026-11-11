@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AppNav } from "@/components/AppNav";
 import { AthleteLearningCard } from "@/components/AthleteLearningCard";
 import { SeedButton } from "@/components/SeedButton";
 import { parsePreferences, type AthleteInsights } from "@/lib/athlete";
@@ -11,46 +10,48 @@ export default async function HomePage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: nextWorkout } = await supabase
-    .from("workouts")
-    .select("id, title, pass_number, scheduled_date, status")
-    .eq("user_id", user!.id)
-    .eq("status", "planned")
-    .order("pass_number", { ascending: true })
-    .limit(1)
-    .maybeSingle();
-
-  const { data: lastSession } = await supabase
-    .from("training_sessions")
-    .select("id, score_text, feeling_1_5, rpe_1_10, completed_at, workouts(title, pass_number)")
-    .eq("user_id", user!.id)
-    .order("completed_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  const { count } = await supabase
-    .from("workouts")
-    .select("*", { count: "exact", head: true })
-    .eq("user_id", user!.id);
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("preferences")
-    .eq("id", user!.id)
-    .maybeSingle();
-
-  const { data: insightsRow } = await supabase
-    .from("athlete_insights")
-    .select("*")
-    .eq("user_id", user!.id)
-    .maybeSingle();
+  const [
+    { data: nextWorkout },
+    { data: lastSession },
+    { count },
+    { data: profile },
+    { data: insightsRow },
+  ] = await Promise.all([
+    supabase
+      .from("workouts")
+      .select("id, title, pass_number, scheduled_date, status")
+      .eq("user_id", user!.id)
+      .eq("status", "planned")
+      .order("pass_number", { ascending: true })
+      .limit(1)
+      .maybeSingle(),
+    supabase
+      .from("training_sessions")
+      .select("id, score_text, feeling_1_5, rpe_1_10, completed_at, workouts(title, pass_number)")
+      .eq("user_id", user!.id)
+      .order("completed_at", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+    supabase
+      .from("workouts")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user!.id),
+    supabase
+      .from("profiles")
+      .select("preferences")
+      .eq("id", user!.id)
+      .maybeSingle(),
+    supabase
+      .from("athlete_insights")
+      .select("*")
+      .eq("user_id", user!.id)
+      .maybeSingle(),
+  ]);
 
   const preferences = parsePreferences(profile?.preferences);
   const insights = insightsRow as AthleteInsights | null;
 
   return (
-    <>
-      <AppNav />
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <div className="ui-stagger grid gap-4 md:grid-cols-2">
           <section className="ui-card p-5 sm:p-6">
@@ -124,6 +125,5 @@ export default async function HomePage() {
           </section>
         ) : null}
       </main>
-    </>
   );
 }

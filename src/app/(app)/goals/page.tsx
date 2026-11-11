@@ -1,4 +1,3 @@
-import { AppNav } from "@/components/AppNav";
 import { createGoal, deleteGoal, updateGoal } from "@/app/actions/crud";
 import { createClient } from "@/lib/supabase/server";
 
@@ -15,8 +14,6 @@ export default async function GoalsPage() {
     .order("deadline", { ascending: true, nullsFirst: false });
 
   return (
-    <>
-      <AppNav />
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <header>
           <p className="ui-eyebrow">Långsiktigt</p>
@@ -87,6 +84,5 @@ export default async function GoalsPage() {
           ) : null}
         </ul>
       </main>
-    </>
   );
 }

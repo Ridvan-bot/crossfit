@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AppNav } from "@/components/AppNav";
 import { AthletePreferencesFields } from "@/components/AthletePreferencesFields";
 import { EquipmentPicker } from "@/components/EquipmentPicker";
 import { ProfileSaveButton } from "@/components/ProfileSaveButton";
@@ -29,8 +28,6 @@ export default async function ProfilePage({ searchParams }: Props) {
   const preferences = parsePreferences(profile?.preferences);
 
   return (
-    <>
-      <AppNav />
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <header>
           <p className="ui-eyebrow">Konto</p>
@@ -94,6 +91,5 @@ export default async function ProfilePage({ searchParams }: Props) {
 
         <p className="text-sm text-stone-500">Inloggad som {user.email}</p>
       </main>
-    </>
   );
 }
