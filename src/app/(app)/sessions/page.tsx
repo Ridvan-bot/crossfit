@@ -1,4 +1,3 @@
-import { AppNav } from "@/components/AppNav";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function SessionsPage() {
@@ -14,8 +13,6 @@ export default async function SessionsPage() {
     .order("completed_at", { ascending: false });
 
   return (
-    <>
-      <AppNav />
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <header>
           <p className="ui-eyebrow">Resultat</p>
@@ -47,6 +44,5 @@ export default async function SessionsPage() {
           ) : null}
         </ul>
       </main>
-    </>
   );
 }

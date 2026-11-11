@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AppNav } from "@/components/AppNav";
 import { HelpTip, FEELING_HELP_TEXT, RPE_HELP_TEXT } from "@/components/HelpTip";
 import { MovementPicker } from "@/components/MovementPicker";
 import {
@@ -24,26 +23,17 @@ export default async function WorkoutDetailPage({ params }: Props) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: workout } = await supabase
-    .from("workouts")
-    .select("*")
-    .eq("id", id)
-    .eq("user_id", user!.id)
-    .maybeSingle();
+  const [{ data: workout }, { data: profile }, { data: sections }] = await Promise.all([
+    supabase.from("workouts").select("*").eq("id", id).eq("user_id", user!.id).maybeSingle(),
+    supabase.from("profiles").select("equipment").eq("id", user!.id).maybeSingle(),
+    supabase
+      .from("workout_sections")
+      .select("*, section_movements(*)")
+      .eq("workout_id", id)
+      .order("sort_order", { ascending: true }),
+  ]);
 
   if (!workout) notFound();
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("equipment")
-    .eq("id", user!.id)
-    .maybeSingle();
-
-  const { data: sections } = await supabase
-    .from("workout_sections")
-    .select("*, section_movements(*)")
-    .eq("workout_id", id)
-    .order("sort_order", { ascending: true });
 
   const ordered = (sections ?? []).map((s) => ({
     ...s,
@@ -53,8 +43,6 @@ export default async function WorkoutDetailPage({ params }: Props) {
   })) as WorkoutSection[];
 
   return (
-    <>
-      <AppNav />
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
@@ -412,6 +400,5 @@ export default async function WorkoutDetailPage({ params }: Props) {
           </form>
         </section>
       </main>
-    </>
   );
 }

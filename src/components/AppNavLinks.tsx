@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
 
 const desktopLinks = [
   { href: "/", label: "Hem" },
@@ -20,6 +20,12 @@ const mobileTabs = [
   { href: "/profile", label: "Profil", icon: ProfileIcon },
 ];
 
+const prefetchHrefs = desktopLinks.map((l) => l.href);
+
+function isPlayerRoute(pathname: string) {
+  return pathname.includes("/phone") || pathname.includes("/board");
+}
+
 function isActive(pathname: string, href: string) {
   return href === "/"
     ? pathname === "/"
@@ -34,17 +40,53 @@ function linkClass(active: boolean) {
   }`;
 }
 
-export function AppNavLinks({ signOutAction }: { signOutAction: () => Promise<void> }) {
+function isModifiedClick(e: MouseEvent) {
+  return e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+}
+
+function useOptimisticPathname() {
   const pathname = usePathname();
+  const [pending, setPending] = useState<{ from: string; to: string } | null>(null);
+
+  const displayPath = pending && pending.from === pathname ? pending.to : pathname;
+
+  function onNavClick(e: MouseEvent<HTMLAnchorElement>, href: string) {
+    if (isModifiedClick(e) || href === pathname) return;
+    setPending({ from: pathname, to: href });
+  }
+
+  return { displayPath, onNavClick };
+}
+
+function usePrefetchAppRoutes() {
+  const router = useRouter();
+  useEffect(() => {
+    for (const href of prefetchHrefs) {
+      router.prefetch(href);
+    }
+  }, [router]);
+}
+
+export function AppChrome({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  usePrefetchAppRoutes();
+  if (isPlayerRoute(pathname)) return null;
+  return children;
+}
+
+export function AppNavLinks({ signOutAction }: { signOutAction: () => Promise<void> }) {
+  const { displayPath, onNavClick } = useOptimisticPathname();
 
   return (
     <nav className="hidden items-center gap-1.5 text-sm md:flex" aria-label="Huvudmeny">
       {desktopLinks.map((l) => {
-        const active = isActive(pathname, l.href);
+        const active = isActive(displayPath, l.href);
         return (
           <Link
             key={l.href}
             href={l.href}
+            prefetch
+            onClick={(e) => onNavClick(e, l.href)}
             className={linkClass(active)}
             aria-current={active ? "page" : undefined}
           >
@@ -65,17 +107,19 @@ export function AppNavLinks({ signOutAction }: { signOutAction: () => Promise<vo
 }
 
 export function AppBottomNav() {
-  const pathname = usePathname();
+  const { displayPath, onNavClick } = useOptimisticPathname();
 
   return (
     <nav className="ui-bottom-nav md:hidden" aria-label="Huvudmeny">
       {mobileTabs.map((tab) => {
-        const active = isActive(pathname, tab.href);
+        const active = isActive(displayPath, tab.href);
         const Icon = tab.icon;
         return (
           <Link
             key={tab.href}
             href={tab.href}
+            prefetch
+            onClick={(e) => onNavClick(e, tab.href)}
             className={active ? "is-active" : undefined}
             aria-current={active ? "page" : undefined}
           >

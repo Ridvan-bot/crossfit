@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AppNav } from "@/components/AppNav";
 import { createWorkout, deleteWorkout } from "@/app/actions/crud";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -23,8 +22,6 @@ export default async function WorkoutsPage() {
     Math.max(0, ...(workouts ?? []).map((w) => w.pass_number ?? 0)) + 1;
 
   return (
-    <>
-      <AppNav />
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <form action={createWorkout} className="ui-card grid gap-3 p-5 md:grid-cols-2">
           <h1 className="ui-eyebrow md:col-span-2">Nytt pass</h1>
@@ -133,6 +130,5 @@ export default async function WorkoutsPage() {
           ) : null}
         </ul>
       </main>
-    </>
   );
 }

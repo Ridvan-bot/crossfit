@@ -1,4 +1,3 @@
-import { AppNav } from "@/components/AppNav";
 import { createTemplate, deleteTemplate } from "@/app/actions/crud";
 import { createClient } from "@/lib/supabase/server";
 
@@ -15,8 +14,6 @@ export default async function LibraryPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <>
-      <AppNav />
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <header>
           <p className="ui-eyebrow">Mallar</p>
@@ -66,6 +63,5 @@ export default async function LibraryPage() {
           ) : null}
         </ul>
       </main>
-    </>
   );
 }

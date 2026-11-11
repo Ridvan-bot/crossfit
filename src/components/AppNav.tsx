@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { AppBottomNav, AppNavLinks } from "@/components/AppNavLinks";
+import { AppBottomNav, AppChrome, AppNavLinks } from "@/components/AppNavLinks";
 
 export async function AppNav() {
   async function signOut() {
@@ -12,7 +12,7 @@ export async function AppNav() {
   }
 
   return (
-    <>
+    <AppChrome>
       <header className="ui-safe-t ui-safe-x sticky top-0 z-40 border-b border-white/5 bg-[#07090a]/75 backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
           <Link href="/" className="group flex min-h-11 items-center gap-2">
@@ -35,6 +35,6 @@ export async function AppNav() {
         </div>
       </header>
       <AppBottomNav />
-    </>
+    </AppChrome>
   );
 }

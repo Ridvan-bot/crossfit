@@ -93,11 +93,11 @@ html[data-board="true"] body {
 }
 
 .ui-page {
-  animation: fade-up 0.45s ease-out both;
+  animation: fade-up 0.18s ease-out both;
 }
 
 .ui-stagger > * {
-  animation: fade-up 0.45s ease-out both;
+  animation: fade-up 0.18s ease-out both;
 }
 .ui-stagger > *:nth-child(1) {
   animation-delay: 0.04s;
@@ -303,6 +303,7 @@ html[data-board="true"] body {
   -webkit-tap-highlight-color: transparent;
 }
 
+.ui-bottom-nav a:active,
 .ui-bottom-nav a.is-active,
 .ui-bottom-nav a[aria-current="page"] {
   color: #5ecfc0;
