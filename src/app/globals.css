@@ -334,10 +334,30 @@ main.ui-page {
 }
 
 .ui-phone-screen {
-  padding-top: calc(1rem + var(--safe-t));
+  padding-top: calc(0.75rem + var(--safe-t));
   padding-right: max(1rem, var(--safe-r));
-  padding-bottom: calc(2rem + var(--safe-b));
+  padding-bottom: 0;
   padding-left: max(1rem, var(--safe-l));
+}
+
+/* Tumträff — minst 56px, enhandsgrepp i telefonvyn. */
+.ui-phone-hit {
+  display: inline-flex;
+  min-height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ui-phone-hit-xl {
+  min-height: 4.25rem;
+  font-size: 1.35rem;
 }
 
 .ui-auth-screen {
