@@ -143,10 +143,10 @@ export function LogSessionSheet({
             onClick={() => {
               if (!pending) onClose();
             }}
-            className={`rounded-lg px-2 py-1 text-sm ${
+            className={`min-h-11 min-w-11 rounded-lg px-3 text-sm ${
               isBoard
                 ? "text-white/55 hover:text-white"
-                : "text-stone-400 hover:text-stone-100"
+                : "text-stone-300 hover:text-stone-100"
             }`}
           >
             Stäng
@@ -243,10 +243,10 @@ export function LogSessionSheet({
             <button
               type="submit"
               disabled={pending}
-              className={`w-full rounded-xl py-3.5 font-semibold disabled:opacity-60 ${
+              className={`w-full rounded-xl font-semibold disabled:opacity-60 ${
                 isBoard
-                  ? "bg-[#f4f1ea] text-[#0c0c0c]"
-                  : "bg-teal-500 text-stone-950"
+                  ? "bg-[#f4f1ea] py-3.5 text-[#0c0c0c]"
+                  : "ui-phone-hit ui-phone-hit-xl bg-teal-500 text-stone-950"
               }`}
             >
               {pending ? "Sparar…" : "Spara"}
@@ -290,7 +290,9 @@ function ScaleChips({
               type="button"
               aria-pressed={selected}
               onClick={() => onChange(selected ? null : n)}
-              className={`min-h-11 rounded-lg border text-sm font-semibold transition ${
+              className={`rounded-lg border text-sm font-semibold transition ${
+                isBoard ? "min-h-11" : "ui-phone-hit"
+              } ${
                 selected
                   ? isBoard
                     ? "border-white bg-[#f4f1ea] text-[#0c0c0c]"
@@ -312,5 +314,5 @@ function ScaleChips({
 function fieldClass(isBoard: boolean) {
   return isBoard
     ? "rounded-lg border border-white/20 bg-[#0c0c0c] px-3 py-2.5 outline-none focus:border-white/45"
-    : "rounded-lg border border-stone-700 bg-stone-950 px-3 py-2.5 outline-none focus:border-teal-500/60";
+    : "min-h-12 rounded-lg border border-stone-700 bg-stone-950 px-3 py-3 outline-none focus:border-teal-500/60";
 }
