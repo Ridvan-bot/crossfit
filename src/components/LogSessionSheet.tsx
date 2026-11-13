@@ -4,13 +4,23 @@ import { useRouter } from "next/navigation";
 import {
   useEffect,
   useId,
+  useMemo,
   useState,
   useTransition,
   type FormEvent,
 } from "react";
 import { logSession } from "@/app/actions/crud";
+import { VoiceMicButton } from "@/components/VoiceMicButton";
 import { todayDateInputValue } from "@/lib/dates";
+import { CROSSFIT_MOVEMENTS } from "@/lib/movements";
 import type { WorkoutSection } from "@/lib/types";
+import {
+  formatSessionLogSummary,
+  hasParsedSessionLog,
+  parseSessionUtterance,
+  type ParsedSessionLog,
+  type VoiceLift,
+} from "@/lib/voice-log";
 
 export type SuggestedLift = {
   name: string;
@@ -53,6 +63,8 @@ type Props = {
   variant?: "phone" | "board";
 };
 
+type Phase = "form" | "confirm";
+
 export function LogSessionSheet({
   open,
   onClose,
@@ -65,8 +77,22 @@ export function LogSessionSheet({
   const titleId = useId();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [phase, setPhase] = useState<Phase>("form");
   const [feeling, setFeeling] = useState<number | null>(null);
   const [rpe, setRpe] = useState<number | null>(null);
+  const [scoreText, setScoreText] = useState("");
+  const [lifts, setLifts] = useState<VoiceLift[]>(() =>
+    liftsFromSuggested(suggestedLifts)
+  );
+  const [parsed, setParsed] = useState<ParsedSessionLog | null>(null);
+
+  const knownMovements = useMemo(() => {
+    const names = [
+      ...suggestedLifts.map((l) => l.name),
+      ...CROSSFIT_MOVEMENTS,
+    ];
+    return [...new Set(names.filter(Boolean))];
+  }, [suggestedLifts]);
 
   useEffect(() => {
     if (!open) return;
@@ -79,15 +105,37 @@ export function LogSessionSheet({
 
   if (!open) return null;
 
-  const rows =
-    suggestedLifts.length > 0
-      ? suggestedLifts
-      : [{ name: "", weight_kg: null as number | null }];
   const isBoard = variant === "board";
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+  function applyTranscript(text: string) {
+    setError(null);
+    const next = parseSessionUtterance(text, knownMovements);
+    if (!hasParsedSessionLog(next)) {
+      setError("Hörde inget resultat. Försök igen eller fyll i själv.");
+      return;
+    }
+    setParsed(next);
+    setScoreText(next.score_text ?? "");
+    setFeeling(next.feeling_1_5);
+    setRpe(next.rpe_1_10);
+    if (next.lifts.length > 0) setLifts(next.lifts);
+    setPhase("confirm");
+  }
+
+  function saveFromValues() {
+    const fd = new FormData();
+    fd.set("workout_id", workoutId);
+    fd.set("completed_date", todayDateInputValue());
+    fd.set("score_text", scoreText.trim());
+    fd.set("feeling_1_5", feeling != null ? String(feeling) : "");
+    fd.set("rpe_1_10", rpe != null ? String(rpe) : "");
+    for (const lift of lifts) {
+      fd.append("lift_name", lift.name);
+      fd.append(
+        "lift_weight",
+        lift.weight_kg != null ? String(lift.weight_kg) : ""
+      );
+    }
     setError(null);
     startTransition(async () => {
       const result = await logSession(fd);
@@ -98,6 +146,11 @@ export function LogSessionSheet({
       router.push("/");
       router.refresh();
     });
+  }
+
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    saveFromValues();
   }
 
   return (
@@ -136,7 +189,7 @@ export function LogSessionSheet({
                 : "font-[family-name:var(--font-barlow)] text-lg font-extrabold uppercase"
             }
           >
-            Logga
+            {phase === "confirm" ? "Bekräfta" : "Logga"}
           </h2>
           <button
             type="button"
@@ -153,109 +206,230 @@ export function LogSessionSheet({
           </button>
         </div>
 
-        <form
-          onSubmit={onSubmit}
-          className="flex min-h-0 flex-1 flex-col"
-        >
-          <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
-            <input type="hidden" name="workout_id" value={workoutId} />
-            <input
-              type="hidden"
-              name="completed_date"
-              value={todayDateInputValue()}
-            />
-            <p className="sr-only">{workoutTitle}</p>
-
-            <div className="grid gap-4">
-              <label className="grid gap-1.5 text-sm">
-                <span className={isBoard ? "text-white/55" : "text-stone-400"}>
-                  Score
-                </span>
-                <input
-                  name="score_text"
-                  inputMode="text"
-                  autoComplete="off"
-                  className={fieldClass(isBoard)}
-                />
-              </label>
-
-              <ScaleChips
-                label="Känsla"
-                name="feeling_1_5"
-                value={feeling}
-                max={5}
-                isBoard={isBoard}
-                onChange={setFeeling}
-              />
-
-              <ScaleChips
-                label="RPE"
-                name="rpe_1_10"
-                value={rpe}
-                max={10}
-                isBoard={isBoard}
-                onChange={setRpe}
-              />
-
-              <div className="grid gap-1.5">
+        {phase === "confirm" && parsed ? (
+          <div className="flex min-h-0 flex-1 flex-col">
+            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+              <p className="sr-only">{workoutTitle}</p>
+              <p
+                className={`text-sm ${isBoard ? "text-white/55" : "text-stone-400"}`}
+              >
+                Hörde jag rätt?
+              </p>
+              <p
+                className={`mt-3 text-xl font-semibold leading-snug ${
+                  isBoard
+                    ? "font-[family-name:var(--font-amatic)] tracking-wider"
+                    : ""
+                }`}
+              >
+                {formatSessionLogSummary(parsed)}
+              </p>
+              {parsed.transcript ? (
                 <p
-                  className={`text-sm ${isBoard ? "text-white/55" : "text-stone-400"}`}
+                  className={`mt-3 text-sm ${
+                    isBoard ? "text-white/45" : "text-stone-500"
+                  }`}
                 >
-                  Vikter
+                  “{parsed.transcript}”
                 </p>
-                {rows.map((lift, i) => (
-                  <div key={i} className="flex gap-2">
-                    <input
-                      name="lift_name"
-                      defaultValue={lift.name}
-                      aria-label="Rörelse"
-                      className={`flex-1 ${fieldClass(isBoard)}`}
-                    />
-                    <input
-                      name="lift_weight"
-                      type="number"
-                      step="0.5"
-                      inputMode="decimal"
-                      defaultValue={
-                        lift.weight_kg != null ? String(lift.weight_kg) : ""
-                      }
-                      aria-label="kg"
-                      placeholder="kg"
-                      className={`w-20 ${fieldClass(isBoard)}`}
-                    />
-                  </div>
-                ))}
-              </div>
-
+              ) : null}
               {error ? (
-                <p className="text-sm text-red-400" role="alert">
+                <p className="mt-3 text-sm text-red-400" role="alert">
                   {error}
                 </p>
               ) : null}
             </div>
-          </div>
-
-          <div
-            className={`shrink-0 border-t px-4 py-3 ${
-              isBoard ? "border-white/15" : "border-stone-800"
-            }`}
-          >
-            <button
-              type="submit"
-              disabled={pending}
-              className={`w-full rounded-xl font-semibold disabled:opacity-60 ${
-                isBoard
-                  ? "bg-[#f4f1ea] py-3.5 text-[#0c0c0c]"
-                  : "ui-phone-hit ui-phone-hit-xl bg-teal-500 text-stone-950"
+            <div
+              className={`grid shrink-0 gap-2 border-t px-4 py-3 ${
+                isBoard ? "border-white/15" : "border-stone-800"
               }`}
             >
-              {pending ? "Sparar…" : "Spara"}
-            </button>
+              <button
+                type="button"
+                disabled={pending}
+                onClick={saveFromValues}
+                className={`w-full rounded-xl font-semibold disabled:opacity-60 ${
+                  isBoard
+                    ? "bg-[#f4f1ea] py-3.5 text-[#0c0c0c]"
+                    : "ui-phone-hit ui-phone-hit-xl bg-teal-500 text-stone-950"
+                }`}
+              >
+                {pending ? "Sparar…" : "Spara"}
+              </button>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  disabled={pending}
+                  onClick={() => setPhase("form")}
+                  className={`rounded-xl border text-sm font-semibold disabled:opacity-60 ${
+                    isBoard
+                      ? "min-h-11 border-white/25 text-white/80"
+                      : "ui-phone-hit border-stone-600 text-stone-200"
+                  }`}
+                >
+                  Ändra
+                </button>
+                <button
+                  type="button"
+                  disabled={pending}
+                  onClick={() => {
+                    setPhase("form");
+                    setParsed(null);
+                    setError(null);
+                  }}
+                  className={`rounded-xl border text-sm font-semibold disabled:opacity-60 ${
+                    isBoard
+                      ? "min-h-11 border-white/25 text-white/80"
+                      : "ui-phone-hit border-stone-600 text-stone-200"
+                  }`}
+                >
+                  Prata om
+                </button>
+              </div>
+            </div>
           </div>
-        </form>
+        ) : (
+          <form onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col">
+            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+              <input type="hidden" name="workout_id" value={workoutId} />
+              <input
+                type="hidden"
+                name="completed_date"
+                value={todayDateInputValue()}
+              />
+              <p className="sr-only">{workoutTitle}</p>
+
+              <div className="grid gap-4">
+                <VoiceMicButton
+                  variant={variant}
+                  disabled={pending}
+                  onTranscript={applyTranscript}
+                  onError={setError}
+                />
+
+                <label className="grid gap-1.5 text-sm">
+                  <span className={isBoard ? "text-white/55" : "text-stone-400"}>
+                    Score
+                  </span>
+                  <input
+                    name="score_text"
+                    inputMode="text"
+                    autoComplete="off"
+                    value={scoreText}
+                    onChange={(e) => setScoreText(e.target.value)}
+                    className={fieldClass(isBoard)}
+                  />
+                </label>
+
+                <ScaleChips
+                  label="Känsla"
+                  name="feeling_1_5"
+                  value={feeling}
+                  max={5}
+                  isBoard={isBoard}
+                  onChange={setFeeling}
+                />
+
+                <ScaleChips
+                  label="RPE"
+                  name="rpe_1_10"
+                  value={rpe}
+                  max={10}
+                  isBoard={isBoard}
+                  onChange={setRpe}
+                />
+
+                <div className="grid gap-1.5">
+                  <p
+                    className={`text-sm ${isBoard ? "text-white/55" : "text-stone-400"}`}
+                  >
+                    Vikter
+                  </p>
+                  {lifts.map((lift, i) => (
+                    <div key={i} className="flex gap-2">
+                      <input
+                        name="lift_name"
+                        value={lift.name}
+                        onChange={(e) =>
+                          setLifts((prev) =>
+                            prev.map((row, idx) =>
+                              idx === i ? { ...row, name: e.target.value } : row
+                            )
+                          )
+                        }
+                        aria-label="Rörelse"
+                        className={`flex-1 ${fieldClass(isBoard)}`}
+                      />
+                      <input
+                        name="lift_weight"
+                        type="number"
+                        step="0.5"
+                        inputMode="decimal"
+                        value={
+                          lift.weight_kg != null ? String(lift.weight_kg) : ""
+                        }
+                        onChange={(e) => {
+                          const raw = e.target.value;
+                          setLifts((prev) =>
+                            prev.map((row, idx) =>
+                              idx === i
+                                ? {
+                                    ...row,
+                                    weight_kg:
+                                      raw.trim() === "" ? null : Number(raw),
+                                  }
+                                : row
+                            )
+                          );
+                        }}
+                        aria-label="kg"
+                        placeholder="kg"
+                        className={`w-20 ${fieldClass(isBoard)}`}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {error ? (
+                  <p className="text-sm text-red-400" role="alert">
+                    {error}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+
+            <div
+              className={`shrink-0 border-t px-4 py-3 ${
+                isBoard ? "border-white/15" : "border-stone-800"
+              }`}
+            >
+              <button
+                type="submit"
+                disabled={pending}
+                className={`w-full rounded-xl font-semibold disabled:opacity-60 ${
+                  isBoard
+                    ? "bg-[#f4f1ea] py-3.5 text-[#0c0c0c]"
+                    : "ui-phone-hit ui-phone-hit-xl bg-teal-500 text-stone-950"
+                }`}
+              >
+                {pending ? "Sparar…" : "Spara"}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
+}
+
+function liftsFromSuggested(suggestedLifts: SuggestedLift[]): VoiceLift[] {
+  if (suggestedLifts.length === 0) {
+    return [{ name: "", weight_kg: null }];
+  }
+  return suggestedLifts.map((lift) => ({
+    name: lift.name,
+    weight_kg: lift.weight_kg,
+  }));
 }
 
 function ScaleChips({
