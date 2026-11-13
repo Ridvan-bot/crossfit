@@ -2,11 +2,11 @@
 
 ## 1) Snabbstatus
 
-- Senast uppdaterad: 2026-11-06
+- Senast uppdaterad: 2026-11-13
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
-- Nuvarande läge: Block 5 pågår. #017 genomfört (5:42). Passupplägg varieras (samma warmup, olika arbetspass). #018 är dagens teknik-/styrkepass utan metcon pga snuva.
+- Nuvarande läge: Robin frisk igen. Block 5 klar (#017–#019). #019 EMOM för lätt (RPE 2). Block 6 planerat: #020–#024 med varierad warmup.
 - Nästa steg:
-  - #019 EMOM-WOD och #020 tung DL + chipper när andningen är OK.
+  - Kör #020 (DL-våg + chipper) som första pass tillbaka.
 
 ## 2) Miljö och kontext
 
@@ -18,6 +18,15 @@
 - Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep (sätts i appen under Profil)
 
 ## 3) Genomfört
+
+### 2026-11-13 - Varierad warmup, fler rörelser, block 6 (#020–#024)
+
+- Robin frisk igen. #019 EMOM 12 var för lätt (RPE 2, alla 12 minuter klara).
+- Uppvärmning varieras: `WARMUPS` i `session-layout.ts` (tom stång, classic CF, clean, snatch, hinge, engine). Ingen hopprep. Mall från CrossFit Journal / "The CrossFit Warm-Up".
+- Rörelsekatalog utökad från CrossFit.com movements (dumbbell-varianter, hang/split, Sots Press, Sumo Deadlift, Ring Row, Inchworm, m.fl.).
+- Inspiration CrossFit.com v.46: 261113 DL-vågor, 261109 Helen, 261107 OHS, 261110 5-4-3-2-1, 261104 pull + heavy clean.
+- #020 uppdaterad: hinge-warmup + DL 5-3-1 @ 50/55/60 + chipper.
+- Nya pass: #021 clean AMRAP, #022 Helen-skalat, #023 OHS+HPS (ingen metcon), #024 FS + fallande Thruster-stege.
 
 ### 2026-11-06 - Varierade passupplägg + standardwarmup
 
