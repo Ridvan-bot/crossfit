@@ -16,8 +16,10 @@
    - **Reps/set-notation (alltid):** `A × B` betyder **A reps, B gånger** (set).
      Exempel: `2 × 6` = 2 reps, 6 gånger. **Inte** sets×reps.
      Skriv aldrig tvetydigt — håll dig till den här konventionen i alla WOD-texter.
-   - **Uppvärmning (alltid densamma):** använd `STANDARD_WARMUP` i `src/lib/session-layout.ts`.
-     Inte en unik warmup per pass. Specifik förberedelse av dagens rörelse hör hemma i arbetspasset.
+   - **Uppvärmning (varierad):** välj tema från `WARMUPS` i `src/lib/session-layout.ts`
+     (tom stång, classic CF, clean, snatch, hinge, engine). Inte samma varje pass.
+     Ingen hopprep. Specifik förberedelse av dagens tunga lyft hör hemma i arbetspasset.
+     Mall: CrossFit Journal warmup (stretch / squat / core / hinge / press), skalad hemma.
    - **Variera upplägget:** kör inte teknik + styrka + metcon varje pass. Dagen har en prioritet
      (styrka/oly, teknik, WOD, EMOM). Tvådelat (skill+WOD eller styrka+WOD) ibland, inte som mall.
      Mallar: `SESSION_LAYOUTS` i `src/lib/session-layout.ts`.

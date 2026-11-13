@@ -1,4 +1,4 @@
-/** Seed payload mirroring docs/training-log.md (pass #001–#012 (block 3 = #008–#011)). */
+/** Seed payload mirroring loggade + planerade pass (#001–#016 historik, #021–#024 block 6). */
 
 export type SeedMovement = {
   name: string;
@@ -1080,6 +1080,198 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
           { name: "Dumbbell Snatch", detail: "8 växelvis", suggested_weight_kg: 15 },
           { name: "Dumbbell Clean & Push Press", detail: "10 växelvis", suggested_weight_kg: 15 },
           { name: "Hollow Rock", detail: "15" },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Pass #021",
+    pass_number: 21,
+    scheduled_date: null,
+    status: "planned",
+    equipment_notes: "Stång · ingen hopprep",
+    notes:
+      "Block 6 vecka 2 – Clean. Kort HPC + AMRAP med samma tema (skalat från CrossFit.com 261104: pull-ups + squat cleans → Push-up + Hang Power Clean).",
+    sections: [
+      {
+        kind: "warmup",
+        label: "Warmup",
+        format_label: "WARMUP · TAR CA 8 MIN · FRONT-RACK",
+        estimated_minutes_min: 8,
+        estimated_minutes_max: 8,
+        coaching_tip:
+          "Clean-dag. Ingen hopprep. Öppna handleder och höfter innan stången blir tung.",
+        movements: [
+          { name: "Air Squat", detail: "10 × 2" },
+          {
+            name: "Walking Lunge",
+            detail: "8 / ben, armar i front-rack (tomt)",
+          },
+          {
+            name: "Tom stång",
+            detail: "5 Deadlift + 5 Hang Power Clean + 5 Front Squat",
+          },
+        ],
+      },
+      {
+        kind: "technique",
+        label: "Teknik",
+        format_label: "TEKNIK · TAR CA 10 MIN · VILA UT:",
+        estimated_minutes_min: 10,
+        estimated_minutes_max: 10,
+        coaching_tip:
+          "2 reps × 6 @ 40 (loggad bäst). Vila 90–120 sek. Snabb rack, armbågar höga.",
+        movements: [
+          { name: "Hang Power Clean", detail: "2 × 6", suggested_weight_kg: 40 },
+        ],
+      },
+      {
+        kind: "metcon",
+        label: "WOD",
+        format_label: "AMRAP 10 MIN · 8 PUSH-UP + 3 HANG POWER CLEAN:",
+        estimated_minutes_min: 10,
+        estimated_minutes_max: 10,
+        timer_preset_sec: 600,
+        coaching_tip:
+          "Push-up tröttar armarna innan clean — håll armarna långa i draget. Sikta 5+ varv. 35 kg i WOD (lättare än teknik).",
+        movements: [
+          { name: "Push-up", detail: "8" },
+          { name: "Hang Power Clean", detail: "3", suggested_weight_kg: 35 },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Pass #022",
+    pass_number: 22,
+    scheduled_date: null,
+    status: "planned",
+    equipment_notes: "KB 20 · ingen hopprep",
+    notes:
+      "Block 6 vecka 3 – WOD-dag. Helen-struktur (CrossFit.com 261109) skalad hemma: lunge istället för löpning, Push-up istället för pull-up. Tätare än #019 (RPE 2).",
+    sections: [
+      {
+        kind: "warmup",
+        label: "Warmup",
+        format_label: "WARMUP · 2 VARV · ENGINE",
+        estimated_minutes_min: 8,
+        estimated_minutes_max: 8,
+        coaching_tip:
+          "WOD-dag. Ingen hopprep. Höj pulsen utan att trötta ut — sen 1–2 lätta set av dagens rörelser.",
+        movements: [
+          { name: "Rask marsch", detail: "90 sek / varv" },
+          { name: "Bear Crawl", detail: "8 steg fram + 8 bak / varv" },
+          { name: "Air Squat", detail: "10 / varv" },
+          { name: "Inchworm + Push-up", detail: "4 / varv" },
+        ],
+      },
+      {
+        kind: "metcon",
+        label: "WOD",
+        format_label: "FOR TIME · 3 ROUNDS · MAX 12 MIN:",
+        estimated_minutes_min: 12,
+        estimated_minutes_max: 12,
+        timer_preset_sec: 720,
+        coaching_tip:
+          "Helen-känsla: håll dig i rörelse. Lunges obrutna, KB Swing i 1–2 set, Push-up i 2 set. Logga tid. Mål under 10 min.",
+        movements: [
+          { name: "Walking Lunge", detail: "40 steg" },
+          { name: "Kettlebell Swing", detail: "21 rysk", suggested_weight_kg: 20 },
+          { name: "Push-up", detail: "12" },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Pass #023",
+    pass_number: 23,
+    scheduled_date: null,
+    status: "planned",
+    equipment_notes: "Stång · ingen hopprep",
+    notes:
+      "Block 6 vecka 4 – Snatch-skill. Overhead Squat (CrossFit.com 261107) + Hang Power Snatch. Ingen metcon — kvalitet.",
+    sections: [
+      {
+        kind: "warmup",
+        label: "Warmup",
+        format_label: "WARMUP · TAR CA 8 MIN · OVERHEAD",
+        estimated_minutes_min: 8,
+        estimated_minutes_max: 8,
+        coaching_tip:
+          "Snatch-dag. Ingen hopprep. Lås ut armbågarna och håll stången över mitten av foten.",
+        movements: [
+          { name: "Inchworm", detail: "5" },
+          { name: "Good Morning", detail: "8 tom stång, snatch-grepp" },
+          {
+            name: "Tom stång",
+            detail: "5 Hang Power Snatch + 5 Overhead Squat + 5 Sots Press",
+          },
+        ],
+      },
+      {
+        kind: "technique",
+        label: "Teknik",
+        format_label: "TEKNIK · TAR CA 18–20 MIN · VILA UT:",
+        estimated_minutes_min: 18,
+        estimated_minutes_max: 20,
+        coaching_tip:
+          "OHS först: 5 reps × 5 @ 20 kg, paus 1 sek i botten. Sen HPS 2 reps × 6 @ 35. Droppa vikten om overhead viker.",
+        movements: [
+          { name: "Overhead Squat", detail: "5 × 5", suggested_weight_kg: 20 },
+          { name: "Hang Power Snatch", detail: "2 × 6", suggested_weight_kg: 35 },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Pass #024",
+    pass_number: 24,
+    scheduled_date: null,
+    status: "planned",
+    equipment_notes: "Stång · ingen hopprep",
+    notes:
+      "Block 6 vecka 5 – Front Squat + fallande stege (format från CrossFit.com 261110). Samma squat/press-tema i WOD:en.",
+    sections: [
+      {
+        kind: "warmup",
+        label: "Warmup",
+        format_label: "WARMUP · 3 VARV · CLASSIC CF",
+        estimated_minutes_min: 10,
+        estimated_minutes_max: 10,
+        coaching_tip:
+          "Skalad CrossFit Journal-warmup. Ingen hopprep, inga sit-ups. Lugn — inte ett WOD.",
+        movements: [
+          { name: "Samson Stretch", detail: "15 sek / ben, varje varv" },
+          { name: "Overhead Squat", detail: "10 tom stång / varv" },
+          { name: "Hollow Rock", detail: "10 / varv" },
+          { name: "Good Morning", detail: "10 tom stång / varv" },
+          { name: "Push-up", detail: "8 / varv" },
+        ],
+      },
+      {
+        kind: "strength",
+        label: "Styrka",
+        format_label: "STYRKA · VILA UT:",
+        estimated_minutes_min: 12,
+        estimated_minutes_max: 15,
+        coaching_tip:
+          "Front Squat 3 reps × 4 @ 50. Prova 55 om 50 känns lätt (samma 5 kg-hopp). Vila ut.",
+        movements: [
+          { name: "Front Squat", detail: "3 × 4", suggested_weight_kg: 50 },
+        ],
+      },
+      {
+        kind: "metcon",
+        label: "WOD",
+        format_label: "FOR TIME · 5-4-3-2-1 THRUSTER · 8 PUSH-UP / ROND · MAX 10 MIN:",
+        estimated_minutes_min: 10,
+        estimated_minutes_max: 10,
+        timer_preset_sec: 600,
+        coaching_tip:
+          "Fem mini-varv: 5 Thruster + 8 Push-up, sen 4+8, 3+8, 2+8, 1+8. Samma stång @ 30. Logga tid.",
+        movements: [
+          { name: "Thruster", detail: "5-4-3-2-1", suggested_weight_kg: 30 },
+          { name: "Push-up", detail: "8 efter varje rond" },
         ],
       },
     ],

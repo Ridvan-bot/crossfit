@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import {
   DEFAULT_SESSION_LAYOUT,
   SESSION_LAYOUT_OPTIONS,
+  WARMUP_THEME_OPTIONS,
 } from "@/lib/session-layout";
 
 export default async function WorkoutsPage() {
@@ -59,6 +60,47 @@ export default async function WorkoutsPage() {
                     name="template"
                     value={opt.id}
                     defaultChecked={opt.id === DEFAULT_SESSION_LAYOUT}
+                    className="mt-1 accent-teal-500"
+                  />
+                  <span>
+                    <span className="text-sm text-stone-200">{opt.label}</span>
+                    <span className="mt-0.5 block text-xs text-stone-500">
+                      {opt.hint}
+                    </span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset className="md:col-span-2 space-y-3 rounded-xl border border-white/5 bg-black/20 p-3">
+            <legend className="px-1 text-sm text-stone-400">
+              Uppvärmning (valfritt — annars följer dagens prioritet)
+            </legend>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <label className="inline-flex items-start gap-2 rounded-lg px-2 py-1.5 hover:bg-white/5">
+                <input
+                  type="radio"
+                  name="warmup"
+                  value=""
+                  defaultChecked
+                  className="mt-1 accent-teal-500"
+                />
+                <span>
+                  <span className="text-sm text-stone-200">Automatisk</span>
+                  <span className="mt-0.5 block text-xs text-stone-500">
+                    Följer dagens prioritet (t.ex. hinge till styrka+WOD).
+                  </span>
+                </span>
+              </label>
+              {WARMUP_THEME_OPTIONS.map((opt) => (
+                <label
+                  key={opt.id}
+                  className="inline-flex items-start gap-2 rounded-lg px-2 py-1.5 hover:bg-white/5"
+                >
+                  <input
+                    type="radio"
+                    name="warmup"
+                    value={opt.id}
                     className="mt-1 accent-teal-500"
                   />
                   <span>

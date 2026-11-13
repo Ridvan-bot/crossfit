@@ -8,7 +8,7 @@ import { recomputeAthleteInsights } from "@/app/actions/athlete";
 import { parsePreferences, type AthletePreferences } from "@/lib/athlete";
 import {
   resolveSessionLayout,
-  STANDARD_WARMUP,
+  resolveWarmup,
   type LayoutMovement,
 } from "@/lib/session-layout";
 
@@ -50,7 +50,10 @@ export async function createWorkout(formData: FormData) {
 
   if (error || !data) throw new Error(error?.message ?? "create failed");
 
-  const layout = resolveSessionLayout(String(formData.get("template") || ""));
+  const layout = resolveSessionLayout(
+    String(formData.get("template") || ""),
+    String(formData.get("warmup") || "")
+  );
   for (let i = 0; i < layout.sections.length; i++) {
     const k = layout.sections[i];
     const { data: section, error: sectionError } = await supabase
@@ -413,6 +416,9 @@ export async function addSection(formData: FormData) {
   const sortOrder = (maxRow?.sort_order ?? -1) + 1;
   const isWarmup = safeKind === "warmup";
   const timerDefault = safeKind === "metcon" ? 600 : null;
+  const warmup = isWarmup
+    ? resolveWarmup(String(formData.get("warmup") || ""))
+    : null;
 
   const { data: section, error: sectionError } = await supabase
     .from("workout_sections")
@@ -420,17 +426,11 @@ export async function addSection(formData: FormData) {
       workout_id: workoutId,
       kind: safeKind,
       sort_order: sortOrder,
-      label: isWarmup ? STANDARD_WARMUP.label : label,
-      format_label: isWarmup
-        ? STANDARD_WARMUP.format_label
-        : label.toUpperCase(),
-      estimated_minutes_min: isWarmup
-        ? STANDARD_WARMUP.estimated_minutes_min
-        : null,
-      estimated_minutes_max: isWarmup
-        ? STANDARD_WARMUP.estimated_minutes_max
-        : null,
-      coaching_tip: isWarmup ? STANDARD_WARMUP.coaching_tip : null,
+      label: warmup ? warmup.label : label,
+      format_label: warmup ? warmup.format_label : label.toUpperCase(),
+      estimated_minutes_min: warmup ? warmup.estimated_minutes_min : null,
+      estimated_minutes_max: warmup ? warmup.estimated_minutes_max : null,
+      coaching_tip: warmup ? warmup.coaching_tip : null,
       timer_preset_sec: timerDefault,
     })
     .select("id")
@@ -440,12 +440,8 @@ export async function addSection(formData: FormData) {
     throw new Error(sectionError?.message ?? "Kunde inte skapa del.");
   }
 
-  if (isWarmup) {
-    await insertLayoutMovements(
-      supabase,
-      section.id,
-      STANDARD_WARMUP.movements
-    );
+  if (warmup) {
+    await insertLayoutMovements(supabase, section.id, warmup.movements);
   }
 
   revalidatePath(`/workouts/${workoutId}`);

@@ -13,6 +13,7 @@ import {
 import { createClient } from "@/lib/supabase/server";
 import { todayDateInputValue } from "@/lib/dates";
 import { SECTION_KIND_OPTIONS, type WorkoutSection } from "@/lib/types";
+import { WARMUP_THEME_OPTIONS } from "@/lib/session-layout";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -273,10 +274,10 @@ export default async function WorkoutDetailPage({ params }: Props) {
 
         <form
           action={addSection}
-          className="grid gap-3 rounded-xl border border-dashed border-stone-700 bg-stone-900/30 p-4 md:grid-cols-[1fr_10rem_auto]"
+          className="grid gap-3 rounded-xl border border-dashed border-stone-700 bg-stone-900/30 p-4 md:grid-cols-[1fr_10rem_10rem_auto]"
         >
           <input type="hidden" name="workout_id" value={id} />
-          <h3 className="md:col-span-3 text-sm font-semibold text-stone-300">
+          <h3 className="md:col-span-4 text-sm font-semibold text-stone-300">
             Lägg till del
           </h3>
           <input
@@ -292,6 +293,18 @@ export default async function WorkoutDetailPage({ params }: Props) {
           >
             {SECTION_KIND_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+          <select
+            name="warmup"
+            defaultValue="general"
+            className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
+            title="Används bara om du väljer Warmup"
+          >
+            {WARMUP_THEME_OPTIONS.map((o) => (
+              <option key={o.id} value={o.id}>
                 {o.label}
               </option>
             ))}
