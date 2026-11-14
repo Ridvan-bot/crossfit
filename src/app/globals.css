@@ -360,6 +360,12 @@ main.ui-page {
   font-size: 1.35rem;
 }
 
+/* Dashboard Kör — fullbredd, tumträff, ovanför bottenmeny på mobil. */
+.ui-run-btn {
+  width: 100%;
+  border-radius: 1rem;
+}
+
 .ui-auth-screen {
   padding-top: max(1.5rem, var(--safe-t));
   padding-right: max(1rem, var(--safe-r));
