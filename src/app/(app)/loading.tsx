@@ -6,7 +6,7 @@ export default function AppLoading() {
       aria-label="Laddar sida"
     >
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="ui-card h-44 animate-pulse p-5" />
+        <div className="ui-card h-56 animate-pulse p-5" />
         <div className="ui-card h-44 animate-pulse p-5" />
       </div>
     </main>

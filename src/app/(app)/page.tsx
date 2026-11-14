@@ -66,22 +66,30 @@ export default async function HomePage() {
                   ) : null}
                   <p className="ui-title mt-1 text-2xl sm:text-3xl">{nextWorkout.title}</p>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  <Link href={`/workouts/${nextWorkout.id}`} className="ui-btn ui-btn-ghost">
-                    Öppna
-                  </Link>
+                <div className="space-y-3">
                   <Link
                     href={`/workouts/${nextWorkout.id}/phone`}
-                    className="ui-btn ui-btn-primary"
+                    className="ui-btn ui-btn-primary ui-phone-hit ui-phone-hit-xl ui-run-btn"
+                    aria-label={`Kör ${nextWorkout.title} i telefonvyn`}
                   >
-                    Telefon
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden
+                      className="size-6"
+                    >
+                      <path d="M8 5.14v13.72L20.12 12 8 5.14Z" />
+                    </svg>
+                    Kör
                   </Link>
-                  <Link
-                    href={`/workouts/${nextWorkout.id}/board`}
-                    className="ui-btn ui-btn-outline"
-                  >
-                    Tavla
-                  </Link>
+                  <p className="text-center">
+                    <Link
+                      href={`/workouts/${nextWorkout.id}`}
+                      className="ui-link text-sm font-medium"
+                    >
+                      Visa pass
+                    </Link>
+                  </p>
                 </div>
               </div>
             ) : (
