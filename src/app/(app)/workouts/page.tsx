@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createWorkout, deleteWorkout } from "@/app/actions/crud";
+import { VoiceCreateWorkout } from "@/components/VoiceCreateWorkout";
+import { parsePreferences, type AthleteInsights } from "@/lib/athlete";
 import { createClient } from "@/lib/supabase/server";
 import {
   DEFAULT_SESSION_LAYOUT,
@@ -13,17 +15,38 @@ export default async function WorkoutsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: workouts } = await supabase
-    .from("workouts")
-    .select("id, title, pass_number, scheduled_date, status")
-    .eq("user_id", user!.id)
-    .order("pass_number", { ascending: true, nullsFirst: false });
+  const [{ data: workouts }, { data: profile }, { data: insightsRow }] =
+    await Promise.all([
+      supabase
+        .from("workouts")
+        .select("id, title, pass_number, scheduled_date, status")
+        .eq("user_id", user!.id)
+        .order("pass_number", { ascending: true, nullsFirst: false }),
+      supabase
+        .from("profiles")
+        .select("preferences")
+        .eq("id", user!.id)
+        .maybeSingle(),
+      supabase
+        .from("athlete_insights")
+        .select("movement_best")
+        .eq("user_id", user!.id)
+        .maybeSingle(),
+    ]);
+
+  const preferences = parsePreferences(profile?.preferences);
+  const insights = insightsRow as Pick<AthleteInsights, "movement_best"> | null;
 
   const nextPassNumber =
     Math.max(0, ...(workouts ?? []).map((w) => w.pass_number ?? 0)) + 1;
 
   return (
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
+        <VoiceCreateWorkout
+          preferences={preferences}
+          movementBest={insights?.movement_best ?? null}
+        />
+
         <form action={createWorkout} className="ui-card grid gap-3 p-5 md:grid-cols-2">
           <h1 className="ui-eyebrow md:col-span-2">Nytt pass</h1>
           <input

@@ -49,7 +49,7 @@ const TENS: [string, number][] = [
   ["nittio", 90],
 ];
 
-const MOVEMENT_ALIASES: Record<string, string[]> = {
+export const MOVEMENT_ALIASES: Record<string, string[]> = {
   "Front Squat": ["frontboj", "front boj", "front squatt"],
   "Back Squat": ["knaboj", "knäböj"],
   "Deadlift": ["marklyft", "dead lift"],
@@ -122,7 +122,7 @@ export function parseSessionUtterance(
   };
 }
 
-function normalizeSpeech(input: string): string {
+export function normalizeSpeech(input: string): string {
   return input
     .toLowerCase()
     .normalize("NFD")
@@ -133,7 +133,7 @@ function normalizeSpeech(input: string): string {
     .trim();
 }
 
-function expandSwedishNumbers(text: string): string {
+export function expandSwedishNumbers(text: string): string {
   const compounds: [string, number][] = [];
   for (const [tensWord, tensValue] of TENS) {
     for (const [oneWord, oneValue] of ONES) {
