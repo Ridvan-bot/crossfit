@@ -17,7 +17,7 @@
  * - CrossFit.com, "What to Expect From a Class"
  */
 
-import type { SectionKind, WorkoutSection } from "@/lib/types";
+import type { SectionKind, WorkoutSection } from "./types.ts";
 
 export type LayoutMovement = {
   name: string;
@@ -252,6 +252,34 @@ export const SESSION_LAYOUTS = {
       }),
     ],
   },
+  skill_strength: {
+    id: "skill_strength",
+    label: "Teknik + styrka",
+    hint: "Skill och tungt lyft. Ingen metcon.",
+    defaultWarmup: "classic" as WarmupTheme,
+    sections: [
+      working({
+        kind: "technique",
+        label: "Teknik",
+        format_label: "TEKNIK · TAR CA 12–15 MIN · VILA UT:",
+        estimated_minutes_min: 12,
+        estimated_minutes_max: 15,
+        coaching_tip:
+          "Kvalitet först. Vila tills tekniken sitter. Ingen klocka, ingen flås.",
+        timer_preset_sec: null,
+      }),
+      working({
+        kind: "strength",
+        label: "Styrka",
+        format_label: "STYRKA · VILA UT · INGEN KLOCKA:",
+        estimated_minutes_min: 15,
+        estimated_minutes_max: 20,
+        coaching_tip:
+          "Huvudlyftet efter skill. Långa vilor. Bygg upp till arbetsserier.",
+        timer_preset_sec: null,
+      }),
+    ],
+  },
   skill_wod: {
     id: "skill_wod",
     label: "Teknik + WOD",
@@ -323,6 +351,7 @@ export const SESSION_LAYOUT_OPTIONS: {
   [
     "weightlifting",
     "skill",
+    "skill_strength",
     "wod",
     "emom",
     "skill_wod",

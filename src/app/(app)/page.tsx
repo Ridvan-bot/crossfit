@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AthleteLearningCard } from "@/components/AthleteLearningCard";
 import { SeedButton } from "@/components/SeedButton";
+import { VoiceCreateWorkout } from "@/components/VoiceCreateWorkout";
 import { parsePreferences, type AthleteInsights } from "@/lib/athlete";
 import { createClient } from "@/lib/supabase/server";
 
@@ -53,6 +54,11 @@ export default async function HomePage() {
 
   return (
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
+        <VoiceCreateWorkout
+          preferences={preferences}
+          movementBest={insights?.movement_best ?? null}
+        />
+
         <div className="ui-stagger grid gap-4 md:grid-cols-2">
           <section className="ui-card p-5 sm:p-6">
             <h1 className="ui-eyebrow">Nästa pass</h1>

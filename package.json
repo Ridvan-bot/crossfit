@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --experimental-strip-types --test src/lib/voice-log.test.ts"
+    "test": "node --experimental-strip-types --test src/lib/voice-log.test.ts src/lib/voice-workout.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.5",

@@ -9,8 +9,11 @@ import { parsePreferences, type AthletePreferences } from "@/lib/athlete";
 import {
   resolveSessionLayout,
   resolveWarmup,
+  SESSION_LAYOUTS,
   type LayoutMovement,
+  type SessionLayoutId,
 } from "@/lib/session-layout";
+import type { SectionKind } from "@/lib/types";
 
 export async function createWorkout(formData: FormData) {
   const supabase = await createClient();
@@ -79,6 +82,140 @@ export async function createWorkout(formData: FormData) {
 
   revalidatePath("/workouts");
   redirect(`/workouts/${data.id}`);
+}
+
+export type VoiceWorkoutInput = {
+  transcript: string;
+  layoutId: string;
+  warmupTheme: string;
+  title: string;
+  notes: string | null;
+  workingMovements: {
+    kind: string;
+    name: string;
+    detail: string | null;
+    suggested_weight_kg: number | null;
+  }[];
+};
+
+export type CreateWorkoutResult =
+  | { ok: true; id: string }
+  | { ok: false; message: string };
+
+const SECTION_KINDS: SectionKind[] = [
+  "warmup",
+  "technique",
+  "strength",
+  "metcon",
+  "other",
+];
+
+export async function createWorkoutFromVoice(
+  input: VoiceWorkoutInput
+): Promise<CreateWorkoutResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, message: "Inte inloggad." };
+
+  const layoutId = (
+    input.layoutId && input.layoutId in SESSION_LAYOUTS
+      ? input.layoutId
+      : ""
+  ) as SessionLayoutId | "";
+  if (!layoutId) return { ok: false, message: "Okänd mall." };
+
+  const title =
+    input.title.trim() || SESSION_LAYOUTS[layoutId].label || "Pass";
+
+  const { data: maxRow } = await supabase
+    .from("workouts")
+    .select("pass_number")
+    .eq("user_id", user.id)
+    .not("pass_number", "is", null)
+    .order("pass_number", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  const passNumber = (maxRow?.pass_number ?? 0) + 1;
+
+  const { data, error } = await supabase
+    .from("workouts")
+    .insert({
+      user_id: user.id,
+      title,
+      pass_number: passNumber,
+      status: "planned",
+      notes: input.notes?.trim() || null,
+    })
+    .select("id")
+    .single();
+
+  if (error || !data) {
+    return { ok: false, message: error?.message ?? "Kunde inte skapa pass." };
+  }
+
+  const byKind = new Map<SectionKind, LayoutMovement[]>();
+  for (const row of input.workingMovements) {
+    const name = row.name.trim();
+    if (!name) continue;
+    const kind = SECTION_KINDS.includes(row.kind as SectionKind)
+      ? (row.kind as SectionKind)
+      : "other";
+    const list = byKind.get(kind) ?? [];
+    list.push({
+      name,
+      detail: row.detail?.trim() || null,
+      suggested_weight_kg:
+        row.suggested_weight_kg != null &&
+        !Number.isNaN(row.suggested_weight_kg)
+          ? row.suggested_weight_kg
+          : null,
+    });
+    byKind.set(kind, list);
+  }
+
+  const layout = resolveSessionLayout(layoutId, input.warmupTheme);
+  for (let i = 0; i < layout.sections.length; i++) {
+    const k = layout.sections[i];
+    const overlay = byKind.get(k.kind);
+    const movements =
+      k.kind !== "warmup" && overlay?.length ? overlay : k.movements;
+    const { data: section, error: sectionError } = await supabase
+      .from("workout_sections")
+      .insert({
+        workout_id: data.id,
+        kind: k.kind,
+        sort_order: i,
+        label: k.label,
+        format_label: k.format_label,
+        estimated_minutes_min: k.estimated_minutes_min,
+        estimated_minutes_max: k.estimated_minutes_max,
+        coaching_tip: k.coaching_tip,
+        timer_preset_sec: k.timer_preset_sec,
+      })
+      .select("id")
+      .single();
+    if (sectionError || !section) {
+      return {
+        ok: false,
+        message: sectionError?.message ?? "Kunde inte skapa passdel.",
+      };
+    }
+    try {
+      await insertLayoutMovements(supabase, section.id, movements);
+    } catch (err) {
+      return {
+        ok: false,
+        message: err instanceof Error ? err.message : "Kunde inte spara rörelser.",
+      };
+    }
+  }
+
+  revalidatePath("/workouts");
+  revalidatePath("/");
+  revalidatePath(`/workouts/${data.id}`);
+  return { ok: true, id: data.id };
 }
 
 export async function updateWorkout(formData: FormData) {
