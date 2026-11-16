@@ -24,7 +24,7 @@ export async function recomputeAthleteInsights(
   const { data: sessions, error } = await supabase
     .from("training_sessions")
     .select(
-      "id, completed_at, score_text, feeling_1_5, rpe_1_10, workouts(title, pass_number), session_lifts(movement_name, weight_kg)"
+      "id, completed_at, score_text, feeling_1_5, rpe_1_10, notes, workouts(title, pass_number), session_lifts(movement_name, weight_kg)"
     )
     .eq("user_id", uid)
     .order("completed_at", { ascending: false });

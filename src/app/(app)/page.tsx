@@ -28,7 +28,7 @@ export default async function HomePage() {
       .maybeSingle(),
     supabase
       .from("training_sessions")
-      .select("id, score_text, feeling_1_5, rpe_1_10, completed_at, workouts(title, pass_number)")
+      .select("id, score_text, feeling_1_5, rpe_1_10, notes, completed_at, workouts(title, pass_number)")
       .eq("user_id", user!.id)
       .order("completed_at", { ascending: false })
       .limit(1)
@@ -56,7 +56,7 @@ export default async function HomePage() {
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <VoiceCreateWorkout
           preferences={preferences}
-          movementBest={insights?.movement_best ?? null}
+          insights={insights}
         />
 
         <div className="ui-stagger grid gap-4 md:grid-cols-2">
@@ -108,6 +108,9 @@ export default async function HomePage() {
                   {(lastSession.workouts as { title?: string } | null)?.title ?? "Pass"}
                 </p>
                 <p className="text-lg text-stone-200">{lastSession.score_text}</p>
+                {lastSession.notes ? (
+                  <p className="text-sm text-stone-400">{lastSession.notes}</p>
+                ) : null}
                 <div className="flex flex-wrap gap-2 pt-1">
                   <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-stone-300">
                     Känsla {lastSession.feeling_1_5 ?? "–"}/5

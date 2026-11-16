@@ -29,13 +29,13 @@ export default async function WorkoutsPage() {
         .maybeSingle(),
       supabase
         .from("athlete_insights")
-        .select("movement_best")
+        .select("movement_best, recent_sessions, signals, rpe_avg_last_4")
         .eq("user_id", user!.id)
         .maybeSingle(),
     ]);
 
   const preferences = parsePreferences(profile?.preferences);
-  const insights = insightsRow as Pick<AthleteInsights, "movement_best"> | null;
+  const insights = insightsRow as AthleteInsights | null;
 
   const nextPassNumber =
     Math.max(0, ...(workouts ?? []).map((w) => w.pass_number ?? 0)) + 1;
@@ -44,7 +44,7 @@ export default async function WorkoutsPage() {
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
         <VoiceCreateWorkout
           preferences={preferences}
-          movementBest={insights?.movement_best ?? null}
+          insights={insights}
         />
 
         <form action={createWorkout} className="ui-card grid gap-3 p-5 md:grid-cols-2">

@@ -84,6 +84,7 @@ export function LogSessionSheet({
   const [lifts, setLifts] = useState<VoiceLift[]>(() =>
     liftsFromSuggested(suggestedLifts)
   );
+  const [notes, setNotes] = useState("");
   const [parsed, setParsed] = useState<ParsedSessionLog | null>(null);
 
   const knownMovements = useMemo(() => {
@@ -119,6 +120,7 @@ export function LogSessionSheet({
     setFeeling(next.feeling_1_5);
     setRpe(next.rpe_1_10);
     if (next.lifts.length > 0) setLifts(next.lifts);
+    setNotes(next.notes ?? "");
     setPhase("confirm");
   }
 
@@ -129,6 +131,7 @@ export function LogSessionSheet({
     fd.set("score_text", scoreText.trim());
     fd.set("feeling_1_5", feeling != null ? String(feeling) : "");
     fd.set("rpe_1_10", rpe != null ? String(rpe) : "");
+    fd.set("notes", notes.trim());
     for (const lift of lifts) {
       fd.append("lift_name", lift.name);
       fd.append(
@@ -224,6 +227,16 @@ export function LogSessionSheet({
               >
                 {formatSessionLogSummary(parsed)}
               </p>
+              {parsed.notes ? (
+                <div className="mt-4">
+                  <p
+                    className={`text-sm ${isBoard ? "text-white/55" : "text-stone-400"}`}
+                  >
+                    Kommentar
+                  </p>
+                  <p className="mt-1 text-base leading-snug">{parsed.notes}</p>
+                </div>
+              ) : null}
               {parsed.transcript ? (
                 <p
                   className={`mt-3 text-sm ${
@@ -303,9 +316,17 @@ export function LogSessionSheet({
                 <VoiceMicButton
                   variant={variant}
                   disabled={pending}
+                  idleLabel="Säg hur det gick"
                   onTranscript={applyTranscript}
                   onError={setError}
                 />
+                <p
+                  className={`text-sm ${isBoard ? "text-white/45" : "text-stone-500"}`}
+                >
+                  Score, RPE, känsla, vikter och hur passet kändes. T.ex. 4
+                  varv, RPE 7, Front Squat 50, knät kändes stelt, Burpee gick
+                  bra.
+                </p>
 
                 <label className="grid gap-1.5 text-sm">
                   <span className={isBoard ? "text-white/55" : "text-stone-400"}>
@@ -338,6 +359,20 @@ export function LogSessionSheet({
                   isBoard={isBoard}
                   onChange={setRpe}
                 />
+
+                <label className="grid gap-1.5 text-sm">
+                  <span className={isBoard ? "text-white/55" : "text-stone-400"}>
+                    Kommentar
+                  </span>
+                  <textarea
+                    name="notes"
+                    rows={2}
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="Hur kändes det? Något att tänka på nästa pass?"
+                    className={fieldClass(isBoard)}
+                  />
+                </label>
 
                 <div className="grid gap-1.5">
                   <p

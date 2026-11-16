@@ -86,6 +86,21 @@ export function AthleteLearningCard({
                 : ""}
             </p>
           )}
+          {insights?.recent_sessions?.some((s) => s.notes) ? (
+            <div className="mt-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-stone-500">
+                Senaste kommentarer
+              </p>
+              <ul className="mt-2 space-y-1 text-sm text-stone-300">
+                {insights.recent_sessions
+                  .filter((s) => s.notes)
+                  .slice(0, 3)
+                  .map((s) => (
+                    <li key={s.session_id}>{s.notes}</li>
+                  ))}
+              </ul>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>
