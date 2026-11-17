@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { AiKeyFields } from "@/components/AiKeyFields";
 import { AthletePreferencesFields } from "@/components/AthletePreferencesFields";
 import { EquipmentPicker } from "@/components/EquipmentPicker";
 import { ProfileSaveButton } from "@/components/ProfileSaveButton";
+import { getUserAiKeyStatus } from "@/app/actions/ai-keys";
 import { updateProfile } from "@/app/actions/crud";
 import { parsePreferences } from "@/lib/athlete";
 import { createClient } from "@/lib/supabase/server";
@@ -19,11 +21,14 @@ export default async function ProfilePage({ searchParams }: Props) {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("display_name, equipment, preferences")
-    .eq("id", user.id)
-    .maybeSingle();
+  const [{ data: profile }, aiKeyStatus] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("display_name, equipment, preferences")
+      .eq("id", user.id)
+      .maybeSingle(),
+    getUserAiKeyStatus(),
+  ]);
 
   const preferences = parsePreferences(profile?.preferences);
 
@@ -88,6 +93,8 @@ export default async function ProfilePage({ searchParams }: Props) {
 
           <ProfileSaveButton />
         </form>
+
+        <AiKeyFields status={aiKeyStatus} />
 
         <p className="text-sm text-stone-500">Inloggad som {user.email}</p>
       </main>
