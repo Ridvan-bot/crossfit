@@ -2,7 +2,7 @@
 
 ## 1) Snabbstatus
 
-- Senast uppdaterad: 2026-11-13
+- Senast uppdaterad: 2026-11-17
 - Övergripande mål: CrossFit-app på Vercel med Supabase (pass, timer, logg, mål).
 - Nuvarande läge: Robin frisk igen. Block 5 klar (#017–#019). #019 EMOM för lätt (RPE 2). Block 6 planerat: #020–#024 med varierad warmup.
 - Nästa steg:
@@ -18,6 +18,11 @@
 - Utrustning: skivstång + vikter, KB 20 kg, DB 15 kg, AbMat, hopprep (sätts i appen under Profil)
 
 ## 3) Genomfört
+
+### 2026-11-17 - Egna AI-nycklar (BYOK) på profilen
+
+- Användaren lägger in sin egen AI-nyckel under Profil (OpenAI, Anthropic, Gemini, Cursor, OpenAI-kompatibel med base URL).
+- Ingen app-ägd nyckel i `.env`. Nyckeln ligger i `user_ai_keys` med RLS `user_id = auth.uid()`. UI visar bara att en nyckel finns + leverantör.
 
 ### 2026-11-13 - Varierad warmup, fler rörelser, block 6 (#020–#024)
 
