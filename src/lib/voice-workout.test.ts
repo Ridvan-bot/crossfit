@@ -110,6 +110,29 @@ describe("parseWorkoutUtterance", () => {
     assert.equal(strength?.movements[0]?.suggested_weight_kg, 35);
   });
 
+  it("skips knee-stressing metcon work after a stiff-knee comment", () => {
+    const insights = {
+      recent_sessions: [
+        { notes: "knät kändes stelt i sista varvet, burpees gick bra" },
+      ],
+    } as unknown as AthleteInsights;
+    const parsed = parseWorkoutUtterance("wod", { insights });
+    const metcon = parsed.sections.find((s) => s.kind === "metcon");
+    const names = metcon?.movements.map((m) => m.name) ?? [];
+    assert.ok(names.includes("Burpee"));
+    assert.ok(!names.includes("Walking Lunge"));
+  });
+
+  it("deloads suggested weight after a stiff comment", () => {
+    const insights = {
+      movement_best: { "Front Squat": { weight_kg: 50 } },
+      recent_sessions: [{ notes: "knät kändes stelt" }],
+    } as unknown as AthleteInsights;
+    const parsed = parseWorkoutUtterance("styrka front squat", { insights });
+    const strength = parsed.sections.find((s) => s.kind === "strength");
+    assert.equal(strength?.movements[0]?.suggested_weight_kg, 30);
+  });
+
   it("returns unrecognized for chatter", () => {
     const parsed = parseWorkoutUtterance("hej");
     assert.equal(hasParsedWorkoutPlan(parsed), false);

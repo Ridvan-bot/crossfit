@@ -8,6 +8,7 @@ export type ParsedSessionLog = {
   rpe_1_10: number | null;
   feeling_1_5: number | null;
   lifts: VoiceLift[];
+  notes: string | null;
   transcript: string;
 };
 
@@ -111,13 +112,15 @@ export function parseSessionUtterance(
   }
 
   const { lifts, rest } = extractLifts(text, knownMovements);
-  const score_text = extractScore(rest);
+  const { score_text, rest: afterScore } = extractScore(rest);
+  const notes = notesFromLeftover(original, afterScore);
 
   return {
     score_text,
     rpe_1_10,
     feeling_1_5,
     lifts,
+    notes,
     transcript: original,
   };
 }
@@ -231,9 +234,9 @@ function addCandidate(
   byName.set(key, { name, pattern });
 }
 
-function extractScore(rest: string): string | null {
+function extractScore(rest: string): { score_text: string | null; rest: string } {
   const cleaned = rest.replace(/\s+/g, " ").trim();
-  if (!cleaned) return null;
+  if (!cleaned) return { score_text: null, rest: "" };
 
   const time = cleaned.match(/\b(\d{1,2}) (\d{2})\b/);
   const minutes = cleaned.match(/\b(\d{1,3}) min(?:uter)?\b/);
@@ -241,10 +244,71 @@ function extractScore(rest: string): string | null {
     /\b(\d{1,3})(?: hela)? (?:varv|rounds?|rundor|ronder)\b/
   );
 
-  if (rounds) return `${rounds[1]} varv`;
-  if (time) return `${time[1]}:${time[2]}`;
-  if (minutes) return `${minutes[1]} min`;
-  return null;
+  if (rounds) {
+    return {
+      score_text: `${rounds[1]} varv`,
+      rest: stripMatch(cleaned, rounds[0]),
+    };
+  }
+  if (time) {
+    return {
+      score_text: `${time[1]}:${time[2]}`,
+      rest: stripMatch(cleaned, time[0]),
+    };
+  }
+  if (minutes) {
+    return {
+      score_text: `${minutes[1]} min`,
+      rest: stripMatch(cleaned, minutes[0]),
+    };
+  }
+  return { score_text: null, rest: cleaned };
+}
+
+function stripMatch(text: string, match: string): string {
+  return text.replace(match, " ").replace(/\s+/g, " ").trim();
+}
+
+/** Map leftover normalized tokens back onto the original utterance. */
+function notesFromLeftover(
+  original: string,
+  leftoverNormalized: string
+): string | null {
+  const leftoverTokens = leftoverNormalized.split(/\s+/).filter(Boolean);
+  if (leftoverTokens.length === 0) return null;
+
+  const leftoverCount = new Map<string, number>();
+  for (const token of leftoverTokens) {
+    leftoverCount.set(token, (leftoverCount.get(token) ?? 0) + 1);
+  }
+
+  const originalTokens = original.trim().match(/\S+/g);
+  if (!originalTokens) return null;
+
+  const kept: string[] = [];
+  for (const token of originalTokens) {
+    const stripped = token.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "");
+    if (!stripped) continue;
+    const parts = expandSwedishNumbers(normalizeSpeech(stripped))
+      .split(/\s+/)
+      .filter(Boolean);
+    const matched = parts.filter((part) => (leftoverCount.get(part) ?? 0) > 0);
+    if (matched.length === 0) continue;
+    for (const part of matched) {
+      leftoverCount.set(part, (leftoverCount.get(part) ?? 1) - 1);
+    }
+    kept.push(token);
+  }
+
+  let notes = kept.join(" ").replace(/\s+([,.;:!?])/g, "$1");
+  notes = notes.replace(/^[,.;:\-–—\s]+|[,.;:\-–—\s]+$/g, "").trim();
+  notes = notes.replace(/\s+/g, " ");
+  if (!notes) return null;
+
+  const content = notes.replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+  const words = content.split(/\s+/).filter(Boolean);
+  if (content.length < 8 && words.length < 3) return null;
+  return notes;
 }
 
 function parseWeight(raw: string | undefined): number | null {

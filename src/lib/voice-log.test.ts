@@ -16,13 +16,17 @@ const MOVEMENTS = [
 describe("parseSessionUtterance", () => {
   it("parses the canonical after-workout example", () => {
     const parsed = parseSessionUtterance(
-      "4 varv, RPE 7, känsla 4, front squat 50",
+      "4 varv, RPE 7, känsla 4, front squat 50, knät kändes stelt i sista varvet, burpees gick bra",
       MOVEMENTS
     );
     assert.equal(parsed.score_text, "4 varv");
     assert.equal(parsed.rpe_1_10, 7);
     assert.equal(parsed.feeling_1_5, 4);
     assert.deepEqual(parsed.lifts, [{ name: "Front Squat", weight_kg: 50 }]);
+    assert.equal(
+      parsed.notes,
+      "knät kändes stelt i sista varvet, burpees gick bra"
+    );
     assert.equal(
       formatSessionLogSummary(parsed),
       "4 varv · RPE 7 · känsla 4 · Front Squat 50 kg"
@@ -39,6 +43,7 @@ describe("parseSessionUtterance", () => {
     assert.equal(parsed.rpe_1_10, 7);
     assert.equal(parsed.feeling_1_5, 4);
     assert.deepEqual(parsed.lifts, [{ name: "Front Squat", weight_kg: 50 }]);
+    assert.equal(parsed.notes, null);
   });
 
   it("parses time scores and multiple lifts", () => {
@@ -53,6 +58,7 @@ describe("parseSessionUtterance", () => {
       { name: "Hang Power Clean", weight_kg: 40 },
       { name: "Deadlift", weight_kg: 60 },
     ]);
+    assert.equal(parsed.notes, null);
   });
 
   it("prefers workout-specific names and kg-before-name", () => {
@@ -62,6 +68,16 @@ describe("parseSessionUtterance", () => {
     ]);
     assert.equal(parsed.rpe_1_10, 6);
     assert.deepEqual(parsed.lifts, [{ name: "Front Squat", weight_kg: 50 }]);
+    assert.equal(parsed.notes, null);
+  });
+
+  it("keeps a comment when speech has no commas", () => {
+    const parsed = parseSessionUtterance(
+      "4 varv RPE 7 känsla 4 front squat 50 knät kändes stelt burpees gick bra",
+      MOVEMENTS
+    );
+    assert.equal(parsed.score_text, "4 varv");
+    assert.equal(parsed.notes, "knät kändes stelt burpees gick bra");
   });
 
   it("returns empty when nothing training-related was said", () => {
@@ -71,5 +87,6 @@ describe("parseSessionUtterance", () => {
     assert.equal(parsed.rpe_1_10, null);
     assert.equal(parsed.feeling_1_5, null);
     assert.deepEqual(parsed.lifts, []);
+    assert.equal(parsed.notes, null);
   });
 });

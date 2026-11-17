@@ -66,6 +66,21 @@ export type RecentSessionSignal = {
   score_text: string | null;
   feeling_1_5: number | null;
   rpe_1_10: number | null;
+  notes: string | null;
+};
+
+export type SessionNoteHints = {
+  extra_constraints: string[];
+  prefer_movements: string[];
+  avoid_movements: string[];
+  deload: boolean;
+};
+
+export const EMPTY_SESSION_NOTE_HINTS: SessionNoteHints = {
+  extra_constraints: [],
+  prefer_movements: [],
+  avoid_movements: [],
+  deload: false,
 };
 
 export type AthleteSignals = {
@@ -73,6 +88,7 @@ export type AthleteSignals = {
   low_feeling_streak?: boolean;
   progressing_lifts?: string[];
   needs_deload_hint?: boolean;
+  from_notes?: SessionNoteHints;
 };
 
 export type AthleteInsights = {
@@ -123,6 +139,7 @@ type SessionRow = {
   score_text: string | null;
   feeling_1_5: number | null;
   rpe_1_10: number | null;
+  notes?: string | null;
   workouts: { title: string; pass_number: number | null } | null;
   session_lifts: { movement_name: string; weight_kg: number | null }[] | null;
 };
@@ -157,6 +174,7 @@ export function buildAthleteInsights(
     score_text: s.score_text,
     feeling_1_5: s.feeling_1_5,
     rpe_1_10: s.rpe_1_10,
+    notes: s.notes?.trim() || null,
   }));
 
   const last4 = sessions.slice(0, 4);
@@ -176,6 +194,10 @@ export function buildAthleteInsights(
     .map((s) => s.feeling_1_5)
     .filter((n): n is number => n != null);
 
+  const from_notes = sessionNoteHintsFromNotes(
+    recent_sessions.map((s) => s.notes)
+  );
+
   const signals: AthleteSignals = {
     high_rpe_streak:
       last3Rpe.length >= 3 && last3Rpe.every((r) => r >= 8) ? true : undefined,
@@ -184,7 +206,12 @@ export function buildAthleteInsights(
         ? true
         : undefined,
     needs_deload_hint:
-      last3Rpe.length >= 3 && last3Rpe.every((r) => r >= 8) ? true : undefined,
+      last3Rpe.length >= 3 && last3Rpe.every((r) => r >= 8)
+        ? true
+        : from_notes.deload
+          ? true
+          : undefined,
+    from_notes: hasSessionNoteHints(from_notes) ? from_notes : undefined,
   };
 
   const progressing_lifts: string[] = [];
@@ -257,7 +284,119 @@ function buildSummarySv(input: {
     parts.push(`Senaste score: ${last.score_text}.`);
   }
 
+  const comments = input.recent_sessions
+    .map((s) => s.notes?.trim())
+    .filter((n): n is string => Boolean(n))
+    .slice(0, 2)
+    .map((n) => (n.length > 80 ? `${n.slice(0, 77)}…` : n));
+  if (comments.length === 1) {
+    parts.push(`Senaste kommentar: ${comments[0]}.`);
+  } else if (comments.length > 1) {
+    parts.push(`Senaste kommentarer: ${comments.join(" · ")}.`);
+  }
+
   return parts.join(" ");
+}
+
+const NOTE_POSITIVE =
+  /\b(gick bra|bra|kul|latt|fint|stark|rolig[t]?|smidig[t]?)\b/;
+const NOTE_NEGATIVE =
+  /\b(ont|daligt|tungt|kampigt|skippa|undvik|stelt|stel|smarta|sliten|trott)\b/;
+const NOTE_BODY: { re: RegExp; constraint: string }[] = [
+  { re: /\b(knat|knae|kna|knee)\b/, constraint: "knee_sensitive" },
+  { re: /\b(axel|axlar|shoulder)\b/, constraint: "shoulder_sensitive" },
+  { re: /\b(rygg|landrygg|back)\b/, constraint: "back_sensitive" },
+];
+const NOTE_MOVEMENTS: { name: string; re: RegExp }[] = [
+  { name: "Burpee", re: /\bburpees?\b/ },
+  { name: "Box Jump", re: /\bbox jump/ },
+  { name: "Walking Lunge", re: /\b(walking lunge|utfall)\b/ },
+  { name: "Deadlift", re: /\b(deadlift|marklyft)\b/ },
+  { name: "Front Squat", re: /\bfront squat\b/ },
+  { name: "Toes-to-bar", re: /\b(toes? to bar|ttb)\b/ },
+  { name: "Pull-up", re: /\b(pull[- ]?ups?|chins?)\b/ },
+  { name: "Thruster", re: /\bthrusters?\b/ },
+  { name: "Push-up", re: /\b(push[- ]?ups?|armhavningar?)\b/ },
+];
+
+function normalizeNoteText(input: string): string {
+  return input
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function sessionNoteHintsFromNotes(
+  notes: Array<string | null | undefined>
+): SessionNoteHints {
+  const hints: SessionNoteHints = {
+    extra_constraints: [],
+    prefer_movements: [],
+    avoid_movements: [],
+    deload: false,
+  };
+  const clauses = notes
+    .filter((n): n is string => Boolean(n && n.trim()))
+    .flatMap((n) => n.split(/[,.;!?]+/))
+    .map((c) => c.trim())
+    .filter(Boolean);
+
+  for (const clause of clauses) {
+    const text = normalizeNoteText(clause);
+    if (!text) continue;
+    const negative = NOTE_NEGATIVE.test(text);
+    const positive = NOTE_POSITIVE.test(text) || /\bgick\b/.test(text);
+
+    for (const body of NOTE_BODY) {
+      if (body.re.test(text) && (negative || /\bkandes\b/.test(text))) {
+        if (!hints.extra_constraints.includes(body.constraint)) {
+          hints.extra_constraints.push(body.constraint);
+        }
+        hints.deload = true;
+      }
+    }
+
+    for (const movement of NOTE_MOVEMENTS) {
+      if (!movement.re.test(text)) continue;
+      if (negative) {
+        if (!hints.avoid_movements.includes(movement.name)) {
+          hints.avoid_movements.push(movement.name);
+        }
+      } else if (positive && !hints.prefer_movements.includes(movement.name)) {
+        hints.prefer_movements.push(movement.name);
+      }
+    }
+
+    if (negative && /\b(stelt|stel|ont|trott|sliten|smarta)\b/.test(text)) {
+      hints.deload = true;
+    }
+  }
+
+  return hints;
+}
+
+export function sessionNoteHintsFromInsights(
+  insights: Pick<AthleteInsights, "recent_sessions" | "signals"> | null | undefined
+): SessionNoteHints {
+  if (!insights) return { ...EMPTY_SESSION_NOTE_HINTS };
+  if (insights.signals?.from_notes && hasSessionNoteHints(insights.signals.from_notes)) {
+    return insights.signals.from_notes;
+  }
+  return sessionNoteHintsFromNotes(
+    (insights.recent_sessions ?? []).map((s) => s.notes)
+  );
+}
+
+function hasSessionNoteHints(hints: SessionNoteHints): boolean {
+  return (
+    hints.deload ||
+    hints.extra_constraints.length > 0 ||
+    hints.prefer_movements.length > 0 ||
+    hints.avoid_movements.length > 0
+  );
 }
 
 /** Suggested next weight: last best + small bump, or same if high RPE. */

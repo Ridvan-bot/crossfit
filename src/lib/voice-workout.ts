@@ -1,5 +1,12 @@
-import type { AthleteInsights, AthletePreferences } from "./athlete.ts";
-import { EMPTY_PREFERENCES } from "./athlete.ts";
+import type {
+  AthleteInsights,
+  AthletePreferences,
+  SessionNoteHints,
+} from "./athlete.ts";
+import {
+  EMPTY_PREFERENCES,
+  sessionNoteHintsFromInsights,
+} from "./athlete.ts";
 import { CROSSFIT_MOVEMENTS } from "./movements.ts";
 import {
   resolveSessionLayout,
@@ -212,10 +219,12 @@ export function parseWorkoutUtterance(
   });
 
   const layout = resolveSessionLayout(layoutId, warmupTheme);
+  const noteHints = sessionNoteHintsFromInsights(context.insights ?? null);
   const sections = fillSections(layout.sections, spokenNames, {
     preferences,
     insights: context.insights ?? null,
     layoutId,
+    noteHints,
   });
 
   return {
@@ -292,6 +301,7 @@ function fillSections(
     preferences: AthletePreferences;
     insights: AthleteInsights | null;
     layoutId: SessionLayoutId;
+    noteHints: SessionNoteHints;
   }
 ): LayoutSection[] {
   const working = sections.filter((s) => s.kind !== "warmup");
@@ -341,13 +351,24 @@ function defaultMovementsFor(
     preferences: AthletePreferences;
     insights: AthleteInsights | null;
     layoutId: SessionLayoutId;
+    noteHints: SessionNoteHints;
   }
 ): LayoutMovement[] {
-  const fromFun = ctx.preferences.fun_movements
+  const fromNotes = ctx.noteHints.prefer_movements
     .map((name) => name.trim())
     .filter(Boolean)
     .filter((name) => classifyMovement(name) === kind || kind === "metcon")
-    .filter((name) => allowedMovement(name, ctx.preferences));
+    .filter((name) => allowedMovement(name, ctx.preferences, ctx.noteHints));
+  const fromFun = [
+    ...fromNotes,
+    ...ctx.preferences.fun_movements
+      .map((name) => name.trim())
+      .filter(Boolean)
+      .filter((name) => classifyMovement(name) === kind || kind === "metcon"),
+  ].filter(
+    (name, i, all) =>
+      all.findIndex((n) => n.toLowerCase() === name.toLowerCase()) === i
+  ).filter((name) => allowedMovement(name, ctx.preferences, ctx.noteHints));
 
   if (kind === "metcon" && ctx.layoutId === "emom") {
     const pool = fromFun.length ? fromFun.slice(0, 2) : EMOM_DEFAULT.map((m) => m.name);
@@ -359,7 +380,7 @@ function defaultMovementsFor(
           detail: "jämn min · 8",
           suggested_weight_kg: null,
         },
-      ].filter((m) => allowedMovement(m.name, ctx.preferences));
+      ].filter((m) => allowedMovement(m.name, ctx.preferences, ctx.noteHints));
     }
     if (fromFun.length >= 2) {
       return [
@@ -367,7 +388,9 @@ function defaultMovementsFor(
         { name: pool[1], detail: "jämn min · 8", suggested_weight_kg: null },
       ];
     }
-    return EMOM_DEFAULT.filter((m) => allowedMovement(m.name, ctx.preferences));
+    return EMOM_DEFAULT.filter((m) =>
+      allowedMovement(m.name, ctx.preferences, ctx.noteHints)
+    );
   }
 
   if (kind === "technique" || kind === "strength" || kind === "metcon") {
@@ -386,7 +409,7 @@ function defaultMovementsFor(
       return [{ name, detail, suggested_weight_kg: null }];
     }
     const fallback = DEFAULT_BY_KIND[kind].filter((m) =>
-      allowedMovement(m.name, ctx.preferences)
+      allowedMovement(m.name, ctx.preferences, ctx.noteHints)
     );
     if (fallback.length) return fallback;
     if (kind === "metcon") {
@@ -403,27 +426,42 @@ function defaultMovementsFor(
 function prescribe(
   name: string,
   kind: SectionKind,
-  ctx: { preferences: AthletePreferences; insights: AthleteInsights | null },
+  ctx: {
+    preferences: AthletePreferences;
+    insights: AthleteInsights | null;
+    noteHints: SessionNoteHints;
+  },
   detail?: string | null
 ): LayoutMovement {
   const fallback =
     kind === "technique" ? "2 × 6" : kind === "strength" ? "3 × 4" : detail ?? "10";
+  const rawDetail = detail ?? fallback;
   return {
     name,
-    detail: detail ?? fallback,
-    suggested_weight_kg: suggestedKg(name, kind, ctx.insights),
+    detail: ctx.noteHints.deload ? deloadDetail(rawDetail) : rawDetail,
+    suggested_weight_kg: suggestedKg(name, kind, ctx.insights, ctx.noteHints.deload),
   };
+}
+
+function deloadDetail(detail: string): string {
+  return detail.replace(/\d+/g, (raw) => {
+    const n = Number(raw);
+    if (!Number.isFinite(n) || n <= 2) return raw;
+    return String(Math.max(1, Math.round(n * 0.8)));
+  });
 }
 
 function suggestedKg(
   name: string,
   kind: SectionKind,
-  insights: AthleteInsights | null
+  insights: AthleteInsights | null,
+  deload = false
 ): number | null {
   const best = insights?.movement_best?.[name]?.weight_kg;
   if (best == null || !Number.isFinite(best) || best <= 0) return null;
   const pct = kind === "strength" ? 0.7 : kind === "technique" ? 0.55 : 0.45;
-  return Math.max(5, Math.round((best * pct) / 5) * 5);
+  const scaled = best * pct * (deload ? 0.85 : 1);
+  return Math.max(5, Math.round(scaled / 5) * 5);
 }
 
 function classifyMovement(name: string): "technique" | "strength" | "metcon" {
@@ -436,21 +474,37 @@ function classifyMovement(name: string): "technique" | "strength" | "metcon" {
   return "metcon";
 }
 
-function allowedMovement(name: string, preferences: AthletePreferences): boolean {
+function allowedMovement(
+  name: string,
+  preferences: AthletePreferences,
+  noteHints: SessionNoteHints = {
+    extra_constraints: [],
+    prefer_movements: [],
+    avoid_movements: [],
+    deload: false,
+  }
+): boolean {
   const key = name.trim().toLowerCase();
   if (JUMP_ROPE.has(key)) return false;
   if (preferences.constraints.includes("no_jump_rope") && JUMP_ROPE.has(key)) {
     return false;
   }
-  const avoided = preferences.avoid_movements.map((n) => n.trim().toLowerCase());
+  const avoided = [
+    ...preferences.avoid_movements,
+    ...noteHints.avoid_movements,
+  ].map((n) => n.trim().toLowerCase());
   if (avoided.includes(key)) return false;
-  if (preferences.constraints.includes("knee_sensitive")) {
+  const constraints = [
+    ...preferences.constraints,
+    ...noteHints.extra_constraints,
+  ];
+  if (constraints.includes("knee_sensitive")) {
     if (/pistol|box jump|walking lunge|burpee box/.test(key)) return false;
   }
-  if (preferences.constraints.includes("shoulder_sensitive")) {
+  if (constraints.includes("shoulder_sensitive")) {
     if (/handstand|snatch|jerk/.test(key)) return false;
   }
-  if (preferences.constraints.includes("back_sensitive")) {
+  if (constraints.includes("back_sensitive")) {
     if (/deadlift|good morning/.test(key)) return false;
   }
   return true;

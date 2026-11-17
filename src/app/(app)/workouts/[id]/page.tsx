@@ -379,7 +379,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
             </div>
             <textarea
               name="notes"
-              placeholder="Kommentar"
+              placeholder="Hur kändes det? Något att tänka på nästa pass?"
               rows={2}
               className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
             />

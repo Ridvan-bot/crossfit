@@ -23,11 +23,13 @@ import {
 
 type Props = {
   preferences: AthletePreferences;
+  insights?: AthleteInsights | null;
   movementBest?: AthleteInsights["movement_best"] | null;
 };
 
 export function VoiceCreateWorkout({
   preferences,
+  insights = null,
   movementBest = null,
 }: Props) {
   const router = useRouter();
@@ -52,23 +54,29 @@ export function VoiceCreateWorkout({
     return () => window.removeEventListener("keydown", onKey);
   }, [parsed, reset]);
 
+  const resolvedInsights = useMemo(() => {
+    if (insights) return insights;
+    if (movementBest) {
+      return { movement_best: movementBest } as AthleteInsights;
+    }
+    return null;
+  }, [insights, movementBest]);
+
   const context = useMemo(
     () => ({
       preferences,
-      insights: movementBest
-        ? ({ movement_best: movementBest } as AthleteInsights)
-        : null,
+      insights: resolvedInsights,
       knownMovements: [
         ...new Set(
           [
             ...CROSSFIT_MOVEMENTS,
             ...preferences.fun_movements,
-            ...Object.keys(movementBest ?? {}),
+            ...Object.keys(resolvedInsights?.movement_best ?? {}),
           ].filter(Boolean)
         ),
       ],
     }),
-    [preferences, movementBest]
+    [preferences, resolvedInsights]
   );
 
   function applyTranscript(text: string) {
