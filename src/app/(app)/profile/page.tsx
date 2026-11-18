@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AddToHomeScreen } from "@/components/AddToHomeScreen";
 import { AiKeyFields } from "@/components/AiKeyFields";
 import { AthletePreferencesFields } from "@/components/AthletePreferencesFields";
 import { EquipmentPicker } from "@/components/EquipmentPicker";
@@ -95,6 +96,8 @@ export default async function ProfilePage({ searchParams }: Props) {
         </form>
 
         <AiKeyFields status={aiKeyStatus} />
+
+        <AddToHomeScreen variant="guide" />
 
         <p className="text-sm text-stone-500">Inloggad som {user.email}</p>
       </main>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AddToHomeScreen } from "@/components/AddToHomeScreen";
 import { AthleteLearningCard } from "@/components/AthleteLearningCard";
 import { SeedButton } from "@/components/SeedButton";
 import { VoiceCreateWorkout } from "@/components/VoiceCreateWorkout";
@@ -54,6 +55,8 @@ export default async function HomePage() {
 
   return (
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
+        <AddToHomeScreen variant="prompt" />
+
         <VoiceCreateWorkout
           preferences={preferences}
           insights={insights}

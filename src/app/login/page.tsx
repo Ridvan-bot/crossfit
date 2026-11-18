@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { AddToHomeScreen } from "@/components/AddToHomeScreen";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
@@ -63,6 +64,7 @@ export default function LoginPage() {
           </Link>
         </p>
       </div>
+      <AddToHomeScreen variant="prompt" />
     </main>
   );
 }
