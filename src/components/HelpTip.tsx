@@ -6,6 +6,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  useSyncExternalStore,
 } from "react";
 import { createPortal } from "react-dom";
 
@@ -20,6 +21,8 @@ type Props = {
   label?: string;
   /** Visuell stil för tavla vs telefon/app */
   variant?: "phone" | "board" | "app";
+  /** ? = hjälp, i = info (coaching-tip) */
+  symbol?: "?" | "i";
   className?: string;
 };
 
@@ -32,6 +35,7 @@ export function HelpTip({
   text = RPE_HELP_TEXT,
   label = "Vad betyder det här?",
   variant = "app",
+  symbol = "?",
   className = "",
 }: Props) {
   const tipId = useId();
@@ -41,11 +45,11 @@ export function HelpTip({
   const [coords, setCoords] = useState<{ top: number; left: number } | null>(
     null
   );
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   useLayoutEffect(() => {
     if (!open || !rootRef.current) {
@@ -163,9 +167,36 @@ export function HelpTip({
         }}
         className={`inline-flex size-6 shrink-0 items-center justify-center rounded-full border text-[0.75rem] font-semibold leading-none ${tone.btn}`}
       >
-        ?
+        {symbol === "i" ? (
+          <span className="font-serif italic leading-none">i</span>
+        ) : (
+          "?"
+        )}
       </button>
       {tip}
     </span>
+  );
+}
+
+/** Liten i-ikon med coaching-tip i tooltip. Renderar inget utan text. */
+export function CoachingTip({
+  text,
+  variant,
+  className = "",
+}: {
+  text: string | null | undefined;
+  variant: "phone" | "board";
+  className?: string;
+}) {
+  const trimmed = text?.trim();
+  if (!trimmed) return null;
+  return (
+    <HelpTip
+      text={trimmed}
+      label="Visa coaching-tip"
+      variant={variant}
+      symbol="i"
+      className={className}
+    />
   );
 }

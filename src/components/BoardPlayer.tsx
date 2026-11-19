@@ -15,6 +15,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { saveBoardEdit } from "@/app/actions/crud";
 import { FitToBox } from "@/components/FitToBox";
+import { CoachingTip } from "@/components/HelpTip";
 import {
   LogSessionSheet,
   suggestedLiftsFromSections,
@@ -621,11 +622,16 @@ export function BoardPlayer({
                     className={`${chalkInput} max-w-[28ch] font-[family-name:var(--font-amatic)] text-[1.45em] font-bold tracking-wide`}
                   />
                 ) : (
-                  <p className="max-w-full px-[0.2em] text-balance font-[family-name:var(--font-amatic)] text-[1.45em] font-bold leading-tight tracking-wide">
-                    <span className="border-b border-white/30 pb-[0.06em]">
+                  <div className="flex max-w-full flex-wrap items-center justify-center gap-[0.35em] px-[0.2em] text-balance font-[family-name:var(--font-amatic)] text-[1.45em] font-bold leading-tight tracking-wide">
+                    <span className="min-w-0 border-b border-white/30 pb-[0.06em]">
                       {section.format_label ?? section.label.toUpperCase()}
                     </span>
-                  </p>
+                    <CoachingTip
+                      text={section.coaching_tip}
+                      variant="board"
+                      className="shrink-0"
+                    />
+                  </div>
                 )}
 
                 <div
@@ -700,11 +706,11 @@ export function BoardPlayer({
                           <div className="font-[family-name:var(--font-amatic)] text-[2.4em] font-bold uppercase leading-[0.95] tracking-wider">
                             {m.name}
                           </div>
-                          <div className="mt-[0.12em] font-[family-name:var(--font-caveat)] text-[1.35em] leading-tight">
-                            {m.detail}
-                            {m.suggested_weight_kg != null
-                              ? ` (${m.suggested_weight_kg} kg)`
-                              : ""}
+                          <div className="mt-[0.12em] flex flex-wrap items-baseline justify-center gap-[0.35em] font-[family-name:var(--font-caveat)] text-[1.35em] leading-tight">
+                            {m.detail ? <span>{m.detail}</span> : null}
+                            {m.suggested_weight_kg != null ? (
+                              <span>({m.suggested_weight_kg} kg)</span>
+                            ) : null}
                           </div>
                         </>
                       )}
@@ -727,14 +733,10 @@ export function BoardPlayer({
                     onChange={(e) =>
                       updateSectionField("coaching_tip", e.target.value)
                     }
-                    placeholder="Coaching-tip (valfritt)"
+                    placeholder="Coaching-tip (valfritt, visas bakom i-ikon)"
                     rows={2}
                     className={`${chalkInput} max-w-[32ch] resize-none border font-[family-name:var(--font-caveat)] text-[1em] leading-snug text-white/80`}
                   />
-                ) : section.coaching_tip ? (
-                  <p className="max-w-[32ch] font-[family-name:var(--font-caveat)] text-[1em] leading-snug text-white/65">
-                    {section.coaching_tip}
-                  </p>
                 ) : null}
               </div>
             </FitToBox>
