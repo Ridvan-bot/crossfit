@@ -6,6 +6,7 @@ import {
   LogSessionSheet,
   suggestedLiftsFromSections,
 } from "@/components/LogSessionSheet";
+import { CoachingTip } from "@/components/HelpTip";
 import { WorkoutTimer } from "@/components/WorkoutTimer";
 import type { WorkoutSection } from "@/lib/types";
 
@@ -127,11 +128,17 @@ export function PhonePlayer({
               : "min-h-0 flex-1 overflow-y-auto overscroll-contain"
           }
         >
-          <h1 className="ui-title text-2xl">{section.label}</h1>
-          {section.coaching_tip || section.format_label ? (
+          <div className="flex items-center gap-2">
+            <h1 className="ui-title min-w-0 flex-1 text-2xl">{section.label}</h1>
+            <CoachingTip
+              text={section.coaching_tip}
+              variant="phone"
+              className="shrink-0"
+            />
+          </div>
+          {section.format_label ? (
             <p className="mt-2 text-sm font-medium text-teal-300">
               {section.format_label}
-              {section.coaching_tip ? ` · ${section.coaching_tip}` : ""}
             </p>
           ) : null}
           {meta ? (
@@ -146,11 +153,11 @@ export function PhonePlayer({
                 <span className="ui-title text-2xl text-teal-400">{i + 1}</span>
                 <span>
                   <span className="block text-lg font-semibold">{m.name}</span>
-                  <span className="text-sm text-stone-400">
-                    {m.detail}
-                    {m.suggested_weight_kg != null
-                      ? ` · (${m.suggested_weight_kg} kg)`
-                      : ""}
+                  <span className="mt-0.5 flex flex-wrap items-baseline gap-x-2 text-sm text-stone-400">
+                    {m.detail ? <span>{m.detail}</span> : null}
+                    {m.suggested_weight_kg != null ? (
+                      <span>({m.suggested_weight_kg} kg)</span>
+                    ) : null}
                   </span>
                 </span>
               </li>
