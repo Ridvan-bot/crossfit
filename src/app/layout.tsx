@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, IBM_Plex_Sans, Amatic_SC, Caveat } from "next/font/google";
+import { APPLE_TOUCH_ICON, PWA_THEME_COLOR } from "@/lib/pwa";
 import "./globals.css";
 
 const plex = IBM_Plex_Sans({
@@ -29,10 +30,21 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   title: "CrossFit Träning",
   description: "Pass, timer, logg och mål",
+  applicationName: "CrossFit Träning",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "CrossFit",
+  },
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+  },
+  icons: {
+    icon: [
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: APPLE_TOUCH_ICON, sizes: "180x180" }],
   },
 };
 
@@ -40,7 +52,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#07090a",
+  themeColor: PWA_THEME_COLOR,
 };
 
 export default function RootLayout({

@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { isPublicAssetPath } from "@/lib/pwa";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -31,7 +32,7 @@ export async function updateSession(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
   const isAuthPage = path.startsWith("/login") || path.startsWith("/signup");
-  const isPublic = isAuthPage || path.startsWith("/_next") || path === "/favicon.ico";
+  const isPublic = isAuthPage || isPublicAssetPath(path);
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone();
