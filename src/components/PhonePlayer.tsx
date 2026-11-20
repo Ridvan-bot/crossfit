@@ -43,7 +43,7 @@ export function PhonePlayer({
         </Link>
         <div className="ui-card p-5">
           <p className="text-stone-400">
-            Inga delar i passet ännu. Lägg till delar på pass-sidan först.
+            Inga delar i WOD:en ännu. Lägg till delar på WOD-sidan först.
           </p>
         </div>
       </div>
@@ -86,7 +86,7 @@ export function PhonePlayer({
           className="ui-phone-hit min-w-11 shrink-0 px-2 text-stone-400 hover:text-stone-200"
         >
           ←
-          <span className="sr-only">Tillbaka till passet</span>
+          <span className="sr-only">Tillbaka till WOD:en</span>
         </Link>
         <div className="min-w-0 flex-1 text-center">
           <p className="ui-eyebrow truncate">{title}</p>
@@ -161,7 +161,7 @@ export function PhonePlayer({
 
       <nav
         className="ui-bottom-chrome mt-3 grid shrink-0 grid-cols-2 gap-2"
-        aria-label="Passkontroller"
+        aria-label="WOD-kontroller"
       >
         <button
           type="button"
@@ -178,7 +178,7 @@ export function PhonePlayer({
             isLast ? "ui-btn-primary" : "ui-btn-ghost"
           }`}
         >
-          {isLast ? "Pass klart" : "Nästa del"}
+          {isLast ? "WOD klar" : "Nästa del"}
         </button>
         <button
           type="button"
@@ -188,7 +188,7 @@ export function PhonePlayer({
             showingTimer ? "ui-btn-primary" : "ui-btn-outline"
           }`}
         >
-          {showingTimer ? "Passet" : "Timer"}
+          {showingTimer ? "WOD" : "Timer"}
         </button>
         <button
           type="button"

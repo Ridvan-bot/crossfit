@@ -18,7 +18,7 @@ export function AthletePreferencesFields({
       <div>
         <h2 className="ui-eyebrow">Träningsprofil</h2>
         <p className="mt-1 text-sm text-stone-500">
-          Detta styr hur pass och WOD:er anpassas till dig över tid — fokus,
+          Detta styr hur WOD:er anpassas till dig över tid — fokus,
           begränsningar och vad du tycker är kul.
         </p>
       </div>
@@ -80,7 +80,7 @@ export function AthletePreferencesFields({
           </select>
         </label>
         <label className="grid gap-1.5">
-          <span className="text-sm text-stone-400">Pass per vecka</span>
+          <span className="text-sm text-stone-400">WOD:er per vecka</span>
           <input
             name="sessions_per_week"
             type="number"

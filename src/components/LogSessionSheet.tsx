@@ -323,7 +323,7 @@ export function LogSessionSheet({
                 <p
                   className={`text-sm ${isBoard ? "text-white/45" : "text-stone-500"}`}
                 >
-                  Score, RPE, känsla, vikter och hur passet kändes. T.ex. 4
+                  Score, RPE, känsla, vikter och hur WOD:en kändes. T.ex. 4
                   varv, RPE 7, Front Squat 50, knät kändes stelt, Burpee gick
                   bra.
                 </p>
@@ -369,7 +369,7 @@ export function LogSessionSheet({
                     rows={2}
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Hur kändes det? Något att tänka på nästa pass?"
+                    placeholder="Hur kändes det? Något att tänka på nästa WOD?"
                     className={fieldClass(isBoard)}
                   />
                 </label>

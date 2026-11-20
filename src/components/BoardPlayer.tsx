@@ -286,7 +286,7 @@ export function BoardPlayer({
 
   const removeSectionLocal = useCallback(() => {
     if (sections.length <= 1) {
-      setSaveError("Passet måste ha minst en del.");
+      setSaveError("WOD:en måste ha minst en del.");
       return;
     }
     const current = sections[index];
@@ -321,7 +321,7 @@ export function BoardPlayer({
 
   const saveEdit = () => {
     if (sections.length === 0) {
-      setSaveError("Passet måste ha minst en del.");
+      setSaveError("WOD:en måste ha minst en del.");
       return;
     }
     setSaveError(null);
@@ -419,13 +419,13 @@ export function BoardPlayer({
       <BoardPortal>
         <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-4 bg-[#0c0c0c] pt-[max(1.5rem,var(--safe-t))] pr-[max(1.5rem,var(--safe-r))] pb-[max(1.5rem,var(--safe-b))] pl-[max(1.5rem,var(--safe-l))] text-[#f4f1ea]">
           <p className="font-[family-name:var(--font-amatic)] text-3xl tracking-wider text-white/70">
-            Inga delar i passet ännu
+            Inga delar i WOD:en ännu
           </p>
           <Link
             href={`/workouts/${workoutId}`}
             className="font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/55 hover:text-white"
           >
-            ← TILL PASSET
+            ← TILL WOD:EN
           </Link>
         </div>
       </BoardPortal>
@@ -490,7 +490,7 @@ export function BoardPlayer({
                       onClick={() => setLogOpen(true)}
                       className="hidden font-[family-name:var(--font-amatic)] text-xl tracking-widest text-white/80 underline decoration-white/30 underline-offset-4 hover:text-white hover:decoration-white sm:inline"
                     >
-                      PASS KLART
+                      WOD KLAR
                     </button>
                     <Link
                       href={`/workouts/${workoutId}/phone`}

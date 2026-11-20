@@ -61,7 +61,7 @@ function warmup(
 export const WARMUPS = {
   general: warmup(
     "WARMUP · TAR CA 8 MIN · TOM STÅNG",
-    "Lugn. Ingen hopprep. Tom stång — dagens tunga lyft byggs i arbetspasset.",
+    "Lugn. Ingen hopprep. Tom stång — dagens tunga lyft byggs i arbetet.",
     [
       { name: "Air Squat", detail: "10 × 2", suggested_weight_kg: null },
       {
@@ -219,7 +219,7 @@ export const SESSION_LAYOUTS = {
   wod: {
     id: "wod",
     label: "WOD",
-    hint: "Ett metcon är hela passet (For Time, AMRAP, chipper…).",
+    hint: "Ett metcon är hela WOD:en (For Time, AMRAP, chipper…).",
     defaultWarmup: "engine" as WarmupTheme,
     sections: [
       working({
@@ -229,7 +229,7 @@ export const SESSION_LAYOUTS = {
         estimated_minutes_min: 10,
         estimated_minutes_max: 10,
         coaching_tip:
-          "WOD:en är passet. 2 lätta set av dagens rörelser efter warmup, sen klocka.",
+          "WOD:en är dagens arbete. 2 lätta set av dagens rörelser efter warmup, sen klocka.",
         timer_preset_sec: 600,
       }),
     ],
@@ -237,7 +237,7 @@ export const SESSION_LAYOUTS = {
   emom: {
     id: "emom",
     label: "EMOM",
-    hint: "Uppvärmning + EMOM som enda arbetspass.",
+    hint: "Uppvärmning + EMOM som enda arbete.",
     defaultWarmup: "engine" as WarmupTheme,
     sections: [
       working({

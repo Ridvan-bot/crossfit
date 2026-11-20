@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { BoardPlayer } from "@/components/BoardPlayer";
 import { createClient } from "@/lib/supabase/server";
 import type { WorkoutSection } from "@/lib/types";
+import { wodDisplayName } from "@/lib/wod-name";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -14,7 +15,7 @@ export default async function BoardWorkoutPage({ params }: Props) {
 
   const { data: workout } = await supabase
     .from("workouts")
-    .select("id, title")
+    .select("id, title, pass_number")
     .eq("id", id)
     .eq("user_id", user!.id)
     .maybeSingle();
@@ -33,5 +34,11 @@ export default async function BoardWorkoutPage({ params }: Props) {
     ),
   })) as WorkoutSection[];
 
-  return <BoardPlayer workoutId={id} title={workout.title} sections={ordered} />;
+  return (
+    <BoardPlayer
+      workoutId={id}
+      title={wodDisplayName(workout.title, workout.pass_number)}
+      sections={ordered}
+    />
+  );
 }

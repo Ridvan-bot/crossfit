@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { PhonePlayer } from "@/components/PhonePlayer";
 import { createClient } from "@/lib/supabase/server";
 import type { WorkoutSection } from "@/lib/types";
+import { wodDisplayName } from "@/lib/wod-name";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -14,7 +15,7 @@ export default async function PhoneWorkoutPage({ params }: Props) {
 
   const { data: workout } = await supabase
     .from("workouts")
-    .select("id, title")
+    .select("id, title, pass_number")
     .eq("id", id)
     .eq("user_id", user!.id)
     .maybeSingle();
@@ -42,7 +43,7 @@ export default async function PhoneWorkoutPage({ params }: Props) {
   return (
     <PhonePlayer
       workoutId={id}
-      title={workout.title}
+      title={wodDisplayName(workout.title, workout.pass_number)}
       meta={profile?.equipment ?? ""}
       sections={ordered}
     />

@@ -5,6 +5,8 @@ import { SeedButton } from "@/components/SeedButton";
 import { VoiceCreateWorkout } from "@/components/VoiceCreateWorkout";
 import { parsePreferences, type AthleteInsights } from "@/lib/athlete";
 import { createClient } from "@/lib/supabase/server";
+import type { WorkoutNameRef } from "@/lib/types";
+import { wodDisplayName, wodNickname, wodNumberLabel } from "@/lib/wod-name";
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -52,6 +54,7 @@ export default async function HomePage() {
 
   const preferences = parsePreferences(profile?.preferences);
   const insights = insightsRow as AthleteInsights | null;
+  const lastWorkout = (lastSession?.workouts ?? null) as WorkoutNameRef;
 
   return (
       <main className="ui-page mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10">
@@ -64,16 +67,19 @@ export default async function HomePage() {
 
         <div className="ui-stagger grid gap-4 md:grid-cols-2">
           <section className="ui-card p-5 sm:p-6">
-            <h1 className="ui-eyebrow">Nästa pass</h1>
+            <h1 className="ui-eyebrow">Nästa WOD</h1>
             {nextWorkout ? (
               <div className="mt-4 space-y-4">
                 <div>
-                  {nextWorkout.pass_number != null ? (
+                  {wodNickname(nextWorkout.title, nextWorkout.pass_number) &&
+                  wodNumberLabel(nextWorkout.pass_number) ? (
                     <p className="text-xs font-semibold uppercase tracking-wider text-stone-500">
-                      Pass #{String(nextWorkout.pass_number).padStart(3, "0")}
+                      {wodNumberLabel(nextWorkout.pass_number)}
                     </p>
                   ) : null}
-                  <p className="ui-title mt-1 text-2xl sm:text-3xl">{nextWorkout.title}</p>
+                  <p className="ui-title mt-1 text-2xl sm:text-3xl">
+                    {wodDisplayName(nextWorkout.title, nextWorkout.pass_number)}
+                  </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <Link href={`/workouts/${nextWorkout.id}`} className="ui-btn ui-btn-ghost">
@@ -95,7 +101,7 @@ export default async function HomePage() {
               </div>
             ) : (
               <p className="mt-4 text-stone-400">
-                Inga planerade pass.{" "}
+                Inga planerade WOD:er.{" "}
                 <Link href="/workouts" className="ui-link">
                   Skapa ett
                 </Link>
@@ -108,7 +114,7 @@ export default async function HomePage() {
             {lastSession ? (
               <div className="mt-4 space-y-2">
                 <p className="ui-title text-xl sm:text-2xl">
-                  {(lastSession.workouts as { title?: string } | null)?.title ?? "Pass"}
+                  {wodDisplayName(lastWorkout?.title, lastWorkout?.pass_number)}
                 </p>
                 <p className="text-lg text-stone-200">{lastSession.score_text}</p>
                 {lastSession.notes ? (

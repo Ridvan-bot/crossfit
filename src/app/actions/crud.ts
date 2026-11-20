@@ -14,6 +14,7 @@ import {
   type SessionLayoutId,
 } from "@/lib/session-layout";
 import type { SectionKind } from "@/lib/types";
+import { resolveWodTitle } from "@/lib/wod-name";
 
 export async function createWorkout(formData: FormData) {
   const supabase = await createClient();
@@ -21,9 +22,6 @@ export async function createWorkout(formData: FormData) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-
-  const title = String(formData.get("title") || "").trim();
-  if (!title) return;
 
   const rawPass = String(formData.get("pass_number") || "").trim();
   let passNumber = rawPass ? Number(rawPass) : null;
@@ -38,6 +36,8 @@ export async function createWorkout(formData: FormData) {
       .maybeSingle();
     passNumber = (maxRow?.pass_number ?? 0) + 1;
   }
+
+  const title = resolveWodTitle(String(formData.get("title") || ""), passNumber);
 
   const { data, error } = await supabase
     .from("workouts")
@@ -75,7 +75,7 @@ export async function createWorkout(formData: FormData) {
       .select("id")
       .single();
     if (sectionError || !section) {
-      throw new Error(sectionError?.message ?? "Kunde inte skapa passdel.");
+      throw new Error(sectionError?.message ?? "Kunde inte skapa WOD-del.");
     }
     await insertLayoutMovements(supabase, section.id, k.movements);
   }
@@ -126,9 +126,6 @@ export async function createWorkoutFromVoice(
   ) as SessionLayoutId | "";
   if (!layoutId) return { ok: false, message: "Okänd mall." };
 
-  const title =
-    input.title.trim() || SESSION_LAYOUTS[layoutId].label || "Pass";
-
   const { data: maxRow } = await supabase
     .from("workouts")
     .select("pass_number")
@@ -138,6 +135,7 @@ export async function createWorkoutFromVoice(
     .limit(1)
     .maybeSingle();
   const passNumber = (maxRow?.pass_number ?? 0) + 1;
+  const title = resolveWodTitle(input.title, passNumber);
 
   const { data, error } = await supabase
     .from("workouts")
@@ -152,7 +150,7 @@ export async function createWorkoutFromVoice(
     .single();
 
   if (error || !data) {
-    return { ok: false, message: error?.message ?? "Kunde inte skapa pass." };
+    return { ok: false, message: error?.message ?? "Kunde inte skapa WOD." };
   }
 
   const byKind = new Map<SectionKind, LayoutMovement[]>();
@@ -199,7 +197,7 @@ export async function createWorkoutFromVoice(
     if (sectionError || !section) {
       return {
         ok: false,
-        message: sectionError?.message ?? "Kunde inte skapa passdel.",
+        message: sectionError?.message ?? "Kunde inte skapa WOD-del.",
       };
     }
     try {
@@ -226,13 +224,14 @@ export async function updateWorkout(formData: FormData) {
   if (!user) redirect("/login");
 
   const id = String(formData.get("id"));
+  const passNumber = formData.get("pass_number")
+    ? Number(formData.get("pass_number"))
+    : null;
   await supabase
     .from("workouts")
     .update({
-      title: String(formData.get("title") || "").trim(),
-      pass_number: formData.get("pass_number")
-        ? Number(formData.get("pass_number"))
-        : null,
+      title: resolveWodTitle(String(formData.get("title") || ""), passNumber),
+      pass_number: passNumber,
       status: String(formData.get("status") || "planned"),
       notes: (formData.get("notes") as string) || null,
       updated_at: new Date().toISOString(),
@@ -408,7 +407,7 @@ export async function saveBoardEdit(input: {
     .eq("id", input.workoutId)
     .eq("user_id", user.id)
     .maybeSingle();
-  if (!owned) return { ok: false, message: "Passet hittades inte." };
+  if (!owned) return { ok: false, message: "WOD:en hittades inte." };
 
   for (const sectionId of input.deletedSectionIds) {
     if (isTempId(sectionId)) continue;
@@ -621,7 +620,7 @@ export type LogSessionResult =
   | { ok: true }
   | { ok: false; message: string };
 
-/** Logga genomfört pass. Returnerar alltid resultat (ingen redirect). */
+/** Logga genomförd WOD. Returnerar alltid resultat (ingen redirect). */
 export async function logSession(formData: FormData): Promise<LogSessionResult> {
   const supabase = await createClient();
   const {
@@ -631,7 +630,7 @@ export async function logSession(formData: FormData): Promise<LogSessionResult> 
 
   const userId = user.id;
   const workoutId = String(formData.get("workout_id") || "");
-  if (!workoutId) return { ok: false, message: "Saknar pass-id." };
+  if (!workoutId) return { ok: false, message: "Saknar WOD-id." };
 
   const completedDate =
     String(formData.get("completed_date") || "").trim() || todayDateInputValue();
@@ -704,7 +703,7 @@ export async function logSession(formData: FormData): Promise<LogSessionResult> 
   return { ok: true };
 }
 
-/** Formulär-action från passdetalj: logga och gå till historik. */
+/** Formulär-action från WOD-detalj: logga och gå till historik. */
 export async function logSessionFromForm(formData: FormData): Promise<void> {
   const result = await logSession(formData);
   if (!result.ok) throw new Error(result.message);

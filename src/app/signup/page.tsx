@@ -44,7 +44,7 @@ export default function SignupPage() {
       <div className="ui-page relative ui-card p-6 sm:p-8">
         <p className="ui-eyebrow">CrossFit</p>
         <h1 className="ui-title mt-2 text-4xl">Skapa konto</h1>
-        <p className="mt-2 text-sm text-stone-400">Kom igång med pass, timer och logg.</p>
+        <p className="mt-2 text-sm text-stone-400">Kom igång med WOD, timer och logg.</p>
         <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-3">
           <input
             type="text"

@@ -8,6 +8,7 @@ import {
   SESSION_LAYOUT_OPTIONS,
   WARMUP_THEME_OPTIONS,
 } from "@/lib/session-layout";
+import { defaultWodTitle, wodDisplayName, wodNickname, wodNumberLabel } from "@/lib/wod-name";
 
 export default async function WorkoutsPage() {
   const supabase = await createClient();
@@ -48,11 +49,11 @@ export default async function WorkoutsPage() {
         />
 
         <form action={createWorkout} className="ui-card grid gap-3 p-5 md:grid-cols-2">
-          <h1 className="ui-eyebrow md:col-span-2">Nytt pass</h1>
+          <h1 className="ui-eyebrow md:col-span-2">Ny WOD</h1>
           <input
             name="title"
-            required
-            placeholder={`Titel (t.ex. Pass #${String(nextPassNumber).padStart(3, "0")})`}
+            placeholder={`Namn (valfritt, t.ex. Helen-skalat). Annars ${defaultWodTitle(nextPassNumber)}`}
+            aria-label="Namn på WOD (valfritt)"
             className="ui-input"
           />
           <div>
@@ -62,6 +63,7 @@ export default async function WorkoutsPage() {
               min={1}
               placeholder={`#${nextPassNumber} (auto)`}
               className="ui-input"
+              aria-label="WOD-nummer (ordning)"
             />
           </div>
           <textarea
@@ -137,7 +139,7 @@ export default async function WorkoutsPage() {
             </div>
           </fieldset>
           <button type="submit" className="ui-btn ui-btn-primary md:col-span-2 py-3">
-            Skapa pass
+            Skapa WOD
           </button>
         </form>
 
@@ -149,10 +151,10 @@ export default async function WorkoutsPage() {
             >
               <div>
                 <Link href={`/workouts/${w.id}`} className="font-semibold hover:text-teal-300">
-                  {w.title}
-                  {w.pass_number != null ? (
+                  {wodDisplayName(w.title, w.pass_number)}
+                  {wodNickname(w.title, w.pass_number) && wodNumberLabel(w.pass_number) ? (
                     <span className="ml-2 text-sm font-normal text-stone-500">
-                      #{String(w.pass_number).padStart(3, "0")}
+                      {wodNumberLabel(w.pass_number)}
                     </span>
                   ) : null}
                 </Link>
@@ -190,7 +192,7 @@ export default async function WorkoutsPage() {
           ))}
           {(workouts ?? []).length === 0 ? (
             <li className="px-4 py-8 text-center text-stone-500">
-              Inga pass ännu.
+              Inga WOD:er ännu.
             </li>
           ) : null}
         </ul>

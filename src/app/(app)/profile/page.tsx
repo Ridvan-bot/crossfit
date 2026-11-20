@@ -66,7 +66,7 @@ export default async function ProfilePage({ searchParams }: Props) {
             <div>
               <p className="font-semibold">Profilen är sparad</p>
               <p className="text-sm text-teal-100/80">
-                Preferenser och utrustning används när nästa pass byggs.
+                Preferenser och utrustning används när nästa WOD byggs.
               </p>
             </div>
           </div>
