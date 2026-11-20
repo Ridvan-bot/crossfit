@@ -251,14 +251,14 @@ function buildSummarySv(input: {
   recent_sessions: RecentSessionSignal[];
 }): string {
   if (input.total === 0) {
-    return "Ingen session loggad ännu. Efter första passen byggs en personlig bild av vikter, RPE och preferenser.";
+    return "Ingen session loggad ännu. Efter första WOD:erna byggs en personlig bild av vikter, RPE och preferenser.";
   }
 
   const parts: string[] = [];
-  parts.push(`${input.total} loggade pass.`);
+  parts.push(`${input.total} loggade WOD:er.`);
 
   if (input.rpe_avg_last_4 != null) {
-    parts.push(`Snitt-RPE senaste passen: ${input.rpe_avg_last_4}/10.`);
+    parts.push(`Snitt-RPE senaste WOD:erna: ${input.rpe_avg_last_4}/10.`);
   }
   if (input.feeling_avg_last_4 != null) {
     parts.push(`Snitt-känsla: ${input.feeling_avg_last_4}/5.`);
@@ -273,10 +273,10 @@ function buildSummarySv(input: {
   }
 
   if (input.signals.needs_deload_hint) {
-    parts.push("Hög RPE flera pass i rad — överväg lättare vecka eller mer teknikfokus.");
+    parts.push("Hög RPE flera WOD:er i rad — överväg lättare vecka eller mer teknikfokus.");
   }
   if (input.signals.low_feeling_streak) {
-    parts.push("Låg känsla flera pass — prioritera återhämtning och roliga rörelser.");
+    parts.push("Låg känsla flera WOD:er — prioritera återhämtning och roliga rörelser.");
   }
 
   const last = input.recent_sessions[0];

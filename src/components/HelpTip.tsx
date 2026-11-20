@@ -10,10 +10,10 @@ import {
 import { createPortal } from "react-dom";
 
 export const RPE_HELP_TEXT =
-  "RPE (Rate of Perceived Exertion) är hur ansträngande passet kändes, på en skala 1–10. 1 = mycket lätt, 5–6 = måttligt, 7–8 = jobbigt men hållbart, 9–10 = nära max / maxinsats.";
+  "RPE (Rate of Perceived Exertion) är hur ansträngande WOD:en kändes, på en skala 1–10. 1 = mycket lätt, 5–6 = måttligt, 7–8 = jobbigt men hållbart, 9–10 = nära max / maxinsats.";
 
 export const FEELING_HELP_TEXT =
-  "Känsla är hur du upplevde passet totalt sett, på en skala 1–5. 1 = dåligt / tungt mentalt, 3 = okej, 4 = bra, 5 = riktigt starkt och positivt. Det handlar mer om helhetskänsla än ren ansträngning (RPE).";
+  "Känsla är hur du upplevde WOD:en totalt sett, på en skala 1–5. 1 = dåligt / tungt mentalt, 3 = okej, 4 = bra, 5 = riktigt starkt och positivt. Det handlar mer om helhetskänsla än ren ansträngning (RPE).";
 
 type Props = {
   text?: string;

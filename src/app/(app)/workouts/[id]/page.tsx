@@ -14,6 +14,7 @@ import { createClient } from "@/lib/supabase/server";
 import { todayDateInputValue } from "@/lib/dates";
 import { SECTION_KIND_OPTIONS, type WorkoutSection } from "@/lib/types";
 import { WARMUP_THEME_OPTIONS } from "@/lib/session-layout";
+import { defaultWodTitle, wodDisplayName, wodNickname } from "@/lib/wod-name";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -48,8 +49,14 @@ export default async function WorkoutDetailPage({ params }: Props) {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1 className="ui-title text-4xl sm:text-5xl">
-              {workout.title}
+              {wodDisplayName(workout.title, workout.pass_number)}
             </h1>
+            {wodNickname(workout.title, workout.pass_number) &&
+            workout.pass_number != null ? (
+              <p className="mt-1 text-sm text-stone-500">
+                {defaultWodTitle(workout.pass_number)}
+              </p>
+            ) : null}
             {profile?.equipment ? (
               <p className="mt-1 text-stone-400">
                 {profile.equipment}{" "}
@@ -87,18 +94,20 @@ export default async function WorkoutDetailPage({ params }: Props) {
         >
           <input type="hidden" name="id" value={id} />
           <h2 className="md:col-span-2 text-sm font-semibold uppercase tracking-wider text-teal-500">
-            Redigera pass
+            Redigera WOD
           </h2>
           <input
             name="title"
-            defaultValue={workout.title}
-            required
+            defaultValue={wodNickname(workout.title, workout.pass_number) ?? ""}
+            placeholder={`Namn (valfritt, t.ex. Helen-skalat). Annars ${defaultWodTitle(workout.pass_number)}`}
+            aria-label="Namn på WOD (valfritt)"
             className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
           />
           <input
             name="pass_number"
             type="number"
             defaultValue={workout.pass_number ?? ""}
+            aria-label="WOD-nummer (ordning)"
             className="rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
           />
           <select
@@ -119,13 +128,13 @@ export default async function WorkoutDetailPage({ params }: Props) {
             type="submit"
             className="md:col-span-2 rounded-lg bg-stone-100 py-2 font-semibold text-stone-950"
           >
-            Spara pass
+            Spara WOD
           </button>
         </form>
 
         <div className="flex flex-wrap items-end justify-between gap-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-teal-500">
-            Passdelar
+            WOD-delar
           </h2>
         </div>
 
@@ -318,7 +327,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
         </form>
 
         <section className="rounded-xl border border-teal-700/40 bg-teal-500/5 p-4">
-          <h2 className="font-semibold text-teal-200">Logga genomfört pass</h2>
+          <h2 className="font-semibold text-teal-200">Logga genomförd WOD</h2>
           <form
             action={logSessionFromForm}
             className="mt-3 grid gap-3 md:grid-cols-2"
@@ -379,7 +388,7 @@ export default async function WorkoutDetailPage({ params }: Props) {
             </div>
             <textarea
               name="notes"
-              placeholder="Hur kändes det? Något att tänka på nästa pass?"
+              placeholder="Hur kändes det? Något att tänka på nästa WOD?"
               rows={2}
               className="md:col-span-2 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2"
             />

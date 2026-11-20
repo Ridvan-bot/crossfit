@@ -22,7 +22,7 @@ export function SeedButton() {
         disabled={loading}
         className="ui-btn ui-btn-outline disabled:opacity-50"
       >
-        {loading ? "Seedar…" : "Importera pass #001–#008"}
+        {loading ? "Seedar…" : "Importera WOD #001–#008"}
       </button>
       {msg ? <p className="text-sm text-stone-400">{msg}</p> : null}
     </div>

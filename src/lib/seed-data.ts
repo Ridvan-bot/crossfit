@@ -1,4 +1,4 @@
-/** Seed payload mirroring loggade + planerade pass (#001–#016 historik, #021–#024 block 6). */
+/** Seed payload mirroring loggade + planerade WOD:er (#001–#016 historik, #021–#024 block 6). */
 
 export type SeedMovement = {
   name: string;
@@ -67,13 +67,13 @@ export const SEED_GOALS = [
     deadline: "2026-12-31",
     status: "planned" as const,
     current_level: "Okänd",
-    notes: "Startvärde sätts i kommande pass",
+    notes: "Startvärde sätts i kommande WOD",
   },
 ];
 
 export const SEED_WORKOUTS: SeedWorkout[] = [
   {
-    title: "Pass #001",
+    title: "WOD #001",
     pass_number: 1,
     scheduled_date: "2026-04-01",
     status: "done",
@@ -140,7 +140,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     },
   },
   {
-    title: "Pass #002",
+    title: "WOD #002",
     pass_number: 2,
     scheduled_date: "2026-04-08",
     status: "done",
@@ -205,7 +205,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     },
   },
   {
-    title: "Pass #003",
+    title: "WOD #003",
     pass_number: 3,
     scheduled_date: "2026-04-15",
     status: "done",
@@ -269,7 +269,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     },
   },
   {
-    title: "Pass #004",
+    title: "WOD #004",
     pass_number: 4,
     scheduled_date: "2026-04-22",
     status: "done",
@@ -333,7 +333,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     },
   },
   {
-    title: "Pass #005",
+    title: "WOD #005",
     pass_number: 5,
     scheduled_date: "2026-05-29",
     status: "done",
@@ -399,7 +399,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     },
   },
   {
-    title: "Pass #006",
+    title: "WOD #006",
     pass_number: 6,
     scheduled_date: "2026-08-18",
     status: "done",
@@ -466,7 +466,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     },
   },
   {
-    title: "Pass #007",
+    title: "WOD #007",
     pass_number: 7,
     scheduled_date: "2026-08-25",
     status: "done",
@@ -538,7 +538,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     },
   },
   {
-    title: "Pass #012",
+    title: "WOD #012",
     pass_number: 12,
     scheduled_date: null,
     status: "planned",
@@ -594,7 +594,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #008",
+    title: "WOD #008",
     pass_number: 8,
     scheduled_date: null,
     status: "planned",
@@ -659,7 +659,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #009",
+    title: "WOD #009",
     pass_number: 9,
     scheduled_date: null,
     status: "planned",
@@ -720,7 +720,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #010",
+    title: "WOD #010",
     pass_number: 10,
     scheduled_date: null,
     status: "planned",
@@ -781,7 +781,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #011",
+    title: "WOD #011",
     pass_number: 11,
     scheduled_date: null,
     status: "planned",
@@ -842,7 +842,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #013",
+    title: "WOD #013",
     pass_number: 13,
     scheduled_date: null,
     status: "planned",
@@ -903,7 +903,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #014",
+    title: "WOD #014",
     pass_number: 14,
     scheduled_date: null,
     status: "planned",
@@ -964,7 +964,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #015",
+    title: "WOD #015",
     pass_number: 15,
     scheduled_date: null,
     status: "planned",
@@ -1024,7 +1024,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #016",
+    title: "WOD #016",
     pass_number: 16,
     scheduled_date: null,
     status: "planned",
@@ -1085,7 +1085,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #021",
+    title: "WOD #021",
     pass_number: 21,
     scheduled_date: null,
     status: "planned",
@@ -1142,7 +1142,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #022",
+    title: "WOD #022",
     pass_number: 22,
     scheduled_date: null,
     status: "planned",
@@ -1183,7 +1183,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #023",
+    title: "WOD #023",
     pass_number: 23,
     scheduled_date: null,
     status: "planned",
@@ -1224,7 +1224,7 @@ export const SEED_WORKOUTS: SeedWorkout[] = [
     ],
   },
   {
-    title: "Pass #024",
+    title: "WOD #024",
     pass_number: 24,
     scheduled_date: null,
     status: "planned",

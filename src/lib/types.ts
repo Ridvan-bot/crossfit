@@ -34,8 +34,14 @@ export type WorkoutSection = {
   section_movements: SectionMovement[];
 };
 
+export type WorkoutNameRef = {
+  title?: string | null;
+  pass_number?: number | null;
+};
+
 export type Workout = {
   id: string;
+  /** Smeknamn eller fallback `WOD #020`. `pass_number` styr ordning. */
   title: string;
   pass_number: number | null;
   scheduled_date: string | null;

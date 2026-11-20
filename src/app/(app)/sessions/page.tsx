@@ -1,4 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
+import type { WorkoutNameRef } from "@/lib/types";
+import { wodDisplayName } from "@/lib/wod-name";
 
 export default async function SessionsPage() {
   const supabase = await createClient();
@@ -22,7 +24,10 @@ export default async function SessionsPage() {
           {(sessions ?? []).map((s) => (
             <li key={s.id} className="px-4 py-4 transition hover:bg-teal-500/[0.04]">
               <p className="ui-title text-lg">
-                {(s.workouts as { title?: string } | null)?.title ?? "Pass"}
+                {wodDisplayName(
+                  (s.workouts as WorkoutNameRef)?.title,
+                  (s.workouts as WorkoutNameRef)?.pass_number
+                )}
               </p>
               <p className="mt-1 text-stone-200">{s.score_text}</p>
               <div className="mt-2 flex flex-wrap gap-2 text-xs">

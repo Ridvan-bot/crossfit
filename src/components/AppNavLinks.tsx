@@ -6,7 +6,7 @@ import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
 
 const desktopLinks = [
   { href: "/", label: "Hem" },
-  { href: "/workouts", label: "Pass" },
+  { href: "/workouts", label: "WOD" },
   { href: "/sessions", label: "Historik" },
   { href: "/library", label: "Bibliotek" },
   { href: "/goals", label: "Mål" },
@@ -15,7 +15,7 @@ const desktopLinks = [
 
 const mobileTabs = [
   { href: "/", label: "Hem", icon: HomeIcon },
-  { href: "/workouts", label: "Pass", icon: PassIcon },
+  { href: "/workouts", label: "WOD", icon: PassIcon },
   { href: "/sessions", label: "Historik", icon: HistoryIcon },
   { href: "/profile", label: "Profil", icon: ProfileIcon },
 ];

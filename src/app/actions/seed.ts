@@ -18,7 +18,7 @@ export async function seedDemoData(): Promise<{ ok: boolean; message: string }> 
     .eq("user_id", user.id);
 
   if ((count ?? 0) > 0) {
-    return { ok: false, message: "Du har redan pass — seed hoppades över." };
+    return { ok: false, message: "Du har redan WOD:er — seed hoppades över." };
   }
 
   await supabase.from("profiles").upsert({
@@ -62,7 +62,7 @@ export async function seedDemoData(): Promise<{ ok: boolean; message: string }> 
       .single();
 
     if (error || !workout) {
-      return { ok: false, message: error?.message ?? "Kunde inte skapa pass." };
+      return { ok: false, message: error?.message ?? "Kunde inte skapa WOD." };
     }
 
     for (let si = 0; si < w.sections.length; si++) {
@@ -137,5 +137,5 @@ export async function seedDemoData(): Promise<{ ok: boolean; message: string }> 
   revalidatePath("/sessions");
   revalidatePath("/goals");
   revalidatePath("/library");
-  return { ok: true, message: "Seed klar: pass #001–#008, mål och mallar." };
+  return { ok: true, message: "Seed klar: WOD #001–#008, mål och mallar." };
 }

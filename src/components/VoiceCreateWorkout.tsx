@@ -37,11 +37,13 @@ export function VoiceCreateWorkout({
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
+  const [wodName, setWodName] = useState("");
   const [parsed, setParsed] = useState<ParsedWorkoutPlan | null>(null);
 
   const reset = useCallback(() => {
     if (pending) return;
     setParsed(null);
+    setWodName("");
     setError(null);
   }, [pending]);
 
@@ -83,7 +85,7 @@ export function VoiceCreateWorkout({
     setError(null);
     const next = parseWorkoutUtterance(text, context);
     if (!hasParsedWorkoutPlan(next)) {
-      setError("Hörde inget pass. Försök igen, t.ex. teknik och styrka, ingen flås.");
+      setError("Hörde ingen WOD. Försök igen, t.ex. teknik och styrka, ingen flås.");
       return;
     }
     setDraft(text);
@@ -103,7 +105,7 @@ export function VoiceCreateWorkout({
         transcript: parsed.transcript,
         layoutId: parsed.layoutId,
         warmupTheme: parsed.warmupTheme,
-        title: parsed.title,
+        title: wodName.trim(),
         notes: parsed.notes,
         workingMovements: parsed.sections
           .filter((s) => s.kind !== "warmup")
@@ -127,10 +129,10 @@ export function VoiceCreateWorkout({
 
   return (
     <section className="ui-card grid gap-3 p-5 sm:p-6">
-      <h2 className="ui-eyebrow">Säg dagens pass</h2>
+      <h2 className="ui-eyebrow">Säg dagens WOD</h2>
       <VoiceMicButton
         disabled={pending}
-        idleLabel="Säg dagens pass"
+        idleLabel="Säg dagens WOD"
         listeningLabel="Lyssnar…"
         onTranscript={applyTranscript}
         onError={setError}
@@ -213,6 +215,17 @@ export function VoiceCreateWorkout({
                     </li>
                   ))}
               </ul>
+              <label className="mt-4 grid gap-1.5">
+                <span className="text-sm text-stone-400">Namn (valfritt)</span>
+                <input
+                  value={wodName}
+                  onChange={(e) => setWodName(e.target.value)}
+                  placeholder="t.ex. Helen-skalat, DL-våg"
+                  className="ui-input"
+                  autoComplete="off"
+                  disabled={pending}
+                />
+              </label>
               {parsed.transcript ? (
                 <p className="mt-3 text-sm text-stone-500">
                   “{parsed.transcript}”

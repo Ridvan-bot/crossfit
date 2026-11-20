@@ -72,7 +72,7 @@ export function AthleteLearningCard({
             </ul>
           ) : (
             <p className="mt-2 text-sm text-stone-500">
-              Inga lyft loggade ännu — fyll i vikter under Pass klart.
+              Inga lyft loggade ännu — fyll i vikter under WOD klart.
             </p>
           )}
           {insights && (

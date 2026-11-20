@@ -29,7 +29,7 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   title: "CrossFit Träning",
-  description: "Pass, timer, logg och mål",
+  description: "WOD, timer, logg och mål",
   applicationName: "CrossFit Träning",
   appleWebApp: {
     capable: true,

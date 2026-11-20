@@ -39,7 +39,7 @@ export function buildWebAppManifest() {
   return {
     name: "CrossFit Träning",
     short_name: "CrossFit",
-    description: "Pass, timer, logg och mål",
+    description: "WOD, timer, logg och mål",
     id: "/",
     start_url: "/",
     scope: "/",
